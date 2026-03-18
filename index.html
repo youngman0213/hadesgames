@@ -404,7 +404,11 @@
         document.getElementById('main-nav').style.display = 'flex';
         document.getElementById('main-container').style.display = 'block';
         document.getElementById('main-footer').style.display = 'block';
-        initRivalCharts(); 
+        initRivalCharts();
+        gameState.chemistry = initChemistry(gameState.members);
+        gameState.seasonGoals = generateSeasonGoals(gameState);
+        gameState.seasonNum = 1;
+        gameState.seasonStartDay = 1;
         updateDisplay();
         renderHomeCharts('subak', 'daily');
     }
@@ -649,6 +653,38 @@
             warningEl.style.display = 'block';
         } else {
             warningEl.style.display = 'none';
+        }
+
+        // 여론 온도 게이지 업데이트
+        const heatBar = document.getElementById('heat-bar');
+        const heatVal = document.getElementById('heat-val');
+        if (heatBar) {
+            heatBar.style.width = gameState.heatLevel + '%';
+            heatVal.innerText = gameState.heatLevel + '%';
+            heatVal.style.color = gameState.heatLevel >= 60 ? '#fa5252' : gameState.heatLevel >= 40 ? '#fab005' : '#40c057';
+        }
+
+        // 시즌 목표 진행도 업데이트
+        if (gameState.seasonGoals && gameState.seasonGoals.length) {
+            gameState.seasonGoals.forEach(g => {
+                if (g.done || g.failed) return;
+                if (g.type === 'fandom') g.current = gameState.fandom;
+                else if (g.type === 'youtube') g.current = gameState.youtube;
+                else if (g.type === 'seasonSales') g.current = gameState.accumulatedSales - (g.seasonSalesStart || 0);
+                else if (g.type === 'totalStat') {
+                    let tot = 0; gameState.members.forEach(m => tot += m.vocal+m.dance+m.visual+m.variety+m.charm); g.current = Math.floor(tot/gameState.members.length);
+                }
+                if (g.current >= g.target) {
+                    g.done = true;
+                    gameState.finance += g.reward;
+                    gameState.accumulatedSales += g.reward;
+                    gameState.popupQueue.push({ type:'goal_clear', event:{
+                        id:'goal_'+g.id, title:'🎯 목표 달성!',
+                        desc: `[${g.name}] 달성!\n보너스: ${g.rewardText}`,
+                        choices:[{text:'🎉 받기', effect:()=>{}}]
+                    }});
+                }
+            });
         }
         
         const score = calculateTierScore();
@@ -1420,6 +1456,7 @@
         if(pId === 'contents') renderContents();
         if(pId === 'store') renderShop();
     }
+
     function manualTrainAction() { const idx = document.getElementById('sel-member').value; gameState.members[idx].manualAct = document.getElementById('sel-stat').value; alert("지시 완료"); }
 </script>
 </body>

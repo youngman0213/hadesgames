@@ -133,68 +133,6 @@
         .tier-world { background: linear-gradient(45deg, #a5d8ff, #7950f2, #ff8787); box-shadow: 0 0 15px rgba(121, 80, 242, 0.5); position: relative; overflow: hidden; }
         .tier-world::after { content:''; position: absolute; top:0; left:-100%; width:100%; height:100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); animation: shine 2s infinite; }
         @keyframes shine { 100% { left: 100%; } }
-
-        /* 누락 클래스 추가 */
-        .enhance-text { color: #845ef7; font-weight: 900; }
-
-        /* 멘탈 바 */
-        .mental-bar-wrap { display: flex; align-items: center; margin-top: 6px; font-size: 11px; color: #777; }
-        .mental-bar-bg { flex: 1; height: 5px; background: #eee; border-radius: 4px; overflow: hidden; margin: 0 8px; }
-        .mental-bar-fill { height: 100%; border-radius: 4px; transition: 0.5s; background: linear-gradient(90deg, #74c0fc, #a5d8ff); }
-
-        /* 파산 경고 배너 */
-        .bankrupt-warning { display: none; background: #fff5f5; border: 2px solid #fa5252; border-radius: 10px; padding: 10px 15px; margin-bottom: 12px; font-size: 13px; color: #fa5252; font-weight: bold; text-align: center; animation: pulse-warn 1.2s infinite; }
-        @keyframes pulse-warn { 0%,100% { opacity:1; } 50% { opacity:0.6; } }
-
-        /* 모바일 네비 개선 */
-        @media (max-width: 430px) {
-            .nav-btn { font-size: 10px; padding: 12px 2px; }
-            .nav-btn .nav-label { display: none; }
-            .nav-btn .nav-icon { display: block; font-size: 18px; }
-        }
-        @media (min-width: 431px) {
-            .nav-btn .nav-icon { margin-right: 3px; }
-        }
-
-        /* stream 뱃지 */
-        .badge-stream { background: #e3fafc; color: #0c8599; }
-
-        /* ── 관계도 ── */
-        .relation-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
-        .relation-card { background: #f8f9fa; border-radius: 10px; padding: 10px; text-align: center; font-size: 12px; border: 1px solid #e9ecef; }
-        .relation-heart { font-size: 18px; display: block; margin: 4px 0; }
-        .relation-bar-bg { width: 100%; height: 6px; background: #dee2e6; border-radius: 3px; overflow: hidden; margin-top: 4px; }
-        .relation-bar-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #ff6b9d, #ff4d94); transition: 0.5s; }
-        .relation-tag { display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 10px; background: #fff0f6; color: #c2255c; margin-top: 4px; font-weight: bold; }
-
-        /* ── 위기 관리 ── */
-        .crisis-bar-wrap { display: flex; align-items: center; gap: 10px; margin: 8px 0; }
-        .crisis-label { font-size: 12px; width: 60px; color: #555; }
-        .crisis-bar-bg { flex: 1; height: 10px; background: #f1f3f5; border-radius: 5px; overflow: hidden; }
-        .crisis-bar-fill { height: 100%; border-radius: 5px; transition: 0.6s; }
-        .opinion-good { background: linear-gradient(90deg, #40c057, #69db7c); }
-        .opinion-bad  { background: linear-gradient(90deg, #fa5252, #ff8787); }
-        .controversy-badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: bold; margin: 3px; }
-        .controversy-active { background: #fff5f5; color: #fa5252; border: 1px solid #ffc9c9; }
-        .controversy-resolved { background: #ebfbee; color: #2f9e44; border: 1px solid #b2f2bb; }
-
-        /* ── 시즌 목표 ── */
-        .season-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-        .season-badge { background: linear-gradient(135deg, #7950f2, #ae3ec9); color: white; padding: 5px 14px; border-radius: 20px; font-size: 12px; font-weight: bold; }
-        .goal-item { display: flex; align-items: center; padding: 10px; background: #f8f9fa; border-radius: 8px; margin-bottom: 8px; gap: 10px; border-left: 3px solid #dee2e6; }
-        .goal-item.done { border-left-color: #40c057; background: #ebfbee; }
-        .goal-item.failed { border-left-color: #fa5252; background: #fff5f5; opacity: 0.7; }
-        .goal-icon { font-size: 20px; }
-        .goal-info { flex: 1; }
-        .goal-name { font-size: 13px; font-weight: bold; }
-        .goal-prog-bg { width: 100%; height: 6px; background: #dee2e6; border-radius: 3px; overflow: hidden; margin-top: 4px; }
-        .goal-prog-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #4dabf7, #228be6); transition: 0.5s; }
-        .goal-prog-text { font-size: 10px; color: #868e96; margin-top: 2px; }
-        .goal-reward { font-size: 11px; color: #7950f2; font-weight: bold; text-align: right; min-width: 70px; }
-
-        /* ── 위기도 게이지 ── */
-        .heat-bar-bg { width: 100%; height: 12px; background: #f1f3f5; border-radius: 6px; overflow: hidden; margin: 6px 0; }
-        .heat-bar-fill { height: 100%; border-radius: 6px; transition: 0.6s; background: linear-gradient(90deg, #ffd43b, #fa5252); }
     </style>
 </head>
 <body>
@@ -206,22 +144,16 @@
 </div>
 
 <div class="nav-bar" id="main-nav">
-    <button class="nav-btn active" onclick="openPage('home', this)"><span class="nav-icon">📊</span><span class="nav-label">홈</span></button>
-    <button class="nav-btn" onclick="openPage('members', this)"><span class="nav-icon">👥</span><span class="nav-label">멤버</span></button>
-    <button class="nav-btn" onclick="openPage('relations', this)"><span class="nav-icon">💞</span><span class="nav-label">관계</span></button>
-    <button class="nav-btn" onclick="openPage('crisis', this)"><span class="nav-icon">🔥</span><span class="nav-label">여론</span></button>
-    <button class="nav-btn" onclick="openPage('season', this)"><span class="nav-icon">🏅</span><span class="nav-label">시즌</span></button>
-    <button class="nav-btn" onclick="openPage('contents', this)"><span class="nav-icon">🎬</span><span class="nav-label">컨텐츠</span></button>
-    <button class="nav-btn" onclick="openPage('store', this)"><span class="nav-icon">🛍️</span><span class="nav-label">상점</span></button>
-    <button class="nav-btn" onclick="openPage('manual', this)"><span class="nav-icon">📅</span><span class="nav-label">지시</span></button>
+    <button class="nav-btn active" onclick="openPage('home', this)">📊 홈</button>
+    <button class="nav-btn" onclick="openPage('members', this)">👥 멤버</button>
+    <button class="nav-btn" onclick="openPage('contents', this)">🎬 컨텐츠</button>
+    <button class="nav-btn" onclick="openPage('store', this)">🛍️ 상점</button>
+    <button class="nav-btn" onclick="openPage('manual', this)">📅 지시</button>
 </div>
 
 <div class="container" id="main-container">
     <div id="home" class="page active">
         
-        <!-- 파산 경고 배너 -->
-        <div class="bankrupt-warning" id="bankrupt-warning">⚠️ 자금 위기! 파산까지 얼마 남지 않았습니다. 빠른 수익 확보가 필요합니다!</div>
-
         <!-- NEW: 반응형 뉴스 티커 (상태창 위) -->
         <div class="ticker-container">
             <div class="ticker-wrapper" id="reaction-ticker">
@@ -242,11 +174,6 @@
                 <div class="stat-item"><small>SNS 팔로워</small><strong id="p-sns">1,000명</strong></div>
                 <div class="stat-item"><small>현재 인지도</small><strong id="p-tier" style="color:#7950f2;">루키</strong></div>
                 <div class="stat-item"><small>누적 매출</small><strong id="p-sales">0원</strong></div>
-                <div class="stat-item" style="grid-column: span 2;">
-                    <small>🔥 여론 온도 <span id="heat-val" style="font-weight:bold; color:#fa5252;">0%</span></small>
-                    <div class="heat-bar-bg"><div class="heat-bar-fill" id="heat-bar" style="width:0%"></div></div>
-                    <small style="color:#adb5bd; font-size:10px;">80% 이상 → 논란 발생 위험</small>
-                </div>
             </div>
         </div>
 
@@ -297,56 +224,6 @@
         <div class="card">
             <h2>🛍️ 방송 장비 상점</h2>
             <div id="shop-list"></div>
-        </div>
-    </div>
-
-    <div id="relations" class="page">
-        <div class="card">
-            <h2>💞 멤버 관계도</h2>
-            <p style="font-size:12px; color:#868e96; margin-top:-8px; margin-bottom:12px;">케미가 높을수록 합동 컨텐츠 시너지가 올라가요. 함께하는 활동으로 관계를 키워보세요!</p>
-            <div id="relation-grid-container"></div>
-        </div>
-        <div class="card" id="member-story-card">
-            <h2>📖 멤버 스토리</h2>
-            <div id="member-story-list"></div>
-        </div>
-    </div>
-
-    <div id="crisis" class="page">
-        <div class="card">
-            <h2>📢 팬덤 여론 현황</h2>
-            <div class="crisis-bar-wrap">
-                <div class="crisis-label">긍정 반응</div>
-                <div class="crisis-bar-bg"><div class="crisis-bar-fill opinion-good" id="opinion-good-bar" style="width:80%"></div></div>
-                <span id="opinion-good-val" style="font-size:12px; font-weight:bold; color:#2f9e44; min-width:32px;">80%</span>
-            </div>
-            <div class="crisis-bar-wrap">
-                <div class="crisis-label">부정 반응</div>
-                <div class="crisis-bar-bg"><div class="crisis-bar-fill opinion-bad" id="opinion-bad-bar" style="width:20%"></div></div>
-                <span id="opinion-bad-val" style="font-size:12px; font-weight:bold; color:#fa5252; min-width:32px;">20%</span>
-            </div>
-            <div style="margin-top:12px; font-size:12px; color:#555;">
-                현재 논란 현황: <span id="controversy-list">없음</span>
-            </div>
-        </div>
-        <div class="card" id="crisis-log-card">
-            <h2>🗞️ 최근 여론 흐름</h2>
-            <div id="crisis-log-list" style="font-size:13px; line-height:1.9;"></div>
-        </div>
-    </div>
-
-    <div id="season" class="page">
-        <div class="card">
-            <div class="season-header">
-                <h2 style="margin:0; border:none; padding:0;">🏅 시즌 목표</h2>
-                <span class="season-badge" id="season-label">시즌 1</span>
-            </div>
-            <div style="font-size:12px; color:#868e96; margin-bottom:14px;">시즌이 끝나기 전까지 목표를 달성해 보너스를 받으세요! 실패한 목표는 다음 시즌에 더 어렵게 돌아옵니다.</div>
-            <div id="season-goals-list"></div>
-        </div>
-        <div class="card" style="background:#f3f0ff; border-color:#7950f2;">
-            <h2>🎁 시즌 보상 히스토리</h2>
-            <div id="season-history-list" style="font-size:13px; color:#555;"></div>
         </div>
     </div>
 
@@ -429,19 +306,6 @@
         flags: { albumPaid: false, concertBought: false, concertDone: false },
         currentChartPlatform: 'subak',
         currentChartPeriod: 'daily',
-        // 관계도 시스템
-        relations: {},   // 'name1_name2' → { score: 0~100, tag: string }
-        memberStories: [], // { day, member, title, desc }
-        // 여론/위기 시스템
-        opinionScore: 80, // 0(최악)~100(최고)
-        heatLevel: 0,     // 0~100 (높을수록 논란 위험)
-        controversies: [], // { id, title, active, day }
-        crisisLog: [],
-        // 시즌 시스템
-        currentSeason: 1,
-        seasonStartDay: 1,
-        seasonGoals: [],
-        seasonHistory: [],
         members: [
             createMember('키마', '04-22', 1, {vocal:8, dance:3, visual:3, variety:3, charm:3}, 'https://cdnimg.melon.co.kr/cm2/photo/images/000/803/29/513/80329513_20260120180131_org.jpg/melon/quality/80/optimize'), 
             createMember('띵귤', '12-24', 2, {vocal:7, dance:3, visual:3, variety:4, charm:3}, 'https://cdnimg.melon.co.kr/cm2/photo/images/000/803/26/813/80326813_20251224160243_org.jpg/melon/quality/80/optimize'), 
@@ -607,10 +471,7 @@
         allSongs.sort((a, b) => b.scores[platform][period] - a.scores[platform][period]);
         const top10 = allSongs.slice(0, 10);
         
-        if (top10.length === 0) {
-            container.innerHTML = `<div style="text-align:center; color:#adb5bd; padding:40px 0; font-size:14px;">📭 아직 차트에 집계된 곡이 없습니다.<br><span style="font-size:12px;">음원을 발매하면 여기에 표시됩니다.</span></div>`;
-            return;
-        }
+        container.innerHTML = top10.map((song, idx) => {
             const rank = idx + 1;
             let changeHtml = '<span class="rank-change">-</span>';
             if(period === 'daily' && song.prevRanks && song.prevRanks[platform]) {
@@ -642,14 +503,6 @@
         document.getElementById('p-youtube').innerText = gameState.youtube.toLocaleString() + '명';
         document.getElementById('p-sns').innerText = gameState.sns.toLocaleString() + '명';
         document.getElementById('p-sales').innerText = gameState.accumulatedSales.toLocaleString() + '원';
-
-        // 파산 경고 배너
-        const warningEl = document.getElementById('bankrupt-warning');
-        if (gameState.finance < 30000000 && gameState.finance > -50000000) {
-            warningEl.style.display = 'block';
-        } else {
-            warningEl.style.display = 'none';
-        }
         
         const score = calculateTierScore();
         const tierInfo = getTierInfo(score);
@@ -691,11 +544,7 @@
                 ${renderStat('예능', m.variety, bonuses.variety, 'var(--variety)')}
                 ${renderStat('매력', m.charm, bonuses.charm, 'var(--charm)')}
                 <div class="equipped-items">${m.equipment.length > 0 ? m.equipment.map(e => `[${e.level>0?`+${e.level} `:''}${e.name}]`).join(' ') : '장비 없음'}</div>
-                <div class="mental-bar-wrap">멘탈
-                    <div class="mental-bar-bg"><div class="mental-bar-fill" style="width:${m.mental}%;"></div></div>
-                    <span style="font-weight:bold; color:${m.mental<=30?'var(--danger)':m.mental>=80?'#5c7cfa':'#888'};">${m.mental}%</span>
-                </div>
-                <div style="font-size:11px; text-align:right; color:${m.fatigue >= 100 ? 'var(--danger)' : '#888'}; font-weight:bold; margin-top:4px;">피로도: ${m.fatigue}%</div>
+                <div style="font-size:11px; text-align:right; color:${m.fatigue >= 100 ? 'var(--danger)' : '#888'}; font-weight:bold;">피로도: ${m.fatigue}%</div>
             </div>`;
         }).join('');
         
@@ -753,36 +602,26 @@
         const content = contentTypes[typeId];
         gameState.finance -= content.cost;
         gameState.lastContents[typeId] = gameState.day;
-
-        // 시즌 목표 컨텐츠 카운트
-        const cGoal = gameState.seasonGoals && gameState.seasonGoals.find(g => g.id === 'content');
-        if (cGoal && !cGoal.done) cGoal.current = (cGoal.current || 0) + 1;
-
         const roll = Math.floor(Math.random() * 100) + 1;
         let resultTitle = "", resultText = "";
         
         gameState.members.forEach(m => m.fatigue = Math.min(100, m.fatigue + (typeId==='short'?10:25)));
         let revenue = 0;
 
-        // 케미 보너스 적용
-        const chemBonus = getChemBonus();
-
         if (roll <= content.risk) {
             const loss = Math.floor(content.rewardMin * 0.3); updateFandom(-loss);
-            revenue = Math.floor(content.cost * 0.2);
-            gameState.controversy += 5;
-            resultTitle = "😱 컨텐츠 폭망..."; resultText = `반응이 싸늘합니다. (팬덤 -${loss}명, 위기도+5)`;
+            revenue = Math.floor(content.cost * 0.2); 
+            resultTitle = "😱 컨텐츠 폭망..."; resultText = `반응이 싸늘합니다. (팬덤 -${loss}명)`;
         } else if (roll > 90) { 
             const rawBonus = content.rewardMax + Math.floor(Math.random() * content.rewardMax * 0.5);
-            const bonus = Math.floor(rawBonus * chemBonus); 
+            const bonus = Math.floor(rawBonus * 0.5); 
             updateFandom(bonus);
             if(typeId === 'long') { revenue = 50000000 + Math.floor(Math.random() * 50000000); } 
-            else { revenue = Math.floor(content.cost * 1.5 * chemBonus); }
-            gameState.controversy = Math.max(0, gameState.controversy - 5);
-            resultTitle = "🔥 초대박 발생!"; resultText = `실시간 트렌드 장악! (팬덤 +${bonus.toLocaleString()}명)${chemBonus > 1 ? ' 💕 케미 보너스!' : ''}`;
+            else { revenue = Math.floor(content.cost * 1.5); }
+            resultTitle = "🔥 초대박 발생!"; resultText = `실시간 트렌드 장악! (팬덤 +${bonus.toLocaleString()}명)`;
         } else {
             const rawGain = Math.floor(Math.random() * (content.rewardMax - content.rewardMin)) + content.rewardMin;
-            const gain = Math.floor(rawGain * chemBonus); 
+            const gain = Math.floor(rawGain * 0.5); 
             updateFandom(gain);
             revenue = Math.floor(content.cost * 0.8); 
             resultTitle = "✅ 제작 완료"; resultText = `무난한 반응입니다. (팬덤 +${gain.toLocaleString()}명)`;
@@ -1009,7 +848,7 @@
         let isHit = totalProfit >= 1000000;
         if (isHit) gameState.youtube += Math.floor(Math.random() * 7001) + 3000;
 
-        const actionsPool = ['vocal', 'dance', 'visual', 'variety', 'charm', 'rest', 'stream'];
+        const actionsPool = ['vocal', 'dance', 'visual', 'variety', 'charm', 'rest'];
         
         // 자동 반응 생성 (글작성 기능 대체)
         if (gameState.day % 3 === 0) {
@@ -1022,39 +861,15 @@
         gameState.members.forEach(m => {
             let action = m.manualAct || actionsPool[Math.floor(Math.random() * actionsPool.length)];
             let mentalFactor = 1.2 - ((m.mental / 100) * 0.4); 
-
-            if (action === 'rest') {
-                m.fatigue = Math.max(0, m.fatigue - 40);
-                // 휴식 시 멘탈 회복
-                m.mental = Math.min(100, m.mental + Math.floor(Math.random() * 8) + 3);
-            } else if (action === 'stream') {
-                // 📡 실시간 스트리밍: 수익 소량 + 팬덤 소량 + 피로도 상승
-                const streamRevenue = Math.floor(Math.random() * 500000) + 200000;
-                const streamFan = Math.floor(Math.random() * 300) + 100;
-                gameState.finance += streamRevenue;
-                gameState.accumulatedSales += streamRevenue;
-                updateFandom(streamFan);
-                m.fatigue = Math.min(100, m.fatigue + 10);
-                gameState.community.push({site:'너튜브', content: `${m.name} 스트리밍 방송 중 — 채팅창이 달아오르고 있습니다!`});
-            } else if (m.fatigue < 100) {
+            if (action === 'rest') m.fatigue = Math.max(0, m.fatigue - 40);
+            else if (m.fatigue < 100) {
                 let prev = m[action];
                 if (m[action] < 50 && Math.random() < 0.4) { 
                     m[action]++; gameState.weeklyStats.push({name: m.name, stat: action, from: prev, to: m[action]}); 
                     m.fatigue = Math.min(100, m.fatigue + (20 * mentalFactor)); 
                 } else m.fatigue = Math.min(100, m.fatigue + (15 * mentalFactor));
-
-                // 피로 100% 지속 시 멘탈 하락
-                if (m.fatigue >= 100) {
-                    m.mental = Math.max(0, m.mental - Math.floor(Math.random() * 5) + 1);
-                }
             }
-
-            // 멘탈이 매우 낮으면 훈련 효율 저하 커뮤니티 메시지
-            if (m.mental <= 20 && Math.random() < 0.15) {
-                gameState.community.push({site:'팬카페', content: `${m.name}님이 요즘 많이 지쳐 보여요... 좀 쉬게 해줘요 ㅠㅠ`});
-            }
-
-            m.manualAct = null; m.fatigue = Math.floor(m.fatigue); m.mental = Math.floor(m.mental);
+            m.manualAct = null; m.fatigue = Math.floor(m.fatigue); 
         });
 
         if (Math.random() < 0.05) gameState.community.push({site:'속보', content: `<b>[NEWS] ${newsHeadlines[Math.floor(Math.random()*newsHeadlines.length)]}</b>`});
@@ -1065,22 +880,15 @@
         
         checkDateEvents(d); 
         processCharts(); 
-        checkBirthday(); checkBusinessProposal(); checkTierUp(); checkSeasonReport();
-        checkControversy();
-        checkSeasonGoals();
-        updateDailyChemistry();
+        checkBirthday(); checkBusinessProposal(); checkTierUp(); checkSeasonReport(); 
 
         if(gameState.day % 7 === 0) { gameState.popupQueue.push({type: 'training_report', data: [...gameState.weeklyStats]}); gameState.weeklyStats = []; }
         
-        // 난이도 상향: 일일 운영비 대폭 증가 (스태프 인건비, 서버, 모션캡쳐 유지비)
-        const dailyOpCost = 1500000 + Math.floor(gameState.day / 30) * 200000; // 매월 20만씩 증가
         gameState.finance += totalProfit; gameState.accumulatedSales += totalProfit; 
-        gameState.finance -= dailyOpCost;
-        updateFandom(Math.floor(totalProfit / 10000));
+        gameState.finance -= 500000; updateFandom(Math.floor(totalProfit / 10000));
         
         document.getElementById('profit-report').style.display = 'block';
-        const dailyOpCostDisplay = 1500000 + Math.floor(gameState.day / 30) * 200000;
-        document.getElementById('profit-content').innerHTML = `수익: <span class="money-text">+${totalProfit.toLocaleString()}원</span> / 운영비: <span style="color:var(--danger);">-${dailyOpCostDisplay.toLocaleString()}원</span>${isHit ? '<br><span style="color:red;">🔥 조회수 급상승!</span>' : ''}${getChemBonus() > 1 ? '<br><span style="color:#f06595;">💕 팀 케미 보너스 적용 중</span>' : ''}`;
+        document.getElementById('profit-content').innerHTML = `수익: <span class="money-text">${totalProfit.toLocaleString()}원</span>${isHit ? '<br><span style="color:red;">🔥 조회수 급상승!</span>' : ''}`;
         
         gameState.day++; updateDisplay(); processNextPopup();
     }
@@ -1094,21 +902,6 @@
             document.getElementById('modal-title').innerText = item.event.title;
             document.getElementById('modal-body').innerHTML = item.event.customHtml;
             document.getElementById('modal-choices').innerHTML = `<button class="primary-btn" onclick="closeModal()">확인</button>`;
-            document.getElementById('eventModal').style.display = 'block';
-        } else if(item.type === 'goal_clear') {
-            currentEvent = item.event;
-            document.getElementById('modal-title').innerText = item.event.title;
-            document.getElementById('modal-body').innerText = item.event.desc;
-            document.getElementById('modal-choices').innerHTML = `<button class="primary-btn" onclick="handleChoice(0)">🎉 좋아!</button>`;
-            document.getElementById('eventModal').style.display = 'block';
-        } else if(item.type === 'scandal') {
-            currentEvent = item.event;
-            document.getElementById('modal-title').innerText = item.event.title;
-            document.getElementById('modal-body').innerText = item.event.desc;
-            let choicesHtml = item.event.choices.map((c, idx) =>
-                `<button class="choice-btn ${c.style||''}" onclick="handleChoice(${idx})" style="margin-bottom:8px;">${c.text}</button>`
-            ).join('');
-            document.getElementById('modal-choices').innerHTML = choicesHtml;
             document.getElementById('eventModal').style.display = 'block';
         } else if(item.type === 'training_report') {
             showTrainingReport(item.data);
@@ -1128,234 +921,13 @@
 
     function showTrainingReport(logs) {
         document.getElementById('modal-title').innerText = "🗓️ 주간 결산";
-        let listHtml = logs.length > 0 ? Object.entries(logs.reduce((acc, l) => { if (!acc[l.name]) acc[l.name] = []; acc[l.name].push(`${{vocal:'보컬',dance:'댄스',visual:'비주얼',variety:'예능',charm:'매력',stream:'스트리밍'}[l.stat]}↑`); return acc; }, {})).map(([n, s]) => `<div><b>${n}</b>: ${s.join(', ')}</div>`).join('') : "변화 없음";
+        let listHtml = logs.length > 0 ? Object.entries(logs.reduce((acc, l) => { if (!acc[l.name]) acc[l.name] = []; acc[l.name].push(`${{vocal:'보컬',dance:'댄스',visual:'비주얼',variety:'예능',charm:'매력'}[l.stat]}↑`); return acc; }, {})).map(([n, s]) => `<div><b>${n}</b>: ${s.join(', ')}</div>`).join('') : "변화 없음";
         document.getElementById('modal-body').innerHTML = `<div style="text-align:left; background:#f8f9fa; padding:15px; border-radius:10px;">${listHtml}</div>`;
         document.getElementById('modal-choices').innerHTML = `<button class="primary-btn" onclick="closeModal()">확인 (Space)</button>`;
         document.getElementById('eventModal').style.display = 'block';
     }
 
     function closeModal() { document.getElementById('eventModal').style.display = 'none'; setTimeout(processNextPopup, 150); }
-
-    // ============================================================
-    // ★ 케미 시스템
-    // ============================================================
-    function chemKey(n1, n2) { return [n1, n2].sort().join('_'); }
-
-    function initChemistry(members) {
-        const chem = {};
-        for (let i = 0; i < members.length; i++)
-            for (let j = i + 1; j < members.length; j++)
-                chem[chemKey(members[i].name, members[j].name)] = 50 + Math.floor(Math.random() * 20) - 10;
-        return chem;
-    }
-
-    function adjustChemistry(n1, n2, delta) {
-        const k = chemKey(n1, n2);
-        if (gameState.chemistry[k] !== undefined)
-            gameState.chemistry[k] = Math.min(100, Math.max(0, gameState.chemistry[k] + delta));
-    }
-
-    function getChemBonus() {
-        const vals = Object.values(gameState.chemistry);
-        const avg = vals.reduce((a, b) => a + b, 0) / vals.length;
-        if (avg >= 75) return 1.15;
-        if (avg >= 55) return 1.05;
-        if (avg <= 25) return 0.85;
-        return 1.0;
-    }
-
-    function renderChemistry(memberName, memberIdx) {
-        const others = gameState.members.filter((_, i) => i !== memberIdx);
-        const pairs = others.map(o => {
-            const k = chemKey(memberName, o.name);
-            const v = gameState.chemistry[k] ?? 50;
-            const cls = v >= 70 ? 'chem-high' : v >= 40 ? 'chem-mid' : 'chem-low';
-            const color = v >= 70 ? '#f06595' : v >= 40 ? '#fab005' : '#ced4da';
-            const heart = v >= 70 ? '💕' : v >= 40 ? '🤝' : '😶';
-            return `<div class="chem-pair">
-                <div class="chem-name">${heart} ${o.name}</div>
-                <div class="chem-bar-bg"><div class="chem-bar-fill" style="width:${v}%; background:${color};"></div></div>
-                <div class="chem-val ${cls}">${v}</div>
-            </div>`;
-        }).join('');
-        return `<div class="chem-section"><div class="chem-title">💞 멤버 케미</div>${pairs}</div>`;
-    }
-
-    function updateDailyChemistry() {
-        const names = gameState.members.map(m => m.name);
-        // 같은 액션 수행 멤버 간 케미 소량 상승
-        const actionMap = {};
-        gameState.members.forEach(m => {
-            const act = m.manualAct || 'auto';
-            if (!actionMap[act]) actionMap[act] = [];
-            actionMap[act].push(m.name);
-        });
-        Object.values(actionMap).forEach(group => {
-            if (group.length >= 2) {
-                for (let i = 0; i < group.length - 1; i++)
-                    adjustChemistry(group[i], group[i + 1], Math.random() < 0.3 ? 1 : 0);
-            }
-        });
-        // 자연 소폭 변화
-        for (let i = 0; i < names.length - 1; i++)
-            for (let j = i + 1; j < names.length; j++)
-                if (Math.random() < 0.05) adjustChemistry(names[i], names[j], Math.random() < 0.5 ? 1 : -1);
-    }
-
-    // ============================================================
-    // ★ 팬심 위기 / 논란 시스템
-    // ============================================================
-    const scandalEvents = [
-        {
-            title: '🚨 SNS 논란 발생!',
-            desc: (m) => `${m.name}의 과거 방송 클립이 맥락 없이 잘려 SNS에 퍼지며 오해가 생겼습니다.\n어떻게 대응하시겠습니까?`,
-            choices: [
-                { text: '📢 즉각 해명 (홍보비 500만 소모)', style: 'crisis-choice-safe',
-                  effect: (m) => { gameState.finance -= 5000000; gameState.controversy = Math.max(0, gameState.controversy - 25); gameState.community.push({site:'SNS', content:`[공식] ${m.name} 해명 완료 — 팬들 "역시 믿었어" 반응`}); } },
-                { text: '🤫 조용히 넘기기 (위기도 소폭 상승)', style: 'crisis-choice-mid',
-                  effect: (m) => { gameState.controversy += 10; gameState.community.push({site:'에뱀', content:`하데스 측 무반응... 이게 맞냐 vs 기다려보자 여론 갈림`}); } },
-                { text: '🙏 공개 사과문 발표 (팬덤 -10%, 위기도↓↓)', style: 'crisis-choice-danger',
-                  effect: (m) => { updateFandom(-Math.floor(gameState.fandom * 0.1)); gameState.controversy = Math.max(0, gameState.controversy - 40); gameState.community.push({site:'팬카페', content:`사과문 잘 봤어요... 앞으로 더 잘 부탁드려요 ㅠㅠ`}); } }
-            ]
-        },
-        {
-            title: '😤 멤버 간 불화설 유포',
-            desc: (m) => `${m.name}와 다른 멤버 사이에 불화설이 돌고 있습니다. 팬들이 불안해하고 있습니다.`,
-            choices: [
-                { text: '🎥 화목한 합방 방송 기획 (비용 300만)', style: 'crisis-choice-safe',
-                  effect: (m) => { gameState.finance -= 3000000; gameState.controversy = Math.max(0, gameState.controversy - 20); const others = gameState.members.filter(o => o.name !== m.name); others.forEach(o => adjustChemistry(m.name, o.name, 5)); gameState.community.push({site:'팬카페', content:`합방 너무 꿀잼ㅠㅠ 불화설 지어낸 놈이 범인이다`}); } },
-                { text: '📝 개인 SNS로 팬 안심 (위기도 소폭↓)', style: 'crisis-choice-mid',
-                  effect: (m) => { gameState.controversy = Math.max(0, gameState.controversy - 10); gameState.community.push({site:'SNS', content:`${m.name} "우리 사이 걱정 마세요" — 팬들 감동`}); } },
-                { text: '🚫 묵묵부답 (위기도 +15, 케미↓)', style: 'crisis-choice-danger',
-                  effect: (m) => { gameState.controversy += 15; const others = gameState.members.filter(o => o.name !== m.name); others.forEach(o => adjustChemistry(m.name, o.name, -8)); } }
-            ]
-        },
-        {
-            title: '📰 부정적 언론 보도',
-            desc: () => '버추얼 아이돌 산업을 비판하는 기사가 나오며 하데스도 언급되었습니다.',
-            choices: [
-                { text: '💼 전문 홍보팀 고용 (1000만)', style: 'crisis-choice-safe',
-                  effect: () => { gameState.finance -= 10000000; gameState.controversy = Math.max(0, gameState.controversy - 30); gameState.community.push({site:'속보', content:`[반박] 하데스 측 "사실 무근" 강경 대응 — 기사 정정 요청`}); } },
-                { text: '📣 팬들과 함께하는 팬미팅 개최 (500만)', style: 'crisis-choice-mid',
-                  effect: () => { gameState.finance -= 5000000; updateFandom(2000); gameState.controversy = Math.max(0, gameState.controversy - 15); } },
-                { text: '⌛ 시간이 해결해 줄 것 (위기도 +20)', style: 'crisis-choice-danger',
-                  effect: () => { gameState.controversy += 20; updateFandom(-Math.floor(gameState.fandom * 0.05)); } }
-            ]
-        },
-        {
-            title: '🎤 라이브 실수 유출',
-            desc: (m) => `${m.name}의 라이브 도중 기술적 실수가 클립으로 확산되고 있습니다.`,
-            choices: [
-                { text: '🎁 팬들에게 특별 보이스팩 선물 (200만)', style: 'crisis-choice-safe',
-                  effect: (m) => { gameState.finance -= 2000000; gameState.controversy = Math.max(0, gameState.controversy - 15); m.mental = Math.min(100, m.mental + 10); gameState.community.push({site:'팬카페', content:`${m.name} 선물이라니ㅠㅠ 더 좋아짐`}); } },
-                { text: '🔇 영상 삭제 요청 (위기도 유지)', style: 'crisis-choice-mid',
-                  effect: (m) => { gameState.community.push({site:'에뱀', content:`삭제 요청하니까 오히려 더 퍼지는 중 ㅋㅋㅋ`}); gameState.controversy += 5; } },
-                { text: '😔 무대 공포증 고백 (팬덤+5000, 위기도↑)', style: '',
-                  effect: (m) => { updateFandom(5000); gameState.controversy += 8; m.mental = Math.max(0, m.mental - 10); gameState.community.push({site:'팬카페', content:`${m.name} 고백에 눈물... 더 응원할게요`}); } }
-            ]
-        }
-    ];
-
-    function checkControversy() {
-        // 위기도 자연 감소 (매일 소폭)
-        gameState.controversy = Math.max(0, gameState.controversy - 1);
-
-        // 위기도 높으면 매일 팬덤 소폭 손실
-        if (gameState.controversy >= 40) {
-            const loss = Math.floor(gameState.fandom * 0.002 * (gameState.controversy / 40));
-            updateFandom(-loss);
-        }
-
-        // 랜덤 논란 발생 확률 (위기도 높을수록 더 자주)
-        const baseChance = 0.04 + (gameState.controversy / 100) * 0.06;
-        if (Math.random() < baseChance) {
-            const scandal = scandalEvents[Math.floor(Math.random() * scandalEvents.length)];
-            const victim = gameState.members[Math.floor(Math.random() * gameState.members.length)];
-            gameState.controversy = Math.min(100, gameState.controversy + 15);
-            gameState.popupQueue.push({
-                type: 'scandal',
-                event: {
-                    id: 'scandal_' + gameState.day,
-                    title: scandal.title,
-                    desc: scandal.desc(victim),
-                    choices: scandal.choices.map(c => ({
-                        text: c.text,
-                        style: c.style || '',
-                        effect: () => c.effect(victim)
-                    }))
-                }
-            });
-        }
-    }
-
-    // ============================================================
-    // ★ 시즌 목표 시스템
-    // ============================================================
-    function generateSeasonGoals(state) {
-        const f = state.fandom;
-        const sales = state.accumulatedSales;
-        return [
-            { id: 'fandom', icon: '👥', text: `팬덤 ${Math.floor(f * 1.8).toLocaleString()}명 달성`, target: Math.floor(f * 1.8), reward: '보너스 수익 3000만', done: false, rewardGiven: false },
-            { id: 'sales', icon: '💰', text: `누적 매출 ${(sales + 100000000).toLocaleString()}원 달성`, target: sales + 100000000, reward: '팬덤 +20,000명', done: false, rewardGiven: false },
-            { id: 'content', icon: '🎬', text: '이번 시즌 컨텐츠 3회 제작', target: 3, current: 0, reward: '위기도 -30 초기화', done: false, rewardGiven: false },
-        ];
-    }
-
-    function renderSeasonGoals() {
-        const goals = gameState.seasonGoals;
-        if (!goals || goals.length === 0) return;
-        document.getElementById('season-badge').innerText = `시즌 ${gameState.seasonNum}`;
-        const daysLeft = Math.max(0, 30 - (gameState.day - gameState.seasonStartDay));
-
-        const html = goals.map(g => {
-            let progress = 0;
-            if (g.id === 'fandom') { progress = Math.min(100, Math.floor((gameState.fandom / g.target) * 100)); }
-            else if (g.id === 'sales') { progress = Math.min(100, Math.floor((gameState.accumulatedSales / g.target) * 100)); }
-            else if (g.id === 'content') { progress = Math.min(100, Math.floor(((g.current || 0) / g.target) * 100)); }
-            return `<div class="goal-item ${g.done ? 'done' : ''}">
-                <div class="goal-icon">${g.done ? '✅' : g.icon}</div>
-                <div class="goal-info">
-                    <span class="goal-text">${g.text}</span>
-                    <div class="goal-progress-bg"><div class="goal-progress-fill" style="width:${progress}%;"></div></div>
-                    <span class="goal-pct">${progress}% ${g.done ? '달성!' : ''}</span>
-                </div>
-                <div class="goal-reward">🎁 ${g.reward}</div>
-            </div>`;
-        }).join('') + `<div style="font-size:11px; color:#adb5bd; text-align:right; margin-top:4px;">시즌 종료까지 ${daysLeft}일</div>`;
-        document.getElementById('goal-list').innerHTML = html;
-    }
-
-    function checkSeasonGoals() {
-        const goals = gameState.seasonGoals;
-        if (!goals) return;
-        goals.forEach(g => {
-            if (g.done) return;
-            let achieved = false;
-            if (g.id === 'fandom' && gameState.fandom >= g.target) achieved = true;
-            if (g.id === 'sales' && gameState.accumulatedSales >= g.target) achieved = true;
-            if (g.id === 'content' && (g.current || 0) >= g.target) achieved = true;
-            if (achieved && !g.rewardGiven) {
-                g.done = true; g.rewardGiven = true;
-                if (g.id === 'fandom') { gameState.finance += 30000000; gameState.accumulatedSales += 30000000; }
-                else if (g.id === 'sales') { updateFandom(20000); }
-                else if (g.id === 'content') { gameState.controversy = Math.max(0, gameState.controversy - 30); }
-                gameState.popupQueue.push({ type: 'goal_clear', event: { id: 'goal_' + g.id, title: '🎯 목표 달성!', desc: `[${g.text}] 클리어!\n보상: ${g.reward}`, choices: [{ text: '🎉 좋아!', effect: () => {} }] } });
-            }
-        });
-        // 시즌 종료 체크 (30일)
-        if (gameState.day - gameState.seasonStartDay >= 30) {
-            const allDone = goals.every(g => g.done);
-            gameState.seasonNum++;
-            gameState.seasonStartDay = gameState.day;
-            gameState.seasonGoals = generateSeasonGoals(gameState);
-            if (allDone) {
-                gameState.finance += 20000000;
-                gameState.popupQueue.push({ type: 'season', event: { id: 'season_full_' + gameState.seasonNum, title: `🏆 시즌 ${gameState.seasonNum - 1} 퍼펙트 클리어!`, desc: '모든 목표를 달성했습니다! 보너스 2000만원!', choices: [{ text: '최고야!', effect: () => {} }], customHtml: `<div style="font-size:40px;">🥇</div><p>모든 목표 달성! 보너스 2000만원 지급</p><p>시즌 ${gameState.seasonNum} 시작!</p>` } });
-            } else {
-                gameState.popupQueue.push({ type: 'season', event: { id: 'season_end_' + gameState.seasonNum, title: `📅 시즌 ${gameState.seasonNum - 1} 종료`, desc: '새 시즌이 시작됩니다.', choices: [{ text: '다음 시즌도 화이팅!', effect: () => {} }], customHtml: `<div style="font-size:30px;">🔄</div><p>시즌 ${gameState.seasonNum} 목표가 갱신되었습니다!</p>` } });
-            }
-        }
-    }
     
     function renderShop() {
         const moneyDisplay = `<div style="padding:10px; background:#e9ecef; border-radius:8px; margin-bottom:15px; font-weight:bold; text-align:center;">현재 보유 자금: <span style="color:var(--money)">${gameState.finance.toLocaleString()}원</span></div>`;

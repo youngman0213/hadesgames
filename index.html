@@ -1,183 +1,558 @@
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>하데스 키우기 v23.9 (Ticker Update)</title>
+    <title>하데스 키우기 v24.0</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --bg: #f5f7fa; --card: #ffffff; --point: #ff4d94; --text: #333; --border: #e1e4e8; --success: #40c057; --vocal: #ff4d94; --dance: #ae3ec9; --visual: #4dadff; --variety: #fab005; --charm: #f06595; --money: #2b8a3e; --danger: #fa5252; --sns: #405de6; --yt: #ff0000; --yz: #000000; --subak: #0ca678; --musicside: #1c7ed6; --tube: #f03e3e; }
-        body { background-color: var(--bg); color: var(--text); font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif; margin: 0; padding: 0; line-height: 1.5; overflow-x: hidden; }
-        
-        /* 시작 & 네비 */
-        #start-page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #1a1a1a 0%, #333 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; color: white; text-align: center; }
-        .start-logo { font-size: 3rem; font-weight: 900; color: var(--point); margin-bottom: 10px; text-shadow: 0 0 20px rgba(255,77,148,0.5); }
-        .start-btn { padding: 18px 60px; background: var(--point); color: white; border: none; border-radius: 50px; font-size: 1.2rem; font-weight: bold; cursor: pointer; box-shadow: 0 10px 20px rgba(255,77,148,0.3); transition: 0.3s; }
-        .start-btn:hover { transform: scale(1.05); }
-        .nav-bar { display: none; background: white; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .nav-btn { flex: 1; padding: 15px 5px; border: none; background: transparent; color: #666; cursor: pointer; font-weight: bold; font-size: 13px; transition: 0.2s; white-space: nowrap; }
-        .nav-btn.active { color: var(--point); border-bottom: 3px solid var(--point); background: #fffafc; }
-        
-        /* 레이아웃 */
-        .container { display: none; max-width: 900px; margin: 0 auto; padding: 15px 15px 100px 15px; }
-        .page { display: none; animation: fadeIn 0.3s; }
+        :root {
+            --bg: #0d0d12;
+            --card: #16161e;
+            --card2: #1e1e2a;
+            --point: #ff4d94;
+            --point2: #c8336e;
+            --text: #e8e8f0;
+            --text2: #9090a8;
+            --border: #2a2a3a;
+            --success: #3dd68c;
+            --danger: #ff5c5c;
+            --vocal: #ff6b9d;
+            --dance: #c084fc;
+            --visual: #60a5fa;
+            --variety: #fbbf24;
+            --charm: #f97316;
+            --money: #3dd68c;
+            --glow: rgba(255,77,148,0.15);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Noto Sans KR', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* ── 시작 화면 ── */
+        #start-page {
+            position: fixed; inset: 0;
+            background: #0d0d12;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            z-index: 10000; text-align: center;
+            overflow: hidden;
+        }
+        .start-bg {
+            position: absolute; inset: 0;
+            background: radial-gradient(ellipse at 50% 60%, rgba(255,77,148,0.12) 0%, transparent 70%);
+        }
+        .start-grid {
+            position: absolute; inset: 0;
+            background-image: linear-gradient(rgba(255,77,148,0.04) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255,77,148,0.04) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .start-logo {
+            font-family: 'Space Mono', monospace;
+            font-size: clamp(3rem, 10vw, 6rem);
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            color: var(--point);
+            text-shadow: 0 0 40px rgba(255,77,148,0.5), 0 0 80px rgba(255,77,148,0.2);
+            position: relative; z-index: 1;
+        }
+        .start-sub {
+            font-size: 13px; letter-spacing: 0.3em;
+            color: var(--text2); margin: 10px 0 40px;
+            text-transform: uppercase; position: relative; z-index: 1;
+        }
+        .start-btn {
+            padding: 16px 56px;
+            background: var(--point);
+            color: white; border: none;
+            border-radius: 4px;
+            font-size: 15px; font-weight: 700;
+            cursor: pointer; position: relative; z-index: 1;
+            letter-spacing: 0.1em;
+            transition: all 0.2s;
+            box-shadow: 0 0 30px rgba(255,77,148,0.4);
+        }
+        .start-btn:hover { background: #ff6ba8; transform: translateY(-2px); box-shadow: 0 4px 40px rgba(255,77,148,0.5); }
+
+        /* ── 튜토리얼 ── */
+        .tutorial-step {
+            background: var(--card2);
+            border: 1px solid var(--border);
+            border-radius: 10px; padding: 15px;
+            margin-bottom: 10px; text-align: left;
+            font-size: 13px; color: var(--text2);
+            line-height: 1.7;
+        }
+        .tutorial-step strong { color: var(--point); }
+
+        /* ── 네비 ── */
+        .nav-bar {
+            display: none;
+            background: rgba(13,13,18,0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            position: sticky; top: 0; z-index: 100;
+            padding: 0 8px;
+        }
+        .nav-inner { display: flex; max-width: 960px; margin: 0 auto; }
+        .nav-btn {
+            flex: 1; padding: 14px 4px;
+            border: none; background: transparent;
+            color: var(--text2); cursor: pointer;
+            font-weight: 700; font-size: 11px;
+            transition: 0.2s; white-space: nowrap;
+            letter-spacing: 0.05em;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-btn.active { color: var(--point); border-bottom-color: var(--point); }
+
+        /* ── 레이아웃 ── */
+        .container { display: none; max-width: 960px; margin: 0 auto; padding: 16px 12px 100px; }
+        .page { display: none; animation: fadeIn 0.25s ease; }
         .page.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-        .card { background: var(--card); border: 1px solid var(--border); padding: 20px; border-radius: 15px; margin-bottom: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); position: relative; }
-        .date-display { position: relative; text-align: right; margin-bottom: 10px; }
-        @media (min-width: 600px) { .date-display { position: absolute; top: 15px; right: 25px; } }
-        .day-count { font-weight: bold; color: var(--point); font-size: 18px; display: block; }
-        .real-date { font-size: 12px; color: #888; }
-        h2 { color: #222; font-size: 1.1rem; margin-top: 0; border-left: 4px solid var(--point); padding-left: 10px; margin-bottom: 15px; }
-        .money-text { color: var(--money); font-weight: bold; }
-        
-        /* 뉴스 티커 (흐르는 자막) */
-        .ticker-container { background: #212529; color: white; padding: 12px 0; overflow: hidden; white-space: nowrap; position: relative; margin-bottom: 15px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .ticker-wrapper { display: inline-block; padding-left: 100%; animation: ticker 40s linear infinite; }
-        .ticker-item { display: inline-block; padding: 0 20px; font-size: 13px; }
-        .ticker-site { font-size: 10px; font-weight: bold; padding: 2px 6px; border-radius: 4px; margin-right: 5px; vertical-align: middle; }
-        @keyframes ticker { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-100%, 0, 0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* 사이트 뱃지 색상 */
-        .site-ebem { background: #e7f5ff; color: #1971c2; }
-        .site-cafe { background: #fff0f6; color: #d6336c; }
-        .site-sns { background: #f0f1ff; color: var(--sns); }
-        .site-yt { background: #ffe3e3; color: var(--yt); }
-        .site-yz { background: #495057; color: #fff; }
-        .site-news { background: #fa5252; color: #fff; }
-        .site-music { background: #e6fcf5; color: #0ca678; }
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            padding: 18px; border-radius: 12px;
+            margin-bottom: 14px;
+        }
+        .card-glow { box-shadow: 0 0 20px var(--glow); }
 
-        /* 스탯 */
-        .stat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-        .stat-item { background: #f8f9fa; padding: 10px; border-radius: 10px; }
-        .stat-item small { color: #777; font-size: 11px; }
-        .stat-item strong { font-size: 15px; display: block; margin-top: 2px; }
+        h2 {
+            font-size: 13px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.15em;
+            color: var(--text2); margin-bottom: 14px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        h2::before { content: ''; display: block; width: 3px; height: 14px; background: var(--point); border-radius: 2px; }
 
-        /* 차트 전용 스타일 */
-        .chart-tabs { display: flex; border: 1px solid var(--border); border-radius: 8px 8px 0 0; overflow: hidden; }
-        .chart-tab-btn { flex: 1; border: none; background: #f8f9fa; padding: 12px; cursor: pointer; font-size: 14px; font-weight: bold; color: #888; transition: 0.2s; }
-        .chart-tab-btn.active { background: white; color: #333; }
-        .chart-tab-btn.subak.active { color: var(--subak); border-bottom: 3px solid var(--subak); }
-        .chart-tab-btn.musicside.active { color: var(--musicside); border-bottom: 3px solid var(--musicside); }
-        .chart-tab-btn.tube.active { color: var(--tube); border-bottom: 3px solid var(--tube); }
+        /* ── 상태 헤더 ── */
+        .status-header {
+            display: flex; justify-content: space-between;
+            align-items: flex-start; margin-bottom: 16px;
+        }
+        .date-block .day-count {
+            font-family: 'Space Mono', monospace;
+            font-size: 22px; font-weight: 700;
+            color: var(--point);
+        }
+        .date-block .real-date { font-size: 11px; color: var(--text2); margin-top: 2px; }
+        .tier-badge-small {
+            padding: 4px 12px; border-radius: 20px;
+            font-size: 12px; font-weight: 700;
+        }
+        .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+        @media (max-width: 480px) { .stat-grid { grid-template-columns: repeat(2, 1fr); } }
+        .stat-item {
+            background: var(--card2); padding: 10px 12px;
+            border-radius: 8px; border: 1px solid var(--border);
+        }
+        .stat-item small { font-size: 10px; color: var(--text2); letter-spacing: 0.05em; }
+        .stat-item strong { font-size: 14px; display: block; margin-top: 3px; }
+        .money-text { color: var(--money); }
 
-        .sub-chart-tabs { display: flex; background: #fff; border-bottom: 1px solid var(--border); margin-bottom: 10px; padding: 5px; gap: 5px; }
-        .sub-tab-btn { flex: 1; border: 1px solid transparent; background: transparent; padding: 6px; cursor: pointer; font-size: 11px; color: #666; border-radius: 20px; transition: 0.2s; }
-        .sub-tab-btn:hover { background: #f1f3f5; }
-        .sub-tab-btn.active { background: #333; color: white; font-weight: bold; }
-        
-        .chart-list { min-height: 350px; }
-        .chart-row { display: flex; align-items: center; padding: 10px 5px; border-bottom: 1px solid #f1f3f5; font-size: 13px; }
-        .chart-row:nth-child(1) .rank { color: #ffd43b; text-shadow: 1px 1px 0 #e67700; font-size: 16px; }
-        .chart-row:nth-child(2) .rank { color: #adb5bd; font-size: 15px; }
-        .chart-row:nth-child(3) .rank { color: #e599f7; font-size: 15px; }
-        .chart-row.my-song { background: #fff0f6; border-radius: 8px; border: 1px solid #fcc2d7; }
-        
-        .rank { width: 30px; font-weight: 900; text-align: center; margin-right: 10px; color: #495057; }
-        .rank-change { width: 30px; font-size: 10px; text-align: center; margin-right: 5px; color: #888; }
+        /* ── 경고 배너 ── */
+        .warning-banner {
+            background: rgba(255,92,92,0.1);
+            border: 1px solid rgba(255,92,92,0.3);
+            border-radius: 8px; padding: 10px 14px;
+            font-size: 12px; color: #ff8a8a;
+            margin-bottom: 14px; display: none;
+        }
+
+        /* ── 티커 ── */
+        .ticker-container {
+            background: #0a0a10; border: 1px solid var(--border);
+            padding: 10px 0; overflow: hidden;
+            border-radius: 8px; margin-bottom: 14px;
+            position: relative;
+        }
+        .ticker-label {
+            position: absolute; left: 0; top: 0; bottom: 0;
+            background: var(--point); color: white;
+            font-size: 10px; font-weight: 700;
+            padding: 0 10px; display: flex; align-items: center;
+            letter-spacing: 0.1em; z-index: 2;
+            white-space: nowrap;
+        }
+        .ticker-mask { overflow: hidden; padding-left: 60px; }
+        .ticker-wrapper { display: inline-block; padding-left: 100%; animation: ticker 45s linear infinite; white-space: nowrap; }
+        .ticker-item { display: inline-block; padding: 0 24px; font-size: 12px; color: var(--text2); }
+        .ticker-site {
+            font-size: 9px; font-weight: 700;
+            padding: 2px 5px; border-radius: 3px;
+            margin-right: 6px; vertical-align: middle;
+        }
+        @keyframes ticker { 0% { transform: translate3d(0,0,0); } 100% { transform: translate3d(-100%,0,0); } }
+        .site-ebem { background: rgba(25,113,194,0.2); color: #74c0fc; }
+        .site-cafe { background: rgba(214,51,108,0.2); color: #f783ac; }
+        .site-sns { background: rgba(64,93,230,0.2); color: #748ffc; }
+        .site-yt { background: rgba(255,0,0,0.2); color: #ff8787; }
+        .site-yz { background: rgba(255,255,255,0.1); color: #ced4da; }
+        .site-news { background: rgba(255,92,92,0.2); color: #ff8787; }
+        .site-music { background: rgba(12,166,120,0.2); color: #63e6be; }
+
+        /* ── 차트 ── */
+        .chart-tabs {
+            display: flex; gap: 6px;
+            background: var(--card2); padding: 6px;
+            border-radius: 8px; margin-bottom: 10px;
+        }
+        .chart-tab-btn {
+            flex: 1; border: none; background: transparent;
+            padding: 8px; cursor: pointer;
+            font-size: 12px; font-weight: 700;
+            color: var(--text2); border-radius: 6px;
+            transition: 0.2s;
+        }
+        .chart-tab-btn.active { background: var(--card); color: var(--text); }
+        .chart-tab-btn.subak.active { color: #3dd68c; }
+        .chart-tab-btn.musicside.active { color: #60a5fa; }
+        .chart-tab-btn.tube.active { color: #ff5c5c; }
+
+        .sub-chart-tabs { display: flex; gap: 6px; margin-bottom: 12px; }
+        .sub-tab-btn {
+            flex: 1; border: 1px solid var(--border);
+            background: transparent; padding: 6px;
+            cursor: pointer; font-size: 11px;
+            color: var(--text2); border-radius: 6px; transition: 0.2s;
+        }
+        .sub-tab-btn.active { background: var(--border); color: var(--text); font-weight: 700; }
+
+        .chart-row {
+            display: flex; align-items: center;
+            padding: 9px 6px; border-bottom: 1px solid rgba(255,255,255,0.04);
+            font-size: 12px;
+        }
+        .chart-row.my-song {
+            background: rgba(255,77,148,0.06);
+            border-radius: 6px; border: 1px solid rgba(255,77,148,0.2);
+            margin-bottom: 2px;
+        }
+        .rank { width: 28px; font-family: 'Space Mono', monospace; font-weight: 700; font-size: 13px; text-align: center; margin-right: 8px; color: var(--text2); }
+        .chart-row:nth-child(1) .rank { color: #ffd43b; }
+        .chart-row:nth-child(2) .rank { color: #adb5bd; }
+        .chart-row:nth-child(3) .rank { color: #da77f2; }
+        .rank-change { width: 28px; font-size: 10px; text-align: center; margin-right: 4px; }
         .rank-up { color: var(--danger); }
-        .rank-down { color: #1c7ed6; }
-        .song-info { flex: 1; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-        .song-title { font-weight: bold; display: block; }
-        .artist-name { font-size: 11px; color: #888; }
-        .chart-score { font-size: 10px; color: #868e96; text-align: right; width: 60px; font-variant-numeric: tabular-nums; }
+        .rank-down { color: #60a5fa; }
+        .song-info { flex: 1; overflow: hidden; }
+        .song-title { font-weight: 700; font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .artist-name { font-size: 10px; color: var(--text2); }
+        .chart-score { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--text2); text-align: right; width: 60px; }
 
-        /* 멤버 & 컨텐츠 */
-        .member-grid { display: grid; grid-template-columns: 1fr; gap: 15px; }
+        /* ── 주간 스케줄 ── */
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: 80px repeat(7, 1fr);
+            gap: 4px; font-size: 11px;
+        }
+        .schedule-header {
+            background: var(--card2); border-radius: 4px;
+            padding: 6px 4px; text-align: center;
+            color: var(--text2); font-weight: 700; font-size: 10px;
+        }
+        .schedule-member {
+            background: var(--card2); border-radius: 4px;
+            padding: 6px 6px; color: var(--text);
+            font-weight: 700; font-size: 11px;
+            display: flex; align-items: center;
+        }
+        .schedule-cell {
+            border-radius: 4px; padding: 4px 2px;
+            text-align: center; cursor: pointer;
+            border: 1px solid var(--border);
+            transition: 0.15s; font-size: 10px;
+            min-height: 32px; display: flex;
+            align-items: center; justify-content: center;
+            background: var(--card2);
+        }
+        .schedule-cell:hover { border-color: var(--point); }
+        .sched-vocal { background: rgba(255,107,157,0.15); border-color: rgba(255,107,157,0.3); color: #ff6b9d; }
+        .sched-dance { background: rgba(192,132,252,0.15); border-color: rgba(192,132,252,0.3); color: #c084fc; }
+        .sched-visual { background: rgba(96,165,250,0.15); border-color: rgba(96,165,250,0.3); color: #60a5fa; }
+        .sched-variety { background: rgba(251,191,36,0.15); border-color: rgba(251,191,36,0.3); color: #fbbf24; }
+        .sched-charm { background: rgba(249,115,22,0.15); border-color: rgba(249,115,22,0.3); color: #f97316; }
+        .sched-stream { background: rgba(61,214,140,0.15); border-color: rgba(61,214,140,0.3); color: #3dd68c; }
+        .sched-rest { background: rgba(148,163,184,0.1); border-color: rgba(148,163,184,0.2); color: #94a3b8; }
+
+        /* ── 스태프 ── */
+        .staff-card {
+            background: var(--card2); border: 1px solid var(--border);
+            border-radius: 10px; padding: 14px;
+            margin-bottom: 10px; position: relative;
+        }
+        .staff-info { display: flex; align-items: center; gap: 12px; }
+        .staff-avatar {
+            width: 48px; height: 48px; border-radius: 50%;
+            background: var(--border); display: flex;
+            align-items: center; justify-content: center;
+            font-size: 22px; flex-shrink: 0;
+        }
+        .staff-meta { flex: 1; }
+        .staff-name { font-weight: 700; font-size: 14px; }
+        .staff-role { font-size: 11px; color: var(--text2); margin-top: 2px; }
+        .staff-effect { font-size: 11px; color: var(--success); margin-top: 4px; }
+        .staff-salary { font-size: 12px; color: var(--danger); font-weight: 700; }
+        .hire-btn {
+            padding: 7px 16px; background: var(--point);
+            color: white; border: none; border-radius: 6px;
+            font-size: 12px; font-weight: 700; cursor: pointer;
+            transition: 0.2s;
+        }
+        .hire-btn:hover { background: var(--point2); }
+        .fire-btn {
+            padding: 7px 16px; background: rgba(255,92,92,0.2);
+            color: #ff8787; border: 1px solid rgba(255,92,92,0.3);
+            border-radius: 6px; font-size: 12px; font-weight: 700;
+            cursor: pointer; transition: 0.2s;
+        }
+
+        /* ── 라이벌 ── */
+        .rival-card {
+            background: var(--card2); border: 1px solid var(--border);
+            border-radius: 10px; padding: 14px;
+            margin-bottom: 10px;
+        }
+        .rival-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .rival-name { font-weight: 700; font-size: 14px; }
+        .rival-tier { font-size: 11px; padding: 3px 8px; border-radius: 4px; font-weight: 700; }
+        .rival-activity { font-size: 12px; color: var(--text2); }
+        .rival-warning { background: rgba(255,92,92,0.1); border: 1px solid rgba(255,92,92,0.3); border-radius: 6px; padding: 8px 12px; font-size: 12px; color: #ff8a8a; margin-top: 8px; }
+
+        /* ── 멤버 ── */
+        .member-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
         @media (min-width: 650px) { .member-grid { grid-template-columns: repeat(2, 1fr); } }
-        .member-card { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 15px; position: relative; transition: 0.3s; }
-        .profile-container { display: flex; align-items: center; margin-bottom: 15px; }
-        .profile-img { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border); margin-right: 12px; background: #eee; }
-        .profile-info { flex: 1; }
-        .stat-row { display: flex; align-items: center; margin-bottom: 6px; font-size: 12px; }
-        .stat-label { width: 40px; color: #777; font-size: 11px; }
-        .stat-bar-bg { flex: 1; height: 8px; background: #eee; border-radius: 4px; overflow: hidden; margin: 0 8px; }
-        .stat-bar-fill { height: 100%; border-radius: 4px; transition: 0.5s; }
-        .bonus-stat { color: var(--success); font-weight: bold; font-size: 10px; margin-left: 4px; }
-        .equip-btn { position: absolute; top: 15px; right: 15px; padding: 5px 10px; background: #333; color: white; font-size: 11px; border-radius: 5px; border:none; cursor: pointer; }
-        .equipped-items { margin-top: 10px; font-size: 11px; color: #666; background: #f8f9fa; padding: 8px; border-radius: 6px; min-height: 20px;}
+        .member-card {
+            background: var(--card); border: 1px solid var(--border);
+            border-radius: 12px; padding: 16px; position: relative;
+        }
+        .member-card.overload { border-color: rgba(255,92,92,0.5); background: rgba(255,92,92,0.04); }
+        .profile-container { display: flex; align-items: center; margin-bottom: 14px; gap: 12px; }
+        .profile-img { width: 58px; height: 58px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border); background: var(--card2); }
+        .profile-name { font-size: 16px; font-weight: 700; }
+        .profile-birth { font-size: 10px; color: var(--text2); margin-top: 2px; }
+        .profile-trait {
+            display: inline-block; margin-top: 4px;
+            font-size: 10px; padding: 2px 8px;
+            border-radius: 10px; font-weight: 700;
+        }
+        .stat-row { display: flex; align-items: center; margin-bottom: 5px; font-size: 11px; }
+        .stat-label { width: 38px; color: var(--text2); font-size: 10px; letter-spacing: 0.05em; }
+        .stat-bar-bg { flex: 1; height: 6px; background: rgba(255,255,255,0.07); border-radius: 3px; overflow: hidden; margin: 0 8px; }
+        .stat-bar-fill { height: 100%; border-radius: 3px; transition: width 0.5s; }
+        .bonus-stat { color: var(--success); font-weight: 700; font-size: 10px; margin-left: 3px; }
+        .equip-btn {
+            position: absolute; top: 14px; right: 14px;
+            padding: 5px 10px; background: var(--card2);
+            color: var(--text2); font-size: 10px;
+            border-radius: 5px; border: 1px solid var(--border);
+            cursor: pointer; transition: 0.2s;
+        }
+        .equip-btn:hover { border-color: var(--point); color: var(--point); }
+        .equipped-items { margin-top: 10px; font-size: 10px; color: var(--text2); background: var(--card2); padding: 8px; border-radius: 6px; }
+        .fatigue-bar-container { margin-top: 8px; }
+        .fatigue-label { font-size: 10px; color: var(--text2); margin-bottom: 3px; display: flex; justify-content: space-between; }
+        .fatigue-bar-bg { height: 4px; background: rgba(255,255,255,0.07); border-radius: 2px; overflow: hidden; }
+        .fatigue-bar-fill { height: 100%; border-radius: 2px; transition: width 0.3s; }
+        .contract-info { font-size: 10px; color: var(--text2); margin-top: 6px; }
 
-        .content-card { border: 1px solid var(--border); border-radius: 10px; padding: 15px; margin-bottom: 12px; background: #fff; transition:0.2s; position: relative; }
+        /* ── 컨텐츠 ── */
+        .content-card {
+            border: 1px solid var(--border); border-radius: 10px;
+            padding: 14px; margin-bottom: 10px; background: var(--card2);
+        }
         .content-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-        .content-badge { font-size: 11px; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
-        .badge-short { background: #e3fafc; color: #0c8599; }
-        .badge-mid { background: #f3f0ff; color: #6741d9; }
-        .badge-long { background: #fff0f6; color: #c2255c; }
-        .badge-item { background: #f3f0ff; color: #5c7cfa; }
-        .badge-special { background: #fff5f5; color: #ff0000; border: 1px solid #ffc9c9; }
-        .content-info { font-size: 12px; color: #555; display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-bottom: 10px; }
-        .content-btn { width: 100%; padding: 10px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; color: white; transition: 0.2s; }
-        .btn-available { background: var(--point); box-shadow: 0 4px 6px rgba(255, 77, 148, 0.2); }
-        .btn-available:hover { filter: brightness(0.9); }
-        .btn-cooldown { background: #adb5bd; cursor: not-allowed; }
-        
-        /* 버튼 & 모달 */
-        .next-day-bar { display: none; position: fixed; bottom: 0; left: 0; width: 100%; background: white; padding: 12px; border-top: 1px solid var(--border); text-align: center; z-index: 100; box-sizing: border-box; }
-        .primary-btn { width: 100%; padding: 14px; background: var(--point); color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 16px; transition:0.2s; }
-        .primary-btn:hover { background: #e64980; }
-        .choice-btn { width: 100%; padding: 14px; background: #f1f3f5; color: #333; border: 1px solid var(--border); border-radius: 8px; cursor: pointer; margin-bottom: 8px; text-align: left; font-size: 14px; display: flex; justify-content: space-between; align-items: center; transition:0.2s; }
-        .upgrade-btn { padding: 4px 8px; font-size: 11px; background: #7950f2; color:white; border:none; border-radius:4px; cursor:pointer; margin-left:5px; font-weight:bold; }
-        .modal-overlay { display: none; position: fixed; z-index: 9000; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.7); backdrop-filter: blur(3px); }
-        .modal-content { background:white; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); padding:25px; width: 85%; max-width:400px; border-radius:20px; text-align:center; box-sizing: border-box; max-height: 80vh; overflow-y: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-        .half-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+        .content-badge { font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: 700; }
+        .badge-short { background: rgba(12,133,153,0.2); color: #22d3ee; }
+        .badge-mid { background: rgba(103,65,217,0.2); color: #a78bfa; }
+        .badge-long { background: rgba(194,37,92,0.2); color: #fb7185; }
+        .badge-item { background: rgba(92,124,250,0.2); color: #818cf8; }
+        .badge-special { background: rgba(255,0,0,0.1); color: #ff8a8a; border: 1px solid rgba(255,0,0,0.2); }
+        .content-info { font-size: 11px; color: var(--text2); display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-bottom: 10px; }
+        .content-btn { width: 100%; padding: 10px; border: none; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 13px; transition: 0.2s; }
+        .btn-available { background: var(--point); color: white; box-shadow: 0 0 16px rgba(255,77,148,0.25); }
+        .btn-available:hover { background: var(--point2); }
+        .btn-cooldown { background: rgba(255,255,255,0.05); color: var(--text2); cursor: not-allowed; border: 1px solid var(--border); }
+
+        /* ── 상점 ── */
+        .shop-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        @media (max-width: 500px) { .shop-grid { grid-template-columns: 1fr; } }
+
+        /* ── 버튼 & 공통 ── */
+        .next-day-bar {
+            display: none; position: fixed; bottom: 0; left: 0; width: 100%;
+            background: rgba(13,13,18,0.95); backdrop-filter: blur(12px);
+            padding: 12px; border-top: 1px solid var(--border);
+            text-align: center; z-index: 100; box-sizing: border-box;
+        }
+        .primary-btn {
+            width: 100%; padding: 14px; background: var(--point);
+            color: white; border: none; border-radius: 8px;
+            cursor: pointer; font-weight: 700; font-size: 15px;
+            transition: 0.2s; letter-spacing: 0.05em;
+            box-shadow: 0 0 20px rgba(255,77,148,0.3);
+        }
+        .primary-btn:hover { background: var(--point2); }
+        .choice-btn {
+            width: 100%; padding: 12px 14px;
+            background: var(--card2); color: var(--text);
+            border: 1px solid var(--border); border-radius: 8px;
+            cursor: pointer; margin-bottom: 8px;
+            text-align: left; font-size: 13px;
+            display: flex; justify-content: space-between; align-items: center;
+            transition: 0.2s;
+        }
+        .choice-btn:hover { border-color: var(--point); }
+        .upgrade-btn {
+            padding: 4px 8px; font-size: 10px;
+            background: rgba(121,80,242,0.3); color: #c084fc;
+            border: 1px solid rgba(121,80,242,0.3);
+            border-radius: 4px; cursor: pointer; margin-left: 5px; font-weight: 700;
+        }
         .save-load-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-        .save-btn { background: #495057; color: white; padding: 10px; border-radius: 8px; border: none; font-size: 12px; cursor: pointer; }
-        
-        .tier-badge { font-size: 16px; font-weight: 900; margin: 10px 0; display: inline-block; padding: 8px 20px; border-radius: 50px; color:white; animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .save-btn {
+            background: var(--card2); color: var(--text2);
+            padding: 10px; border-radius: 8px;
+            border: 1px solid var(--border); font-size: 12px;
+            cursor: pointer; transition: 0.2s;
+        }
+        .save-btn:hover { border-color: var(--point); color: var(--point); }
+
+        /* ── 모달 ── */
+        .modal-overlay {
+            display: none; position: fixed;
+            z-index: 9000; inset: 0;
+            background: rgba(0,0,0,0.8); backdrop-filter: blur(4px);
+        }
+        .modal-content {
+            background: var(--card); position: absolute;
+            top: 50%; left: 50%; transform: translate(-50%, -50%);
+            padding: 24px; width: 88%; max-width: 420px;
+            border-radius: 16px; text-align: center;
+            box-sizing: border-box; max-height: 85vh;
+            overflow-y: auto; border: 1px solid var(--border);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px var(--glow);
+        }
+        .modal-content h2 { justify-content: center; font-size: 16px; letter-spacing: 0.05em; margin-bottom: 16px; }
+
+        /* ── 티어 ── */
+        .tier-badge {
+            font-size: 15px; font-weight: 900; display: inline-block;
+            padding: 8px 20px; border-radius: 20px; color: white;
+            animation: popIn 0.5s cubic-bezier(0.175,0.885,0.32,1.275);
+            letter-spacing: 0.05em;
+        }
         @keyframes popIn { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        .tier-rookie { background: #ced4da; color: #495057; }
-        .tier-rising { background: #74c0fc; }
-        .tier-domestic { background: #40c057; }
-        .tier-asia { background: #fab005; }
-        .tier-na { background: #e64980; }
-        .tier-world { background: linear-gradient(45deg, #a5d8ff, #7950f2, #ff8787); box-shadow: 0 0 15px rgba(121, 80, 242, 0.5); position: relative; overflow: hidden; }
-        .tier-world::after { content:''; position: absolute; top:0; left:-100%; width:100%; height:100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); animation: shine 2s infinite; }
-        @keyframes shine { 100% { left: 100%; } }
+        .tier-rookie { background: #495057; }
+        .tier-rising { background: linear-gradient(135deg, #4dabf7, #228be6); }
+        .tier-domestic { background: linear-gradient(135deg, #3dd68c, #12b886); }
+        .tier-asia { background: linear-gradient(135deg, #fcc419, #e67700); }
+        .tier-na { background: linear-gradient(135deg, #ff6b9d, #e64980); }
+        .tier-world { background: linear-gradient(135deg, #a5d8ff, #7950f2, #ff8787); box-shadow: 0 0 20px rgba(121,80,242,0.4); }
+
+        /* ── 리포트 ── */
+        .report-card {
+            background: rgba(61,214,140,0.05);
+            border: 1px solid rgba(61,214,140,0.2);
+            border-radius: 10px; padding: 14px;
+            margin-bottom: 14px; display: none;
+        }
+
+        /* ── 음방 ── */
+        .broadcast-card {
+            background: var(--card2); border: 1px solid var(--border);
+            border-radius: 10px; padding: 14px; margin-bottom: 10px;
+        }
+        .broadcast-rank { font-family: 'Space Mono', monospace; font-size: 28px; font-weight: 700; color: var(--point); }
+
+        /* ── 태그 ── */
+        .tag { display: inline-block; padding: 2px 7px; border-radius: 4px; font-size: 10px; font-weight: 700; margin-right: 4px; }
+        .tag-contract { background: rgba(251,191,36,0.15); color: #fbbf24; }
+        .tag-trait { background: rgba(192,132,252,0.15); color: #c084fc; }
+
+        /* ── 진행바 (피로/멘탈) ── */
+        .mini-bars { display: flex; gap: 8px; margin-top: 8px; }
+        .mini-bar-wrap { flex: 1; }
+        .mini-bar-label { font-size: 9px; color: var(--text2); margin-bottom: 2px; display: flex; justify-content: space-between; }
+        .mini-bar-bg { height: 4px; background: rgba(255,255,255,0.07); border-radius: 2px; overflow: hidden; }
+        .mini-bar-fill { height: 100%; border-radius: 2px; transition: width 0.3s; }
     </style>
 </head>
 <body>
 
+<!-- 시작 화면 -->
 <div id="start-page">
+    <div class="start-bg"></div>
+    <div class="start-grid"></div>
     <div class="start-logo">HADES</div>
-    <div class="start-sub">Virtual Idol Management v23.9</div>
-    <button class="start-btn" onclick="startGame()">게임 시작</button>
+    <div class="start-sub">Virtual Idol Management · v24.0</div>
+    <button class="start-btn" onclick="startGame()">▶ 게임 시작</button>
 </div>
 
+<!-- 네비 -->
 <div class="nav-bar" id="main-nav">
-    <button class="nav-btn active" onclick="openPage('home', this)">📊 홈</button>
-    <button class="nav-btn" onclick="openPage('members', this)">👥 멤버</button>
-    <button class="nav-btn" onclick="openPage('contents', this)">🎬 컨텐츠</button>
-    <button class="nav-btn" onclick="openPage('store', this)">🛍️ 상점</button>
-    <button class="nav-btn" onclick="openPage('manual', this)">📅 지시</button>
+    <div class="nav-inner">
+        <button class="nav-btn active" onclick="openPage('home', this)">📊 홈</button>
+        <button class="nav-btn" onclick="openPage('schedule', this)">📅 스케줄</button>
+        <button class="nav-btn" onclick="openPage('members', this)">👥 멤버</button>
+        <button class="nav-btn" onclick="openPage('contents', this)">🎬 컨텐츠</button>
+        <button class="nav-btn" onclick="openPage('staff', this)">🧑‍💼 스태프</button>
+        <button class="nav-btn" onclick="openPage('rival', this)">⚔️ 라이벌</button>
+        <button class="nav-btn" onclick="openPage('store', this)">🛍️ 상점</button>
+    </div>
 </div>
 
 <div class="container" id="main-container">
+
+    <!-- 홈 -->
     <div id="home" class="page active">
-        
-        <!-- NEW: 반응형 뉴스 티커 (상태창 위) -->
+        <div class="warning-banner" id="warning-banner">⚠️ 경고: 보유 자금이 위험 수준입니다! 파산까지 남은 자금을 확인하세요.</div>
         <div class="ticker-container">
-            <div class="ticker-wrapper" id="reaction-ticker">
-                <div class="ticker-item">로드 중...</div>
+            <div class="ticker-label">LIVE</div>
+            <div class="ticker-mask">
+                <div class="ticker-wrapper" id="reaction-ticker">
+                    <div class="ticker-item">데이터 수집 중...</div>
+                </div>
             </div>
         </div>
 
-        <div class="card">
-            <div class="date-display">
-                <span class="day-count">운영 <span id="current-day">1</span>일차</span>
-                <span class="real-date" id="current-date">2025-09-05</span>
+        <div class="card card-glow">
+            <div class="status-header">
+                <div class="date-block">
+                    <div class="day-count">DAY <span id="current-day">1</span></div>
+                    <div class="real-date" id="current-date">2025-09-05</div>
+                </div>
+                <div>
+                    <div class="tier-badge-small tier-rookie" id="tier-badge-small">루키</div>
+                    <div style="font-size:10px; color:var(--text2); text-align:right; margin-top:4px;" id="tier-score-display"></div>
+                </div>
             </div>
-            <h2>상태</h2>
             <div class="stat-grid">
                 <div class="stat-item"><small>보유 자산</small><strong id="p-finance" class="money-text">200,000,000원</strong></div>
                 <div class="stat-item"><small>팬카페 회원</small><strong id="p-fandom">110,000명</strong></div>
                 <div class="stat-item"><small>너튜브 구독</small><strong id="p-youtube">20,000명</strong></div>
                 <div class="stat-item"><small>SNS 팔로워</small><strong id="p-sns">1,000명</strong></div>
-                <div class="stat-item"><small>현재 인지도</small><strong id="p-tier" style="color:#7950f2;">루키</strong></div>
+                <div class="stat-item"><small>월 스태프 비용</small><strong id="p-staffcost" class="money-text" style="color:var(--danger)">0원</strong></div>
                 <div class="stat-item"><small>누적 매출</small><strong id="p-sales">0원</strong></div>
             </div>
         </div>
 
-        <!-- NEW: 통합 차트 (조건부 표시) -->
+        <div class="report-card" id="profit-report">
+            <h2>🌙 일일 리포트</h2>
+            <div id="profit-content" style="font-size:13px;"></div>
+        </div>
+
         <div class="card" id="chart-section" style="display:none;">
             <h2>🏆 실시간 통합 차트</h2>
             <div class="chart-tabs">
@@ -190,810 +565,1347 @@
                 <button class="sub-tab-btn" onclick="switchChartPeriod('monthly')">🌔 월간</button>
                 <button class="sub-tab-btn" onclick="switchChartPeriod('yearly')">👑 연간</button>
             </div>
-            <div id="chart-list-container" class="chart-list"></div>
-            <div style="font-size:11px; text-align:center; color:#adb5bd; margin-top:10px;">* 매일 00시 순위 업데이트 (1~10위 표시)</div>
+            <div id="chart-list-container"></div>
+            <div style="font-size:10px; text-align:center; color:var(--text2); margin-top:8px;">* 매일 00시 순위 업데이트 · 1~10위 표시</div>
         </div>
 
-        <div class="card" id="profit-report" style="display:none; background: #f2fcf0; border-color: #40c057;">
-            <h2>🎈 일일 리포트</h2>
-            <div id="profit-content" style="font-size: 14px;"></div>
-        </div>
-        
         <div class="save-load-btns">
-            <button class="save-btn" onclick="saveGame()">💾 데이터 저장</button>
-            <button class="save-btn" style="background:#212529;" onclick="loadGame()">📂 데이터 불러오기</button>
+            <button class="save-btn" onclick="saveGame()">💾 저장</button>
+            <button class="save-btn" onclick="loadGame()">📂 불러오기</button>
         </div>
     </div>
 
+    <!-- 주간 스케줄 -->
+    <div id="schedule" class="page">
+        <div class="card">
+            <h2>📅 주간 스케줄 배정</h2>
+            <div style="font-size:12px; color:var(--text2); margin-bottom:14px;">멤버별로 이번 주 7일 활동을 미리 배정하세요. 스케줄이 없으면 자동으로 랜덤 배정됩니다.</div>
+            <div style="overflow-x:auto;">
+                <div class="schedule-grid" id="schedule-grid"></div>
+            </div>
+            <div style="margin-top:14px; display:flex; gap:8px; flex-wrap:wrap;" id="schedule-legend"></div>
+            <button class="primary-btn" style="margin-top:14px;" onclick="saveSchedule()">✅ 스케줄 확정</button>
+        </div>
+        <div class="card">
+            <h2>📋 현재 확정 스케줄</h2>
+            <div id="confirmed-schedule" style="font-size:12px; color:var(--text2);">스케줄을 배정한 뒤 확정하세요.</div>
+        </div>
+    </div>
+
+    <!-- 멤버 -->
     <div id="members" class="page">
         <div class="member-grid" id="member-grid-container"></div>
     </div>
 
+    <!-- 컨텐츠 -->
     <div id="contents" class="page">
         <div class="card">
-            <h2>🔥 스페셜 프로젝트 (한정)</h2>
+            <h2>🔥 스페셜 프로젝트</h2>
             <div id="special-content-list"></div>
         </div>
         <div class="card">
             <h2>🎬 일반 컨텐츠 제작</h2>
             <div id="content-list"></div>
         </div>
-    </div>
-
-    <div id="store" class="page">
-        <div class="card">
-            <h2>🛍️ 방송 장비 상점</h2>
-            <div id="shop-list"></div>
+        <div class="card" id="broadcast-section" style="display:none;">
+            <h2>📺 음악 방송 1위 도전</h2>
+            <div id="broadcast-list"></div>
         </div>
     </div>
 
-    <div id="manual" class="page">
+    <!-- 스태프 -->
+    <div id="staff" class="page">
         <div class="card">
-            <h2>수동 지시</h2>
-            <select id="sel-member" style="width:100%; padding:12px; margin-bottom:10px; border-radius:8px; border:1px solid #ddd;"></select>
-            <select id="sel-stat" style="width:100%; padding:12px; margin-bottom:10px; border-radius:8px; border:1px solid #ddd;">
-                <option value="vocal">🎤 보컬 집중 훈련</option>
-                <option value="dance">💃 안무 연습</option>
-                <option value="visual">✨ 비주얼 케어</option>
-                <option value="variety">🗣️ 예능 스피치</option>
-                <option value="charm">🎀 매력 강화</option>
-                <option value="stream">📡 실시간 스트리밍</option>
-                <option value="rest">💤 꿀같은 휴식</option>
-            </select>
-            <button class="primary-btn" onclick="manualTrainAction()">지시 완료</button>
+            <h2>🧑‍💼 고용된 스태프</h2>
+            <div id="hired-staff-list"></div>
+        </div>
+        <div class="card">
+            <h2>📋 채용 가능한 스태프</h2>
+            <div id="available-staff-list"></div>
+        </div>
+    </div>
+
+    <!-- 라이벌 -->
+    <div id="rival" class="page">
+        <div class="card">
+            <h2>⚔️ 라이벌 기획사 동태</h2>
+            <div style="font-size:12px; color:var(--text2); margin-bottom:12px;">라이벌이 컴백하면 차트 경쟁이 치열해집니다.</div>
+            <div id="rival-agency-list"></div>
+        </div>
+        <div class="card">
+            <h2>📊 업계 현황</h2>
+            <div id="industry-status"></div>
+        </div>
+    </div>
+
+    <!-- 상점 -->
+    <div id="store" class="page">
+        <div class="card">
+            <h2>🛍️ 방송 장비 상점</h2>
+            <div style="font-size:13px; color:var(--money); font-weight:700; margin-bottom:12px;">보유 자금: <span id="shop-finance"></span></div>
+            <div class="shop-grid" id="shop-list"></div>
         </div>
     </div>
 </div>
 
 <div class="next-day-bar" id="main-footer">
-    <button class="primary-btn" style="background: #40c057;" onclick="nextDay()">🌙 다음날로 (Space)</button>
+    <button class="primary-btn" style="background:linear-gradient(135deg, #2d8a5e, #3dd68c); box-shadow:0 0 20px rgba(61,214,140,0.3);" onclick="nextDay()">🌙 다음날 (Space)</button>
 </div>
 
+<!-- 이벤트 모달 -->
 <div id="eventModal" class="modal-overlay">
     <div class="modal-content">
         <h2 id="modal-title"></h2>
-        <div id="modal-body" style="margin: 15px 0; font-size: 14px;"></div>
+        <div id="modal-body" style="margin:14px 0; font-size:13px; color:var(--text2); line-height:1.7; text-align:left;"></div>
         <div id="modal-choices"></div>
     </div>
 </div>
 
+<!-- 스케줄 셀 선택 모달 -->
+<div id="schedModal" class="modal-overlay">
+    <div class="modal-content">
+        <h2>활동 선택</h2>
+        <div id="sched-choices"></div>
+        <button class="choice-btn" style="margin-top:4px;" onclick="closeSchedModal()">취소</button>
+    </div>
+</div>
+
 <script>
-    // === 데이터 ===
-    const rivalArtists = [
-        "시퀀서", "디지노믹", "글리치문", "뉴럴웨이브", "비트셸", "코어링크", "사이버리프", "픽셀헤이즈", "싱크비전", "벡터보이즈",
-        "알고리듬", "플로팅칩", "언리얼소울", "서브레이어", "메타모프", "하이퍼루프", "신스플로우", "누클리어스", "KRYX", "LYNQ",
-        "V-ZIT", "X-IEL", "JOYN", "N-ZIA", "RYZE-O", "QUV", "W-AVE", "SYLK", "F-REEL", "G-LOWD", "VEXEN", "TYRO", "Z-EEN",
-        "M-NEX", "O-RIT", "P-LEY", "B-ZON", "X-WAY", "H-YDE", "L-UVN", "S-YDE", "A-XIS", "N-TICK", "누보", "디트", "글릿",
-        "오로", "제로니", "싱크", "베이퍼플로", "에이든", "루미너", "코더", "서브", "텔레", "리셋", "미러", "고스트"
-    ];
-    
-    const kpopSongTitles = [
-        "Black Out", "Glitch Mode", "Venomous Love", "Wildfire", "No Gravity", "Double Dare", "Phantom Pain", "Crimson Sky", "Thunderbolt", "Overload", "Shatter", "Iron Heart", "Vortex", "Unstoppable", "Midnight Chase", "Blue Lemonade", "Summer Breeze", "Sparkling", "Neon Dream", "Surf's Up", "Candy Cloud", "Electric Youth", "Paper Plane", "Star Gazing", "Wink", "Soda Pop", "Sun-Kissed", "Bubble Gum", "Kickboard", "Rainbow Bridge", "달의 뒷면", "새벽 세 시", "비밀의 정원", "Last Letter", "잔상", "Mist", "기억 조각", "Falling Star", "Urban Night", "잠들지 않는 도시", "Deep Blue", "우주 유영", "Timeline", "Whisper", "Stardust", "Bad Attitude", "Level Up", "Money Talk", "Swagger", "On the Top", "Zero to One", "Game Changer", "Flashlight", "New Rules", "Vibe Check", "Backstage", "No Filter", "Hustle", "Iconic", "Last Shot", "High Tension", "Silver Lining", "Deja Vu", "Under the Radar", "Maverick", "Gravity Pull", "Velvet Rope", "Heartbeat Sensor", "After Party", "Neon Sign", "Blindfold", "Catalyst", "Golden Hour", "Wild Side", "Midnight Sun", "Prism", "Love Dive", "Satellite", "Break the Wall", "Egoist", "Blue Hour", "Cherry Bomb", "Dive In", "Focus On", "Get Loud", "Horizon", "In the Dark", "Just Go", "Keep It Real", "Lucid Dream", "Make a Wish", "Night Owl", "Off the Record", "Purple Night", "Quiet Riot", "Road Trip", "Stay Up", "Take a Chance", "Up and Down", "Vivid", "Way Home", "X-Ray", "Young and Free", "ZigZag", "가시방석", "겨울잠", "나비효과", "눈맞춤", "다시 만날 때까지", "마지막 춤", "밤하늘의 저편", "비밀번호", "사막의 오아시스", "어지러워", "유성우", "이방인", "종이심장", "첫눈에", "태양 아래서", "혼잣말"
-    ];
+// ═══════════════════════════════════════════
+//  데이터 상수
+// ═══════════════════════════════════════════
+const rivalArtists = ["시퀀서","디지노믹","글리치문","뉴럴웨이브","비트셸","코어링크","사이버리프","픽셀헤이즈","싱크비전","벡터보이즈","알고리듬","플로팅칩","언리얼소울","서브레이어","메타모프","하이퍼루프","신스플로우","누클리어스","KRYX","LYNQ","V-ZIT","X-IEL","JOYN","N-ZIA","RYZE-O","QUV","W-AVE","SYLK","F-REEL","G-LOWD","VEXEN","TYRO","Z-EEN","M-NEX","O-RIT","P-LEY"];
+const kpopSongTitles = ["Black Out","Glitch Mode","Venomous Love","Wildfire","No Gravity","Double Dare","Phantom Pain","Crimson Sky","Thunderbolt","Overload","Shatter","Iron Heart","Vortex","Unstoppable","Midnight Chase","Blue Lemonade","Summer Breeze","Sparkling","Neon Dream","Surf's Up","Candy Cloud","Electric Youth","Paper Plane","Star Gazing","Wink","Soda Pop","Sun-Kissed","Bubble Gum","달의 뒷면","새벽 세 시","비밀의 정원","Last Letter","잔상","Mist","기억 조각","Falling Star","Urban Night","잠들지 않는 도시","Deep Blue","우주 유영","Timeline","Whisper","Stardust","Bad Attitude","Level Up","Money Talk","Swagger","On the Top","Zero to One","Game Changer","Flashlight","New Rules","Vibe Check","Backstage","No Filter","Hustle","Iconic","Last Shot","High Tension","Silver Lining","Deja Vu","Under the Radar","Maverick","Gravity Pull","Velvet Rope","Heartbeat Sensor","After Party","Neon Sign","Blindfold","Catalyst","Golden Hour","Wild Side","Midnight Sun","Prism","Love Dive","Satellite","Break the Wall","Egoist","Blue Hour","Cherry Bomb","Dive In","Focus On","Get Loud","Horizon","In the Dark","Just Go","Keep It Real","Lucid Dream","Make a Wish","Night Owl","Off the Record","Purple Night"];
 
-    function getRandomSong() {
-        return kpopSongTitles[Math.floor(Math.random() * kpopSongTitles.length)];
-    }
+const memberTraits = [
+    { id: 'hardworker', name: '성실형', emoji: '💪', desc: '훈련 스탯 상승 확률 +20%', color: '#3dd68c' },
+    { id: 'genius', name: '천재형', emoji: '⚡', desc: '훈련 시 2단계 상승 가능', color: '#fbbf24' },
+    { id: 'anxiety', name: '불안형', emoji: '🌧️', desc: '멘탈 회복이 느리지만 팬심이 강함', color: '#60a5fa' },
+    { id: 'leader', name: '리더형', emoji: '👑', desc: '팀 전체 피로 회복 +10%', color: '#f97316' },
+    { id: 'sociable', name: '사교형', emoji: '🎉', desc: '예능 콘텐츠 효과 +15%', color: '#c084fc' },
+    { id: 'perfectionist', name: '완벽주의형', emoji: '🎯', desc: '비주얼 케어 효과 2배, 피로 누적 빠름', color: '#ff6b9d' },
+];
 
-    // === 게임 로직 ===
-    function startGame() {
-        document.getElementById('start-page').style.display = 'none';
-        document.getElementById('main-nav').style.display = 'flex';
-        document.getElementById('main-container').style.display = 'block';
-        document.getElementById('main-footer').style.display = 'block';
-        initRivalCharts(); 
-        updateDisplay();
-        renderHomeCharts('subak', 'daily');
-    }
+const staffPool = [
+    { id: 'vocal_trainer', name: '김성악', role: '보컬 트레이너', emoji: '🎤', salary: 5000000, effect: '매일 멤버 보컬 훈련 효과 +30%', effectFn: (gs) => { gs.staffBonus.vocal += 0.3; } },
+    { id: 'dance_teacher', name: '박댄스', role: '안무 선생', emoji: '💃', salary: 4500000, effect: '매일 멤버 댄스 훈련 효과 +30%', effectFn: (gs) => { gs.staffBonus.dance += 0.3; } },
+    { id: 'stylist', name: '이스타일', role: '전속 스타일리스트', emoji: '👗', salary: 3500000, effect: '비주얼 케어 효과 +50%, SNS 팔로워 성장 +10%', effectFn: (gs) => { gs.staffBonus.visual += 0.5; gs.staffBonus.snsMult += 0.1; } },
+    { id: 'pd', name: '최피디', role: '방송 PD', emoji: '🎬', salary: 6000000, effect: '컨텐츠 성공 확률 +15%, 예능 훈련 효과 +20%', effectFn: (gs) => { gs.staffBonus.contentSuccess += 0.15; gs.staffBonus.variety += 0.2; } },
+    { id: 'manager', name: '정매니저', role: '전속 매니저', emoji: '🧑‍💼', salary: 3000000, effect: '멤버 피로 회복 매일 +5%, 스케줄 관리 강화', effectFn: (gs) => { gs.staffBonus.fatigueRec += 5; } },
+    { id: 'composer', name: 'DJ 루나', role: '전속 작곡가', emoji: '🎵', salary: 8000000, effect: '음원 발매 시 차트 점수 +2000, 팬덤 유입 2배', effectFn: (gs) => { gs.staffBonus.chartBonus += 2000; } },
+    { id: 'social_manager', name: '한소셜', role: 'SNS 마케터', emoji: '📱', salary: 3500000, effect: 'SNS 팔로워 일일 성장 +500명, 유튜브 +200명', effectFn: (gs) => { gs.staffBonus.dailySns += 500; gs.staffBonus.dailyYt += 200; } },
+    { id: 'attorney', name: '법무팀 오', role: '계약 전문 변호사', emoji: '⚖️', salary: 7000000, effect: '멤버 재계약 비용 -30%, 협상력 강화', effectFn: (gs) => { gs.staffBonus.contractDiscount += 0.3; } },
+];
 
-    function createMember(name, birth, imgId, customStats, customUrl = null) {
-        let stats = customStats;
-        const mental = Math.floor(Math.random() * 90) + 11; 
-        const imageUrl = customUrl ? customUrl : `https://api.dicebear.com/7.x/avataaars/svg?seed=${name}`;
-        return { 
-            name, birth, image: imageUrl, 
-            vocal: stats.vocal, dance: stats.dance, visual: stats.visual, variety: stats.variety, charm: stats.charm, 
-            fatigue: 0, mental: mental, manualAct: null, equipment: [] 
-        };
-    }
+const rivalAgencies = [
+    { id: 'nexon_ent', name: '넥손 엔터', tier: '국내', color: '#3dd68c', artists: ["V-ZIT", "JOYN", "LYNQ"], comebackCooldown: 0, isComingBack: false, comebackDay: 0 },
+    { id: 'starfield', name: '스타필드', tier: '아시아', color: '#fbbf24', artists: ["KRYX", "QUV", "W-AVE"], comebackCooldown: 0, isComingBack: false, comebackDay: 0 },
+    { id: 'hybe_v', name: '하이브V', tier: '북미', color: '#ff6b9d', artists: ["N-ZIA", "RYZE-O", "SYLK"], comebackCooldown: 0, isComingBack: false, comebackDay: 0 },
+];
 
-    let gameState = {
-        day: 1, startDate: new Date('2025-09-05'), finance: 200000000, fandom: 110000, youtube: 20000, sns: 1000,
-        accumulatedSales: 0, 
-        currentTier: "루키",
-        activeCharts: [],
-        rivalCharts: [],
-        flags: { albumPaid: false, concertBought: false, concertDone: false },
-        currentChartPlatform: 'subak',
-        currentChartPeriod: 'daily',
-        members: [
-            createMember('키마', '04-22', 1, {vocal:8, dance:3, visual:3, variety:3, charm:3}, 'https://cdnimg.melon.co.kr/cm2/photo/images/000/803/29/513/80329513_20260120180131_org.jpg/melon/quality/80/optimize'), 
-            createMember('띵귤', '12-24', 2, {vocal:7, dance:3, visual:3, variety:4, charm:3}, 'https://cdnimg.melon.co.kr/cm2/photo/images/000/803/26/813/80326813_20251224160243_org.jpg/melon/quality/80/optimize'), 
-            createMember('챈나', '02-26', 3, {vocal:2, dance:5, visual:9, variety:2, charm:2}, 'https://cdnimg.melon.co.kr/cm2/photo/images/000/803/26/812/80326812_20251224160127_org.jpg/melon/quality/80/optimize'),
-            createMember('솜주먹', '11-11', 4, {vocal:2, dance:2, visual:3, variety:9, charm:4}, 'https://cdnimg.melon.co.kr/cm2/photo/images/000/803/26/815/80326815_20251224160500_org.jpg/melon/quality/80/optimize'), 
-            createMember('연초록', '03-26', 5, {vocal:7, dance:2, visual:5, variety:2, charm:4}, 'https://cdnimg.melon.co.kr/cm2/photo/images/000/803/26/814/80326814_20251224160415_org.jpg/melon/quality/80/optimize'),
-        ],
-        community: [], popupQueue: [], weeklyStats: [], hasPostedThisWeek: false,
-        lastContents: { short: -999, mid: -999, long: -999 },
-        inventory: []
+const scheduleActions = [
+    { id: 'vocal', label: '보컬', emoji: '🎤', class: 'sched-vocal' },
+    { id: 'dance', label: '댄스', emoji: '💃', class: 'sched-dance' },
+    { id: 'visual', label: '비주얼', emoji: '✨', class: 'sched-visual' },
+    { id: 'variety', label: '예능', emoji: '🗣️', class: 'sched-variety' },
+    { id: 'charm', label: '매력', emoji: '🎀', class: 'sched-charm' },
+    { id: 'stream', label: '방송', emoji: '📡', class: 'sched-stream' },
+    { id: 'rest', label: '휴식', emoji: '💤', class: 'sched-rest' },
+];
+
+const shopItems = [
+    { id: 'mic_1', name: 'USB 마이크', price: 300000, stat: 'vocal', val: 1, desc: '가성비 마이크' },
+    { id: 'cam_1', name: 'FHD 웹캠', price: 500000, stat: 'visual', val: 1, desc: '기본 캠' },
+    { id: 'light_1', name: '방송용 조명', price: 800000, stat: 'charm', val: 1, desc: '화사한 조명' },
+    { id: 'mic_2', name: '콘덴서 마이크', price: 2000000, stat: 'vocal', val: 1, desc: '깔끔한 음질' },
+    { id: 'cpu_1', name: '방송 송출컴', price: 2500000, stat: 'variety', val: 1, desc: '렉 없는 방송' },
+    { id: 'tracker_1', name: '보급형 트래커', price: 3000000, stat: 'dance', val: 1, desc: '기본 모션캡쳐' },
+];
+
+const contentTypes = {
+    short: { id: 'short', name: '커버곡 / 숏츠 챌린지', type: '단기', badge: 'badge-short', cooldown: 14, cost: 2000000, risk: 10, desc: '트렌드를 따라가는 가벼운 컨텐츠', rewardMin: 1500, rewardMax: 3000 },
+    mid: { id: 'mid', name: '합동 모션캡쳐 기획', type: '중기', badge: 'badge-mid', cooldown: 30, cost: 15000000, risk: 20, desc: '타 기업과 기술 제휴 합방', rewardMin: 8000, rewardMax: 15000 },
+    long: { id: 'long', name: '싱글 발매 / 단독 콘서트', type: '장기', badge: 'badge-long', cooldown: 90, cost: 50000000, risk: 30, desc: '그룹의 사활을 건 대형 프로젝트', rewardMin: 40000, rewardMax: 80000 }
+};
+
+const upgradeConfig = { 0: { chance: 0.8, costMult: 0.3 }, 1: { chance: 0.5, costMult: 0.6 }, 2: { chance: 0.3, costMult: 1.0 } };
+const tierOrder = ["UNRANKED","루키","라이징스타","국내에서 알려짐","아시아에서 알려짐","북미에서 알려짐","전세계에서 알려짐"];
+
+const ebemMsgs = ["하데스 얘네는 진짜 모델링 퀄리티가 볼 때마다 감탄 나오네.","키마 오늘 고음 뚫리는 거 보니까 목 상태 최상인 듯?","띵귤 방송 감각은 진짜 타고났다.","연초록 아바타 텍스처 수정한 거임? 광택이 달라진 거 같은데.","솔직히 이 정도 퀄리티면 메이저랑 비벼도 안 꿀림.","챈나 춤선 억까하던 놈들 다 어디 갔냐? 리깅 자연스러운 거 봐라.","솜주먹 예능감 미쳤네. 오늘 클립 각 하나 나왔다.","하데스 애들 연습량 진짜 장난 아닌 듯. 성장 속도가 보임.","방금 리액션 타이밍 지렸다. 이게 버추얼의 맛이지.","하데스 유입인데 입덕 가이드 어디서 봄?","오늘 방송 보고 구독 눌렀다.","얘네는 멤버들끼리 티키타카가 잘 돼서 보기 편함.","하데스 정도면 버추얼 씬에서 탑티어 인정이지."];
+const cafeMsgs = ["하데스 멤버들 오늘도 고생 많았어요!","키마님 목소리는 지친 일상의 유일한 비타민이에요.","오늘 띵귤님 덕분에 배꼽 빠지게 웃었네요.","챈나님 미모가 매일 경신되는데... 제 심장 책임지세요!","연초록님의 따뜻한 위로 방송 덕분에 오늘 힐링하고 갑니다.","솜주먹님 매력에 한 번 빠지면 출구가 없다는 게 학계의 정설!","하데스 공식 굿즈 기다리고 있어요. 통장은 준비됐습니다!","오늘 무대 보는데 눈물 날 뻔했어요. 우리 애들 다 컸네...","항상 노력하는 모습이 너무 예쁜 하데스, 오래오래 가자!","세상에서 제일 빛나는 5명의 별, 하데스 사랑해!"];
+const yzMsgs = ["와 노래 퀄리티 미쳤네","버추얼 판 커지긴 했다","이번 앨범 대박 조짐 보이는데?","솔직히 얘네가 기술력은 원탑인 듯","라이브 안정적인 거 보소","오늘 방송 레전드 찍었네 ㅋㅋ","하데스 붐은 온다...","구독 눌렀음 기대해봄"];
+const musicReactions = ["이번 노래 편의점에서 계속 나옴 ㅋㅋ","TV 광고 보는데 하데스 노래 나와서 깜놀","후렴구 진짜 중독성 미쳤다","길거리 지나가는데 이 노래 들림","수능 금지곡 확정"];
+const newsHeadlines = ["버추얼 시장 급성장","대기업, 버추얼 진출","MZ세대 장래희망 1위 크리에이터","음방에 버추얼 등장","8K 모션캡쳐 시대","유명 작곡가 버추얼 협업 희망","K-POP 다음은 V-POP?","버추얼 굿즈 품귀","정부 크리에이터 지원","메타버스 콘서트 인기"];
+
+// ═══════════════════════════════════════════
+//  게임 상태
+// ═══════════════════════════════════════════
+function pickTrait() { return memberTraits[Math.floor(Math.random() * memberTraits.length)]; }
+function getRandomSong() { return kpopSongTitles[Math.floor(Math.random() * kpopSongTitles.length)]; }
+
+function createMember(name, birth, customStats, customUrl = null) {
+    const trait = pickTrait();
+    return {
+        name, birth,
+        image: customUrl || `https://api.dicebear.com/7.x/avataaars/svg?seed=${name}`,
+        vocal: customStats.vocal, dance: customStats.dance,
+        visual: customStats.visual, variety: customStats.variety, charm: customStats.charm,
+        fatigue: 0, mental: Math.floor(Math.random() * 50) + 50,
+        trait: trait.id,
+        equipment: [],
+        contractEnd: 365, // 계약 만료일 (일수)
+        renewalRequested: false,
+        weekSchedule: [null,null,null,null,null,null,null],
     };
+}
 
-    function initRivalCharts() {
-        if (gameState.rivalCharts.length > 0) return;
-        for(let i=0; i<60; i++) {
-            const artist = rivalArtists[Math.floor(Math.random() * rivalArtists.length)];
-            const title = getRandomSong();
-            const baseScore = Math.floor(Math.random() * 9500) + 500;
-            const createScoreObj = (base) => ({
-                daily: base,
-                monthly: base * 30 + Math.floor(Math.random()*5000),
-                yearly: base * 365 + Math.floor(Math.random()*50000)
-            });
-            gameState.rivalCharts.push({
-                artist: artist, title: title,
-                scores: { subak: createScoreObj(baseScore), musicside: createScoreObj(baseScore), tube: createScoreObj(baseScore) },
-                prevRanks: { subak: 0, musicside: 0, tube: 0 } 
-            });
-        }
-        updateChartRanks();
-    }
+let gameState = {
+    day: 1,
+    startDate: new Date('2025-09-05'),
+    finance: 200000000,
+    fandom: 110000,
+    youtube: 20000,
+    sns: 1000,
+    accumulatedSales: 0,
+    currentTier: "루키",
+    activeCharts: [],
+    rivalCharts: [],
+    rivalAgencies: JSON.parse(JSON.stringify(rivalAgencies)),
+    flags: { albumPaid: false, concertBought: false, concertDone: false },
+    currentChartPlatform: 'subak',
+    currentChartPeriod: 'daily',
+    members: [
+        createMember('키마','04-22',{vocal:8,dance:3,visual:3,variety:3,charm:3},'https://cdnimg.melon.co.kr/cm2/photo/images/000/803/29/513/80329513_20260120180131_org.jpg/melon/quality/80/optimize'),
+        createMember('띵귤','12-24',{vocal:7,dance:3,visual:3,variety:4,charm:3},'https://cdnimg.melon.co.kr/cm2/photo/images/000/803/26/813/80326813_20251224160243_org.jpg/melon/quality/80/optimize'),
+        createMember('챈나','02-26',{vocal:2,dance:5,visual:9,variety:2,charm:2},'https://cdnimg.melon.co.kr/cm2/photo/images/000/803/26/812/80326812_20251224160127_org.jpg/melon/quality/80/optimize'),
+        createMember('솜주먹','11-11',{vocal:2,dance:2,visual:3,variety:9,charm:4},'https://cdnimg.melon.co.kr/cm2/photo/images/000/803/26/815/80326815_20251224160500_org.jpg/melon/quality/80/optimize'),
+        createMember('연초록','03-26',{vocal:7,dance:2,visual:5,variety:2,charm:4},'https://cdnimg.melon.co.kr/cm2/photo/images/000/803/26/814/80326814_20251224160415_org.jpg/melon/quality/80/optimize'),
+    ],
+    hiredStaff: [],
+    staffBonus: { vocal:0, dance:0, visual:0, variety:0, charm:0, snsMult:0, contentSuccess:0, fatigueRec:0, chartBonus:0, dailySns:0, dailyYt:0, contractDiscount:0 },
+    community: [],
+    popupQueue: [],
+    weeklyStats: [],
+    lastContents: { short: -999, mid: -999, long: -999 },
+    inventory: [],
+    broadcastWins: { inkigayo: 0, musicbank: 0, showchamp: 0 },
+};
 
-    const shopItems = [
-        { id: 'mic_1', name: 'USB 마이크', price: 300000, stat: 'vocal', val: 1, desc: '가성비 마이크 (보컬+1)' },
-        { id: 'cam_1', name: 'FHD 웹캠', price: 500000, stat: 'visual', val: 1, desc: '기본 캠 (비주얼+1)' },
-        { id: 'light_1', name: '방송용 조명', price: 800000, stat: 'charm', val: 1, desc: '화사한 조명 (매력+1)' },
-        { id: 'mic_2', name: '콘덴서 마이크', price: 2000000, stat: 'vocal', val: 1, desc: '깔끔한 음질 (보컬+1)' },
-        { id: 'cpu_1', name: '방송 송출컴', price: 2500000, stat: 'variety', val: 1, desc: '렉 없는 방송 (예능+1)' },
-        { id: 'tracker_1', name: '보급형 트래커', price: 3000000, stat: 'dance', val: 1, desc: '기본적인 움직임 (댄스+1)' }
-    ];
+// ═══════════════════════════════════════════
+//  초기화
+// ═══════════════════════════════════════════
+function startGame() {
+    document.getElementById('start-page').style.display = 'none';
+    document.getElementById('main-nav').style.display = 'block';
+    document.getElementById('main-container').style.display = 'block';
+    document.getElementById('main-footer').style.display = 'block';
+    initRivalCharts();
+    showTutorial();
+}
 
-    const contentTypes = {
-        short: { id: 'short', name: '커버곡 / 숏츠 챌린지', type: '단기', badge: 'badge-short', cooldown: 14, cost: 2000000, risk: 10, desc: '트렌드를 따라가는 가벼운 컨텐츠', rewardMin: 1500, rewardMax: 3000 },
-        mid: { id: 'mid', name: '합동 모션캡쳐 기획', type: '중기', badge: 'badge-mid', cooldown: 30, cost: 15000000, risk: 20, desc: '타 기업세/개인세와 기술 제휴 합방', rewardMin: 8000, rewardMax: 15000 },
-        long: { id: 'long', name: '싱글 발매 / 단독 콘서트', type: '장기', badge: 'badge-long', cooldown: 90, cost: 50000000, risk: 30, desc: '그룹의 사활을 건 대형 프로젝트', rewardMin: 40000, rewardMax: 80000 }
-    };
+function showTutorial() {
+    document.getElementById('modal-title').innerText = '🌟 HADES v24.0 시작 가이드';
+    document.getElementById('modal-body').innerHTML = `
+        <div class="tutorial-step"><strong>📅 주간 스케줄</strong><br>멤버별로 이번 주 7일치 활동을 미리 배정하세요. 훈련/방송/휴식 배분이 팀 성장의 핵심입니다.</div>
+        <div class="tutorial-step"><strong>🧑‍💼 스태프 고용</strong><br>보컬 트레이너, PD, 매니저 등을 고용하면 매달 월급이 나가지만 팀이 빠르게 성장합니다.</div>
+        <div class="tutorial-step"><strong>⚔️ 라이벌 관리</strong><br>라이벌 기획사가 컴백을 예고하면 차트 경쟁이 치열해집니다. 미리 준비하세요!</div>
+        <div class="tutorial-step"><strong>💸 12월 25일</strong><br>정규 앨범 & 콘서트 정산일! 1억 6천만원이 필요합니다. 자금 관리를 철저히 하세요.</div>
+    `;
+    document.getElementById('modal-choices').innerHTML = `<button class="primary-btn" onclick="closeModal(); updateDisplay(); renderHomeCharts('subak','daily');">게임 시작!</button>`;
+    document.getElementById('eventModal').style.display = 'block';
+}
 
-    const newsHeadlines = ["버추얼 시장 급성장", "대기업, 버추얼 진출", "MZ세대 장래희망 1위 크리에이터", "음방에 버추얼 등장", "8K 모션캡쳐 시대", "유명 작곡가 버추얼 협업 희망", "K-POP 다음은 V-POP?", "버추얼 굿즈 품귀", "정부 크리에이터 지원", "메타버스 콘서트 인기"];
-    const musicReactions = ["이번 노래 편의점에서 계속 나옴 ㅋㅋ", "TV 광고 보는데 하데스 노래 나와서 깜놀", "후렴구 진짜 중독성 미쳤다", "길거리 지나가는데 이 노래 들림", "수능 금지곡 확정"];
-    const upgradeConfig = { 0: { chance: 0.8, costMult: 0.3 }, 1: { chance: 0.5, costMult: 0.6 }, 2: { chance: 0.3, costMult: 1.0 } };
-    const tierOrder = ["UNRANKED", "루키", "라이징스타", "국내에서 알려짐", "아시아에서 알려짐", "북미에서 알려짐", "전세계에서 알려짐"];
-
-    function saveGame() { localStorage.setItem('hades_save_v23', JSON.stringify(gameState)); alert("저장되었습니다."); }
-    function loadGame() { 
-        const saved = localStorage.getItem('hades_save_v23'); 
-        if (!saved) return alert("데이터 없음"); 
-        const loaded = JSON.parse(saved);
-        loaded.members.forEach((m, i) => { 
-            if(!m.equipment) m.equipment = []; 
-            if(!m.mental) m.mental = Math.floor(Math.random() * 90) + 11;
-            if(!m.image) m.image = `https://api.dicebear.com/7.x/avataaars/svg?seed=${m.name}`;
-            m.equipment.forEach(e => { if(e.level === undefined) e.level = 0; });
+function initRivalCharts() {
+    if (gameState.rivalCharts.length > 0) return;
+    for (let i = 0; i < 60; i++) {
+        const artist = rivalArtists[Math.floor(Math.random() * rivalArtists.length)];
+        const title = getRandomSong();
+        const base = Math.floor(Math.random() * 9500) + 500;
+        const cs = (b) => ({ daily: b, monthly: b*30 + Math.floor(Math.random()*5000), yearly: b*365 + Math.floor(Math.random()*50000) });
+        gameState.rivalCharts.push({
+            artist, title,
+            scores: { subak: cs(base), musicside: cs(base), tube: cs(base) },
+            prevRanks: { subak: 0, musicside: 0, tube: 0 }
         });
-        if(!loaded.inventory) loaded.inventory = [];
-        if(loaded.accumulatedSales === undefined) loaded.accumulatedSales = 0;
-        if(!loaded.flags) loaded.flags = { albumPaid: false, concertBought: false, concertDone: false };
-        if(!loaded.activeCharts) loaded.activeCharts = [];
-        if(!loaded.rivalCharts || loaded.rivalCharts.length === 0) { loaded.rivalCharts = []; initRivalCharts(); }
+    }
+    updateChartRanks();
+}
 
-        gameState = loaded; gameState.startDate = new Date(gameState.startDate); 
-        const score = calculateTierScore();
-        const rankInfo = getTierInfo(score);
-        gameState.currentTier = rankInfo.name;
-        updateDisplay(); alert("불러오기 완료"); 
+// ═══════════════════════════════════════════
+//  저장/불러오기
+// ═══════════════════════════════════════════
+function saveGame() {
+    const toSave = JSON.parse(JSON.stringify(gameState));
+    localStorage.setItem('hades_save_v24', JSON.stringify(toSave));
+    alert('저장되었습니다.');
+}
+function loadGame() {
+    const saved = localStorage.getItem('hades_save_v24');
+    if (!saved) return alert('저장 데이터 없음');
+    const loaded = JSON.parse(saved);
+    loaded.members.forEach(m => {
+        if (!m.equipment) m.equipment = [];
+        if (!m.mental) m.mental = 70;
+        if (!m.trait) m.trait = pickTrait().id;
+        if (!m.contractEnd) m.contractEnd = 365;
+        if (!m.weekSchedule) m.weekSchedule = [null,null,null,null,null,null,null];
+        m.equipment.forEach(e => { if (e.level === undefined) e.level = 0; });
+    });
+    if (!loaded.hiredStaff) loaded.hiredStaff = [];
+    if (!loaded.staffBonus) loaded.staffBonus = { vocal:0,dance:0,visual:0,variety:0,charm:0,snsMult:0,contentSuccess:0,fatigueRec:0,chartBonus:0,dailySns:0,dailyYt:0,contractDiscount:0 };
+    if (!loaded.rivalAgencies) loaded.rivalAgencies = JSON.parse(JSON.stringify(rivalAgencies));
+    if (!loaded.broadcastWins) loaded.broadcastWins = { inkigayo:0, musicbank:0, showchamp:0 };
+    if (!loaded.inventory) loaded.inventory = [];
+    if (!loaded.accumulatedSales) loaded.accumulatedSales = 0;
+    if (!loaded.flags) loaded.flags = { albumPaid:false, concertBought:false, concertDone:false };
+    if (!loaded.activeCharts) loaded.activeCharts = [];
+    if (!loaded.rivalCharts || loaded.rivalCharts.length === 0) { loaded.rivalCharts = []; }
+    gameState = loaded;
+    gameState.startDate = new Date(gameState.startDate);
+    recalcStaffBonus();
+    updateDisplay();
+    alert('불러오기 완료!');
+}
+
+// ═══════════════════════════════════════════
+//  스태프
+// ═══════════════════════════════════════════
+function recalcStaffBonus() {
+    gameState.staffBonus = { vocal:0,dance:0,visual:0,variety:0,charm:0,snsMult:0,contentSuccess:0,fatigueRec:0,chartBonus:0,dailySns:0,dailyYt:0,contractDiscount:0 };
+    gameState.hiredStaff.forEach(sid => {
+        const s = staffPool.find(p => p.id === sid);
+        if (s) s.effectFn(gameState);
+    });
+}
+
+function calcMonthlySalaryCost() {
+    return gameState.hiredStaff.reduce((sum, sid) => {
+        const s = staffPool.find(p => p.id === sid);
+        return sum + (s ? s.salary : 0);
+    }, 0);
+}
+
+function renderStaffPage() {
+    const hiredEl = document.getElementById('hired-staff-list');
+    const availEl = document.getElementById('available-staff-list');
+    const monthlyCost = calcMonthlySalaryCost();
+
+    if (gameState.hiredStaff.length === 0) {
+        hiredEl.innerHTML = '<div style="font-size:13px; color:var(--text2);">고용된 스태프가 없습니다.</div>';
+    } else {
+        hiredEl.innerHTML = `<div style="font-size:12px; color:var(--danger); font-weight:700; margin-bottom:12px;">월 총 급여: ${monthlyCost.toLocaleString()}원</div>` +
+            gameState.hiredStaff.map(sid => {
+                const s = staffPool.find(p => p.id === sid);
+                if (!s) return '';
+                return `<div class="staff-card">
+                    <div class="staff-info">
+                        <div class="staff-avatar">${s.emoji}</div>
+                        <div class="staff-meta">
+                            <div class="staff-name">${s.name}</div>
+                            <div class="staff-role">${s.role}</div>
+                            <div class="staff-effect">✅ ${s.effect}</div>
+                            <div class="staff-salary">월급: ${s.salary.toLocaleString()}원</div>
+                        </div>
+                        <button class="fire-btn" onclick="fireStaff('${s.id}')">해고</button>
+                    </div>
+                </div>`;
+            }).join('');
     }
 
-    const ebemMsgs = ["하데스 얘네는 진짜 모델링 퀄리티가 볼 때마다 감탄 나오네.", "키마 오늘 고음 뚫리는 거 보니까 목 상태 최상인 듯?", "띵귤 방송 감각은 진짜 타고났다. 오디오 안 비는 거 봐라 ㅋㅋㅋ", "연초록 아바타 텍스처 수정한 거임? 광택이 좀 달라진 거 같은데.", "솔직히 이 정도 퀄리티면 메이저랑 비벼도 안 꿀림.", "아니 챈나 춤선 억까하던 놈들 다 어디 갔냐? 리깅 자연스러운 거 봐라.", "솜주먹 예능감 미쳤네. 오늘 클립 각 하나 나왔다.", "근데 하데스 애들 연습량 진짜 장난 아닌 듯. 성장 속도가 보임.", "방금 리액션 타이밍 지렸다. 이게 버추얼의 맛이지.", "하데스 유입인데 입덕 가이드 어디서 봄?", "오늘 방송 보고 구독 눌렀다. 노래 주머니 든든하네.", "얘네는 멤버들끼리 티키타카가 잘 돼서 보기 편함.", "연초록 비주얼 실화냐? 썸네일 보고 홀린 듯 들어옴.", "솔직히 3D 라이브 할 때마다 기술력 발전하는 거 체감됨.", "키마 목소리는 진짜 독보적이다. 커버곡 하나 더 뽑아주라.", "오늘 띵귤 드립 때문에 광대 아파서 방송 못 보겠음 ㅋㅋㅋ", "하데스 정도면 버추얼 씬에서 탑티어 인정이지."];
-    const cafeMsgs = ["하데스 멤버들 오늘도 고생 많았어요! 푹 쉬어요~", "케로 1기 여기 여기 모여라! 우리 하데스 지켜!", "키마님 목소리는 제 지친 일상의 유일한 비타민이에요.", "오늘 띵귤님 덕분에 배꼽 빠지게 웃었네요. 항상 고마워요!", "우리 챈나님 미모가 매일 경신되는데... 제 심장 책임지세요!", "연초록님의 따뜻한 위로 방송 덕분에 오늘 힐링하고 갑니다.", "솜주먹님 매력에 한 번 빠지면 출구가 없다는 게 학계의 정설!", "하데스 공식 굿즈 기다리고 있어요. 통장은 준비됐습니다!", "오늘 무대 보는데 눈물 날 뻔했어요. 우리 애들 다 컸네...", "항상 노력하는 모습이 너무 예쁜 하데스, 오래오래 가자!", "팬아트 그려봤는데 예쁘게 봐주시면 좋겠어요~", "우리 하데스 슈스길만 걷자! 언제나 응원할게.", "멤버들 건강이 최우선인 거 알죠? 아프지 마요 ㅠㅠ", "오늘 방송도 레전드! 하데스 덕분에 내일 출근도 버팁니다.", "세상에서 제일 빛나는 5명의 별, 하데스 사랑해!", "챈나님 댄스 브레이크 부분 무한 반복 중입니다. 너무 멋져요!", "노래면 노래, 춤이면 춤, 못하는 게 없는 하데스 최고!", "하데스 만나고 제 삶이 행복해졌어요. 고마워요 멤버들!", "오늘 밤은 하데스 노래 들으면서 좋은 꿈 꿀게요~"];
-    const yzMsgs = ["와 노래 퀄리티 미쳤네", "버추얼 판 커지긴 했다", "이번 앨범 대박 조짐 보이는데?", "솔직히 얘네가 기술력은 원탑인 듯", "라이브 안정적인 거 보소", "비주얼 멤버 모델링 깎은 사람 상 줘라", "오늘 방송 레전드 찍었네 ㅋㅋ", "하데스 붐은 온다...", "구독 눌렀음 기대해봄", "이 정도면 대기업 아님?"];
+    availEl.innerHTML = staffPool.filter(s => !gameState.hiredStaff.includes(s.id)).map(s => `
+        <div class="staff-card">
+            <div class="staff-info">
+                <div class="staff-avatar">${s.emoji}</div>
+                <div class="staff-meta">
+                    <div class="staff-name">${s.name}</div>
+                    <div class="staff-role">${s.role}</div>
+                    <div class="staff-effect">📌 ${s.effect}</div>
+                    <div class="staff-salary">월급: ${s.salary.toLocaleString()}원</div>
+                </div>
+                <button class="hire-btn" onclick="hireStaff('${s.id}')" ${gameState.finance < s.salary*3 ? 'disabled style="opacity:0.4;"' : ''}>고용</button>
+            </div>
+        </div>
+    `).join('') || '<div style="font-size:13px; color:var(--text2);">모든 스태프가 고용됐습니다.</div>';
+}
 
-    window.addEventListener('keydown', e => { 
-        if (e.code === 'Space') {
-            const modal = document.getElementById('eventModal');
-            if (modal.style.display === 'block') {
-                const btn = modal.querySelector('.primary-btn, .choice-btn');
-                if(btn) btn.click();
-            } else { if(document.getElementById('start-page').style.display === 'none') nextDay(); }
+function hireStaff(id) {
+    const s = staffPool.find(p => p.id === id);
+    if (!s) return;
+    if (gameState.finance < s.salary * 3) return alert('자금이 부족합니다. (최소 3개월치 급여 필요)');
+    gameState.hiredStaff.push(id);
+    recalcStaffBonus();
+    alert(`${s.name}을(를) 고용했습니다! 매월 ${s.salary.toLocaleString()}원 지급됩니다.`);
+    updateDisplay();
+    renderStaffPage();
+}
+function fireStaff(id) {
+    const s = staffPool.find(p => p.id === id);
+    if (!confirm(`${s.name}을(를) 해고하시겠습니까?`)) return;
+    gameState.hiredStaff = gameState.hiredStaff.filter(sid => sid !== id);
+    recalcStaffBonus();
+    alert('해고되었습니다.');
+    updateDisplay();
+    renderStaffPage();
+}
+
+// ═══════════════════════════════════════════
+//  스케줄
+// ═══════════════════════════════════════════
+let pendingSchedule = {}; // memberIdx -> [7 actions]
+let editingCell = null;
+
+function renderSchedulePage() {
+    const grid = document.getElementById('schedule-grid');
+    const days = ['월','화','수','목','금','토','일'];
+
+    // 헤더
+    let html = `<div class="schedule-header"></div>`;
+    days.forEach(d => { html += `<div class="schedule-header">${d}</div>`; });
+
+    // 멤버 행
+    gameState.members.forEach((m, mi) => {
+        if (!pendingSchedule[mi]) pendingSchedule[mi] = [...(m.weekSchedule || [null,null,null,null,null,null,null])];
+        html += `<div class="schedule-member">${m.name}</div>`;
+        for (let di = 0; di < 7; di++) {
+            const act = pendingSchedule[mi][di];
+            const actInfo = act ? scheduleActions.find(a => a.id === act) : null;
+            html += `<div class="schedule-cell ${actInfo ? actInfo.class : ''}" onclick="openSchedCell(${mi},${di})">${actInfo ? actInfo.emoji : '—'}</div>`;
         }
     });
 
-    function updateFandom(val) {
-        gameState.fandom = Math.max(0, gameState.fandom + val);
-        gameState.youtube += Math.floor(val * 0.7);
-        gameState.sns += Math.floor(val * 1.2);
-    }
+    grid.innerHTML = html;
+    grid.style.gridTemplateColumns = `80px repeat(7, 1fr)`;
 
-    function getEquipVal(item) {
-        let bonus = 0;
-        if (item.level === 1) bonus = 1; else if (item.level === 2) bonus = 3; else if (item.level >= 3) bonus = 5;
-        return item.val + bonus;
-    }
+    // 범례
+    const legend = document.getElementById('schedule-legend');
+    legend.innerHTML = scheduleActions.map(a => `<span style="font-size:11px; padding:3px 8px; border-radius:4px;" class="${a.class}">${a.emoji} ${a.label}</span>`).join('');
+}
 
-    function calculateTierScore() {
-        const salesScore = Math.floor(gameState.accumulatedSales / 10000);
-        return gameState.fandom + Math.floor(gameState.youtube * 0.5) + Math.floor(gameState.sns * 0.2) + salesScore;
-    }
+function openSchedCell(mi, di) {
+    editingCell = { mi, di };
+    const choices = document.getElementById('sched-choices');
+    choices.innerHTML = scheduleActions.map(a => `
+        <button class="choice-btn ${a.class}" onclick="setSchedCell('${a.id}')" style="margin-bottom:6px;">
+            <span>${a.emoji} ${a.label}</span>
+        </button>
+    `).join('') + `<button class="choice-btn" onclick="setSchedCell(null)"><span>— 비우기</span></button>`;
+    document.getElementById('schedModal').style.display = 'block';
+}
 
-    function getTierInfo(score) {
-        if (score >= 15000000) return { name: "전세계에서 알려짐", class: "tier-world" };
-        if (score >= 6000000) return { name: "북미에서 알려짐", class: "tier-na" };
-        if (score >= 2000000) return { name: "아시아에서 알려짐", class: "tier-asia" };
-        if (score >= 600000) return { name: "국내에서 알려짐", class: "tier-domestic" };
-        if (score >= 200000) return { name: "라이징스타", class: "tier-rising" };
-        return { name: "루키", class: "tier-rookie" };
+function setSchedCell(actId) {
+    if (editingCell) {
+        pendingSchedule[editingCell.mi][editingCell.di] = actId;
     }
+    closeSchedModal();
+    renderSchedulePage();
+}
 
-    function updateChartRanks() {
-        const allSongs = [];
-        gameState.rivalCharts.forEach(rc => {
-            allSongs.push({ artist: rc.artist, title: rc.title, scores: rc.scores, isPlayer: false, ref: rc });
-        });
-        gameState.activeCharts.forEach(ac => {
-            if(ac.weekCount < 6) { 
-                allSongs.push({ artist: "HADES", title: ac.name, scores: ac.scores, isPlayer: true, ref: ac });
+function closeSchedModal() {
+    document.getElementById('schedModal').style.display = 'none';
+    editingCell = null;
+}
+
+function saveSchedule() {
+    gameState.members.forEach((m, mi) => {
+        m.weekSchedule = pendingSchedule[mi] ? [...pendingSchedule[mi]] : [null,null,null,null,null,null,null];
+    });
+    renderConfirmedSchedule();
+    alert('스케줄이 확정되었습니다!');
+}
+
+function renderConfirmedSchedule() {
+    const days = ['월','화','수','목','금','토','일'];
+    const el = document.getElementById('confirmed-schedule');
+    let html = '';
+    gameState.members.forEach(m => {
+        html += `<div style="margin-bottom:8px;"><strong>${m.name}</strong>: `;
+        html += m.weekSchedule.map((a, i) => {
+            const info = a ? scheduleActions.find(x => x.id === a) : null;
+            return `<span style="margin-right:4px;">${days[i]}:${info ? info.emoji : '—'}</span>`;
+        }).join('');
+        html += '</div>';
+    });
+    el.innerHTML = html || '스케줄 없음';
+}
+
+// ═══════════════════════════════════════════
+//  라이벌
+// ═══════════════════════════════════════════
+function renderRivalPage() {
+    const listEl = document.getElementById('rival-agency-list');
+    const industryEl = document.getElementById('industry-status');
+
+    listEl.innerHTML = gameState.rivalAgencies.map(agency => {
+        const tierColor = agency.tier === '북미' ? '#ff6b9d' : agency.tier === '아시아' ? '#fbbf24' : '#3dd68c';
+        let statusHtml = '';
+        if (agency.isComingBack) {
+            const daysLeft = agency.comebackDay - gameState.day;
+            if (daysLeft > 0) {
+                statusHtml = `<div class="rival-warning">⚠️ 컴백 예고! D-${daysLeft} — 차트 경쟁 대비 필요</div>`;
+            } else {
+                statusHtml = `<div class="rival-warning">🔥 현재 활동 중! 차트 점수 +50% 상승 중</div>`;
+            }
+        }
+        return `<div class="rival-card">
+            <div class="rival-header">
+                <div class="rival-name">${agency.name}</div>
+                <div class="rival-tier" style="background:${tierColor}22; color:${tierColor};">${agency.tier} 티어</div>
+            </div>
+            <div class="rival-activity">소속 아티스트: ${agency.artists.join(' · ')}</div>
+            ${statusHtml}
+        </div>`;
+    }).join('');
+
+    // 업계 현황
+    const totalFandom = gameState.fandom + gameState.youtube + Math.floor(gameState.sns * 0.3);
+    industryEl.innerHTML = `
+        <div style="font-size:13px; line-height:2;">
+            <div>🏆 현재 인지도: <strong style="color:var(--point)">${gameState.currentTier}</strong></div>
+            <div>👥 통합 팬덤 규모: <strong>${totalFandom.toLocaleString()}명</strong></div>
+            <div>📀 음원 1위 횟수: <strong>${(gameState.broadcastWins.inkigayo + gameState.broadcastWins.musicbank + gameState.broadcastWins.showchamp)}회</strong></div>
+            <div>📺 방송 1위: 인기가요 ${gameState.broadcastWins.inkigayo}회 · 뮤직뱅크 ${gameState.broadcastWins.musicbank}회 · 쇼챔피언 ${gameState.broadcastWins.showchamp}회</div>
+        </div>
+    `;
+}
+
+function processRivalAgencies() {
+    gameState.rivalAgencies.forEach(agency => {
+        // 컴백 쿨다운 감소
+        if (agency.comebackCooldown > 0) agency.comebackCooldown--;
+
+        // 랜덤 컴백 예고
+        if (!agency.isComingBack && agency.comebackCooldown === 0 && Math.random() < 0.008) {
+            agency.isComingBack = true;
+            agency.comebackDay = gameState.day + Math.floor(Math.random() * 21) + 14;
+            const daysLeft = agency.comebackDay - gameState.day;
+            gameState.popupQueue.push({
+                type: 'rival_comeback',
+                event: {
+                    id: 'rc_'+agency.id+'_'+gameState.day,
+                    title: `⚠️ [긴급] ${agency.name} 컴백 예고`,
+                    desc: `경쟁사 ${agency.name}이(가) ${daysLeft}일 후 컴백을 예고했습니다!\n소속 아티스트들이 차트에 쏟아질 예정입니다. 음원 발매나 콘텐츠 강화로 대비하세요.`,
+                    choices: [{ text: '확인 (긴장됨...)', effect: () => {} }]
+                }
+            });
+            gameState.community.push({ site: '속보', content: `<b>[속보] ${agency.name} 컴백 D-${daysLeft} 예고 — 차트 전쟁 예상</b>` });
+        }
+
+        // 컴백 완료 처리
+        if (agency.isComingBack && gameState.day >= agency.comebackDay) {
+            // 라이벌 차트 점수 부스트
+            gameState.rivalCharts.forEach(rc => {
+                if (agency.artists.includes(rc.artist)) {
+                    rc.scores.subak.daily += 3000 + Math.floor(Math.random() * 2000);
+                    rc.scores.musicside.daily += 3000 + Math.floor(Math.random() * 2000);
+                    rc.scores.tube.daily += 3000 + Math.floor(Math.random() * 2000);
+                }
+            });
+            // 새 노래 추가
+            const newSong = getRandomSong();
+            const newArtist = agency.artists[Math.floor(Math.random() * agency.artists.length)];
+            const base = 6000 + Math.floor(Math.random() * 3000);
+            const cs = (b) => ({ daily: b, monthly: b*15, yearly: b*100 });
+            gameState.rivalCharts.push({ artist: newArtist, title: newSong, scores: { subak: cs(base), musicside: cs(base), tube: cs(base) }, prevRanks: { subak:0, musicside:0, tube:0 } });
+
+            agency.isComingBack = false;
+            agency.comebackCooldown = 60 + Math.floor(Math.random() * 60);
+        }
+    });
+}
+
+// ═══════════════════════════════════════════
+//  차트
+// ═══════════════════════════════════════════
+function updateChartRanks() {
+    const allSongs = [
+        ...gameState.rivalCharts.map(rc => ({...rc, isPlayer: false})),
+        ...gameState.activeCharts.filter(ac => ac.weekCount < 6).map(ac => ({artist:'HADES', title:ac.name, scores:ac.scores, prevRanks:ac.prevRanks, isPlayer:true}))
+    ];
+    ['subak','musicside','tube'].forEach(plat => {
+        const sorted = [...allSongs].sort((a,b) => b.scores[plat].daily - a.scores[plat].daily);
+        sorted.forEach((song, idx) => {
+            if (!song.prevRanks) song.prevRanks = {};
+            const prev = song.prevRanks[plat] || (idx + 1);
+            song.prevRanks[plat] = idx + 1;
+            // 찾아서 원본 업데이트
+            if (song.isPlayer) {
+                const orig = gameState.activeCharts.find(ac => ac.name === song.title);
+                if (orig) { orig.prevRanks = orig.prevRanks || {}; orig.prevRanks[plat] = prev; orig.rank = idx + 1; }
+            } else {
+                const orig = gameState.rivalCharts.find(rc => rc.title === song.title && rc.artist === song.artist);
+                if (orig) { orig.prevRanks = orig.prevRanks || {}; orig.prevRanks[plat] = prev; }
             }
         });
+    });
+}
 
-        const platforms = ['subak', 'musicside', 'tube'];
-        platforms.forEach(plat => {
-            allSongs.sort((a, b) => b.scores[plat].daily - a.scores[plat].daily);
-            allSongs.forEach((song, idx) => {
-                const rank = idx + 1;
-                if(!song.ref.prevRanks) song.ref.prevRanks = {};
-                if(!song.ref.prevRanks[plat]) song.ref.prevRanks[plat] = rank;
-                if(song.isPlayer && plat === 'subak') { song.ref.rank = rank; }
-            });
+function switchChartPlatform(plat) {
+    gameState.currentChartPlatform = plat;
+    document.querySelectorAll('.chart-tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelector(`.chart-tab-btn.${plat}`).classList.add('active');
+    renderHomeCharts(plat, gameState.currentChartPeriod);
+}
+function switchChartPeriod(period) {
+    gameState.currentChartPeriod = period;
+    document.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
+    const idx = {daily:0,monthly:1,yearly:2}[period];
+    document.querySelectorAll('.sub-tab-btn')[idx].classList.add('active');
+    renderHomeCharts(gameState.currentChartPlatform, period);
+}
+function renderHomeCharts(platform, period) {
+    const container = document.getElementById('chart-list-container');
+    const allSongs = [
+        ...gameState.rivalCharts.map(s => ({...s, isPlayer:false})),
+        ...gameState.activeCharts.filter(ac => ac.weekCount < 6).map(ac => ({artist:'HADES', title:ac.name, scores:ac.scores, prevRanks:ac.prevRanks, isPlayer:true}))
+    ];
+    allSongs.sort((a,b) => b.scores[platform][period] - a.scores[platform][period]);
+    const top10 = allSongs.slice(0,10);
+    container.innerHTML = top10.map((song, idx) => {
+        const rank = idx + 1;
+        let changeHtml = '<span class="rank-change" style="color:var(--text2);">—</span>';
+        if (period === 'daily' && song.prevRanks && song.prevRanks[platform]) {
+            const diff = song.prevRanks[platform] - rank;
+            if (diff > 0) changeHtml = `<span class="rank-change rank-up">▲${diff}</span>`;
+            else if (diff < 0) changeHtml = `<span class="rank-change rank-down">▼${Math.abs(diff)}</span>`;
+        }
+        return `<div class="chart-row ${song.isPlayer ? 'my-song' : ''}">
+            <div class="rank">${rank}</div>
+            ${changeHtml}
+            <div class="song-info">
+                <div class="song-title">${song.title}${song.isPlayer ? ' ★' : ''}</div>
+                <div class="artist-name">${song.artist}</div>
+            </div>
+            <div class="chart-score">${Math.floor(song.scores[platform][period]).toLocaleString()}</div>
+        </div>`;
+    }).join('');
+}
+
+function processCharts() {
+    let totalStat = 0;
+    gameState.members.forEach(m => {
+        let eq = 0; m.equipment.forEach(e => eq += getEquipVal(e));
+        totalStat += m.vocal + m.dance + m.visual + m.variety + m.charm + eq;
+    });
+    const teamScore = totalStat / 5;
+
+    gameState.rivalCharts.forEach(rc => {
+        ['subak','musicside','tube'].forEach(plat => {
+            const gain = Math.floor(Math.random() * 1000) - 400;
+            rc.scores[plat].daily = Math.max(0, Math.min(12000, rc.scores[plat].daily + gain));
+            rc.scores[plat].monthly += rc.scores[plat].daily;
+            rc.scores[plat].yearly += rc.scores[plat].daily;
+        });
+    });
+
+    const cb = gameState.staffBonus.chartBonus || 0;
+    gameState.activeCharts.forEach(ac => {
+        if (ac.weekCount >= 8) return;
+        const power = Math.floor(teamScore * 2) + cb;
+        ac.scores.subak.daily += power + Math.floor(Math.random()*600) - 200;
+        ac.scores.musicside.daily += power + Math.floor(gameState.fandom/5000) + Math.floor(Math.random()*800) - 400;
+        if (Math.random() < 0.1) ac.scores.tube.daily += 2000;
+        else ac.scores.tube.daily += power + Math.floor(Math.random()*1000) - 500;
+        ['subak','musicside','tube'].forEach(plat => {
+            ac.scores[plat].daily = Math.max(0, ac.scores[plat].daily);
+            ac.scores[plat].monthly += ac.scores[plat].daily;
+            ac.scores[plat].yearly += ac.scores[plat].daily;
+        });
+    });
+
+    updateChartRanks();
+
+    gameState.activeCharts.forEach(ac => {
+        if (ac.rank && ac.rank <= 10) {
+            const rev = (11 - ac.rank) * 15000;
+            const fan = (11 - ac.rank) * 15;
+            gameState.finance += rev; gameState.accumulatedSales += rev;
+            updateFandom(fan);
+        }
+        if (Math.random() < 0.2) gameState.community.push({site:'음원반응', content: musicReactions[Math.floor(Math.random()*musicReactions.length)]});
+    });
+
+    if (gameState.day % 7 === 0) {
+        gameState.activeCharts.forEach(song => {
+            song.weekCount++;
+            if (song.weekCount <= 6) {
+                gameState.popupQueue.push({
+                    type: 'chart_week',
+                    event: {
+                        id:`wk_${song.name}_${song.weekCount}`, title:`📊 [${song.name}] ${song.weekCount}주차 성적`,
+                        desc:`수박: ${song.prevRanks?.subak || '?'}위\n뮤직사이드: ${song.prevRanks?.musicside || '?'}위\n너튜브: ${song.prevRanks?.tube || '?'}위`,
+                        choices:[{text:'확인', effect:()=>{}}]
+                    }
+                });
+            }
         });
     }
+}
 
-    function switchChartPlatform(plat) {
-        gameState.currentChartPlatform = plat;
-        document.querySelectorAll('.chart-tab-btn').forEach(btn => btn.classList.remove('active'));
-        document.querySelector(`.chart-tab-btn.${plat}`).classList.add('active');
-        renderHomeCharts(plat, gameState.currentChartPeriod);
+// ═══════════════════════════════════════════
+//  음악 방송
+// ═══════════════════════════════════════════
+function renderBroadcastSection() {
+    const section = document.getElementById('broadcast-section');
+    const list = document.getElementById('broadcast-list');
+    if (gameState.activeCharts.filter(ac => ac.weekCount < 6).length === 0) {
+        section.style.display = 'none'; return;
     }
+    section.style.display = 'block';
+    const shows = [
+        { id: 'inkigayo', name: '인기가요', wins: gameState.broadcastWins.inkigayo },
+        { id: 'musicbank', name: '뮤직뱅크', wins: gameState.broadcastWins.musicbank },
+        { id: 'showchamp', name: '쇼챔피언', wins: gameState.broadcastWins.showchamp },
+    ];
+    list.innerHTML = shows.map(show => {
+        const song = gameState.activeCharts.find(ac => ac.weekCount < 6);
+        if (!song) return '';
+        const rank = song.rank || 99;
+        const winChance = Math.max(5, Math.min(90, (10 - rank) * 10 + 30));
+        return `<div class="broadcast-card">
+            <div style="font-weight:700; margin-bottom:6px;">${show.name} <span style="font-size:11px; color:var(--text2);">통산 ${show.wins}회 1위</span></div>
+            <div style="font-size:12px; color:var(--text2); margin-bottom:8px;">현재 차트 순위: ${rank}위 · 1위 확률 약 ${winChance}%</div>
+            <button class="content-btn btn-available" onclick="tryBroadcastWin('${show.id}','${show.name}',${winChance})">1위 도전!</button>
+        </div>`;
+    }).join('');
+}
 
-    function switchChartPeriod(period) {
-        gameState.currentChartPeriod = period;
-        document.querySelectorAll('.sub-tab-btn').forEach(btn => btn.classList.remove('active'));
-        const periodIndex = { 'daily': 0, 'monthly': 1, 'yearly': 2 };
-        document.querySelectorAll('.sub-tab-btn')[periodIndex[period]].classList.add('active');
-        renderHomeCharts(gameState.currentChartPlatform, period);
+function tryBroadcastWin(showId, showName, chance) {
+    const roll = Math.random() * 100;
+    if (roll < chance) {
+        gameState.broadcastWins[showId]++;
+        const reward = 5000000 + Math.floor(Math.random()*10000000);
+        gameState.finance += reward; gameState.accumulatedSales += reward;
+        updateFandom(50000);
+        gameState.community.push({site:'속보', content:`<b>[속보] HADES, ${showName} 1위 달성!! 🏆</b>`});
+        document.getElementById('modal-title').innerText = `🏆 ${showName} 1위!`;
+        document.getElementById('modal-body').innerHTML = `<div style="text-align:center; font-size:40px; margin:10px 0;">🏆</div><div style="text-align:center;">팬덤 +50,000명<br>수익 +${reward.toLocaleString()}원</div>`;
+    } else {
+        document.getElementById('modal-title').innerText = '😔 惜敗...';
+        document.getElementById('modal-body').innerHTML = '아깝게 1위를 놓쳤습니다. 다음 기회에!';
     }
+    document.getElementById('modal-choices').innerHTML = `<button class="primary-btn" onclick="closeModal()">확인</button>`;
+    document.getElementById('eventModal').style.display = 'block';
+    updateDisplay();
+}
 
-    function renderHomeCharts(platform, period) {
-        const container = document.getElementById('chart-list-container');
-        const allSongs = [];
-        gameState.rivalCharts.forEach(s => allSongs.push({...s, isPlayer: false}));
-        gameState.activeCharts.forEach(s => {
-            if(s.weekCount < 6) allSongs.push({artist: "HADES", title: s.name, scores: s.scores, prevRanks: s.prevRanks, isPlayer: true});
-        });
+// ═══════════════════════════════════════════
+//  멤버 & 특성
+// ═══════════════════════════════════════════
+function getTraitInfo(traitId) { return memberTraits.find(t => t.id === traitId) || memberTraits[0]; }
 
-        allSongs.sort((a, b) => b.scores[platform][period] - a.scores[platform][period]);
-        const top10 = allSongs.slice(0, 10);
-        
-        container.innerHTML = top10.map((song, idx) => {
-            const rank = idx + 1;
-            let changeHtml = '<span class="rank-change">-</span>';
-            if(period === 'daily' && song.prevRanks && song.prevRanks[platform]) {
-                const diff = song.prevRanks[platform] - rank;
-                if(diff > 0) changeHtml = `<span class="rank-change rank-up">▲${diff}</span>`;
-                else if(diff < 0) changeHtml = `<span class="rank-change rank-down">▼${Math.abs(diff)}</span>`;
-            } 
-            return `
-            <div class="chart-row ${song.isPlayer ? 'my-song' : ''}">
-                <div class="rank">${rank}</div>
-                ${changeHtml}
-                <div class="song-info">
-                    <span class="song-title">${song.title}</span>
-                    <span class="artist-name">${song.artist}</span>
-                </div>
-                <div class="chart-score">${Math.floor(song.scores[platform][period]).toLocaleString()}</div>
-            </div>`;
-        }).join('');
-    }
+function getEquipVal(item) {
+    const bonus = item.level === 1 ? 1 : item.level === 2 ? 3 : item.level >= 3 ? 5 : 0;
+    return item.val + bonus;
+}
 
-    function updateDisplay() {
-        document.getElementById('current-day').innerText = gameState.day;
-        let d = new Date(gameState.startDate); d.setDate(d.getDate() + (gameState.day - 1));
-        const todayStr = d.toISOString().split('T')[0];
-        document.getElementById('current-date').innerText = todayStr;
-        
-        document.getElementById('p-finance').innerText = gameState.finance.toLocaleString() + '원';
-        document.getElementById('p-fandom').innerText = gameState.fandom.toLocaleString() + '명';
-        document.getElementById('p-youtube').innerText = gameState.youtube.toLocaleString() + '명';
-        document.getElementById('p-sns').innerText = gameState.sns.toLocaleString() + '명';
-        document.getElementById('p-sales').innerText = gameState.accumulatedSales.toLocaleString() + '원';
-        
-        const score = calculateTierScore();
-        const tierInfo = getTierInfo(score);
-        const tierEl = document.getElementById('p-tier');
-        tierEl.innerText = tierInfo.name;
-        if(score >= 15000000) tierEl.style.color = '#e64980'; else if(score >= 600000) tierEl.style.color = '#7950f2'; else tierEl.style.color = '#868e96';
+function updateFandom(val) {
+    gameState.fandom = Math.max(0, gameState.fandom + val);
+    const snsMult = 1 + (gameState.staffBonus.snsMult || 0);
+    gameState.youtube += Math.floor(val * 0.7);
+    gameState.sns += Math.floor(val * 1.2 * snsMult);
+}
 
-        // 12월 26일 이후 차트 등장
-        if (d >= new Date('2025-12-26')) {
-            document.getElementById('chart-section').style.display = 'block';
-        } else {
-            document.getElementById('chart-section').style.display = 'none';
-        }
-
-        // 반응형 뉴스 티커 업데이트
-        const reactionHtml = gameState.community.slice(-10).reverse().map(c => 
-            `<div class="ticker-item"><span class="ticker-site ${c.site==='속보'?'site-news':(c.site==='음원반응'?'site-music':(c.site==='SNS'?'site-sns':(c.site==='에뱀'?'site-ebem':(c.site==='너튜브'?'site-yt':(c.site==='YZ'?'site-yz':'site-cafe')))))}">${c.site}</span> ${c.content.replace(/<[^>]*>?/gm, '')}</div>`
-        ).join('');
-        document.getElementById('reaction-ticker').innerHTML = reactionHtml || '<div class="ticker-item">데이터 수집 중...</div>';
-
-        document.getElementById('member-grid-container').innerHTML = gameState.members.map((m, idx) => {
-            const bonuses = { vocal:0, dance:0, visual:0, variety:0, charm:0 };
-            m.equipment.forEach(eq => { if(bonuses[eq.stat] !== undefined) bonuses[eq.stat] += getEquipVal(eq); });
-            let mentalIcon = "😐";
-            if (m.mental >= 80) mentalIcon = "💎"; else if (m.mental <= 30) mentalIcon = "☁️"; else if (m.mental >= 60) mentalIcon = "🙂";
-            return `
-            <div class="member-card" style="${m.fatigue >= 100 ? 'border-color:var(--danger); background:#fff5f5;' : ''}">
-                <button class="equip-btn" onclick="openEquipModal(${idx})">🎒 장비/강화</button>
-                <div class="profile-container">
-                    <img src="${m.image}" class="profile-img" onerror="this.src='https://api.dicebear.com/7.x/avataaars/svg?seed=${m.name}'">
-                    <div class="profile-info">
-                        <div style="font-size:16px; font-weight:bold;">${m.name} <span style="font-size:12px;">${mentalIcon}</span></div>
-                        <div style="font-size:11px; color:#999;">🎂 ${m.birth}</div>
-                    </div>
-                </div>
-                ${renderStat('보컬', m.vocal, bonuses.vocal, 'var(--vocal)')}
-                ${renderStat('댄스', m.dance, bonuses.dance, 'var(--dance)')}
-                ${renderStat('비주얼', m.visual, bonuses.visual, 'var(--visual)')}
-                ${renderStat('예능', m.variety, bonuses.variety, 'var(--variety)')}
-                ${renderStat('매력', m.charm, bonuses.charm, 'var(--charm)')}
-                <div class="equipped-items">${m.equipment.length > 0 ? m.equipment.map(e => `[${e.level>0?`+${e.level} `:''}${e.name}]`).join(' ') : '장비 없음'}</div>
-                <div style="font-size:11px; text-align:right; color:${m.fatigue >= 100 ? 'var(--danger)' : '#888'}; font-weight:bold;">피로도: ${m.fatigue}%</div>
-            </div>`;
-        }).join('');
-        
-        renderHomeCharts(gameState.currentChartPlatform, gameState.currentChartPeriod);
-    }
-
-    function renderStat(l, base, bonus, c) { 
-        const total = base + bonus;
-        return `<div class="stat-row">
-            <div class="stat-label">${l}</div>
-            <div class="stat-bar-bg"><div class="stat-bar-fill" style="width:${Math.min(100, (total/50)*100)}%; background:${total>=50?'#333':c}"></div></div>
-            <div style="font-size:10px;">${base}${bonus > 0 ? `<span class="bonus-stat">(+${bonus})</span>` : ''}</div>
-        </div>`; 
-    }
-
-    function renderContents() {
-        const specialList = document.getElementById('special-content-list');
-        const isSettled = gameState.flags.albumPaid;
-        
-        let albumStatus = isSettled ? 
-            `<button class="content-btn btn-cooldown" disabled>✅ 통합 정산 완료</button>` : 
-            `<button class="content-btn btn-cooldown" disabled>🔒 12월 25일 통합 정산 (1.6억 필요)</button>`;
-        
-        let concertStatus = isSettled ? 
-            (gameState.flags.concertDone ? `<button class="content-btn btn-cooldown" disabled>🏁 개최 완료</button>` : `<button class="content-btn btn-cooldown" disabled>✅ 예매 완료 (1월 19일 개최)</button>`) :
-            `<button class="content-btn btn-cooldown" disabled>🔒 정산 시 자동 기획</button>`;
-
-        specialList.innerHTML = `
-            <div class="content-card" style="border-color:#ff4d94; background:#fff0f6;">
-                <div class="content-header"><strong>💿 정규 프로젝트 (MEGA PIECE & 2nd Earth)</strong><span class="content-badge badge-special">필수</span></div>
-                <div class="content-info"><div>💰 60,000,000원</div><div>발매일: 12/26 & 01/09</div></div>
-                ${albumStatus}
-            </div>
-            <div class="content-card" style="border-color:#ae3ec9; background:#f3f0ff;">
-                <div class="content-header"><strong>🎤 온라인 콘서트 [B905]</strong><span class="content-badge badge-special">필수</span></div>
-                <div class="content-info"><div>💰 100,000,000원</div><div>개최일: 26년 01월 19일</div></div>
-                ${concertStatus}
-            </div>
-        `;
-
-        const container = document.getElementById('content-list');
-        container.innerHTML = Object.values(contentTypes).map(c => {
-            const lastDay = gameState.lastContents[c.id];
-            const remain = c.cooldown - (gameState.day - lastDay);
-            const isAvailable = remain <= 0;
-            let btnHtml = '';
-            if (gameState.finance < c.cost) btnHtml = `<button class="content-btn btn-cooldown" disabled>자금 부족</button>`;
-            else if (isAvailable) btnHtml = `<button class="content-btn btn-available" onclick="executeContent('${c.id}')">제작하기 (-${(c.cost/10000).toLocaleString()}만)</button>`;
-            else btnHtml = `<button class="content-btn btn-cooldown" disabled>준비 중 (D-${remain})</button>`;
-            return `<div class="content-card"><div class="content-header"><strong>${c.name}</strong><span class="content-badge ${c.badge}">${c.type}</span></div><div class="content-info"><div class="content-stat">💰 ${(c.cost/10000).toLocaleString()}만원</div></div>${btnHtml}</div>`;
-        }).join('');
-    }
-
-    function executeContent(typeId) {
-        const content = contentTypes[typeId];
-        gameState.finance -= content.cost;
-        gameState.lastContents[typeId] = gameState.day;
-        const roll = Math.floor(Math.random() * 100) + 1;
-        let resultTitle = "", resultText = "";
-        
-        gameState.members.forEach(m => m.fatigue = Math.min(100, m.fatigue + (typeId==='short'?10:25)));
-        let revenue = 0;
-
-        if (roll <= content.risk) {
-            const loss = Math.floor(content.rewardMin * 0.3); updateFandom(-loss);
-            revenue = Math.floor(content.cost * 0.2); 
-            resultTitle = "😱 컨텐츠 폭망..."; resultText = `반응이 싸늘합니다. (팬덤 -${loss}명)`;
-        } else if (roll > 90) { 
-            const rawBonus = content.rewardMax + Math.floor(Math.random() * content.rewardMax * 0.5);
-            const bonus = Math.floor(rawBonus * 0.5); 
-            updateFandom(bonus);
-            if(typeId === 'long') { revenue = 50000000 + Math.floor(Math.random() * 50000000); } 
-            else { revenue = Math.floor(content.cost * 1.5); }
-            resultTitle = "🔥 초대박 발생!"; resultText = `실시간 트렌드 장악! (팬덤 +${bonus.toLocaleString()}명)`;
-        } else {
-            const rawGain = Math.floor(Math.random() * (content.rewardMax - content.rewardMin)) + content.rewardMin;
-            const gain = Math.floor(rawGain * 0.5); 
-            updateFandom(gain);
-            revenue = Math.floor(content.cost * 0.8); 
-            resultTitle = "✅ 제작 완료"; resultText = `무난한 반응입니다. (팬덤 +${gain.toLocaleString()}명)`;
-        }
-        gameState.finance += revenue; if(revenue > 0) gameState.accumulatedSales += revenue;
-        document.getElementById('modal-title').innerText = resultTitle; document.getElementById('modal-body').innerHTML = resultText;
-        document.getElementById('modal-choices').innerHTML = `<button class="primary-btn" onclick="closeModal()">확인</button>`;
-        document.getElementById('eventModal').style.display = 'block'; updateDisplay(); renderContents();
-    }
-
-    function checkDateEvents(d) {
-        const dateStr = d.toISOString().split('T')[0];
-        
-        if (dateStr === '2025-12-25') {
-            gameState.popupQueue.unshift({ 
-                type: 'settlement',
+// ═══════════════════════════════════════════
+//  계약 관리
+// ═══════════════════════════════════════════
+function checkContracts() {
+    gameState.members.forEach(m => {
+        const daysLeft = m.contractEnd - gameState.day;
+        if (daysLeft === 60 && !m.renewalRequested) {
+            m.renewalRequested = true;
+            const discount = gameState.staffBonus.contractDiscount || 0;
+            const baseCost = 30000000;
+            const cost = Math.floor(baseCost * (1 - discount));
+            gameState.popupQueue.push({
+                type: 'contract',
                 event: {
-                    id: 'settle_1225', title: '💸 운명의 통합 정산일', desc: 'MEGA PIECE, 두 번째 지구, 그리고 온라인 콘서트 [B905] 대관료 정산일입니다.\n\n필요 금액: 160,000,000원\n(납부하지 못하면 즉시 파산합니다.)',
+                    id: 'contract_'+m.name,
+                    title: `📋 ${m.name} 계약 만료 D-60`,
+                    desc: `${m.name}의 계약이 60일 후 만료됩니다.\n지금 재계약하면 ${cost.toLocaleString()}원이 필요합니다.`,
                     choices: [
-                        { text: "통합 정산하기 (1.6억원 지불)", effect: () => payTotalCost() },
-                        { text: "돈이 부족하다... (파산)", effect: () => { alert("자금 부족으로 소속사가 부도 처리되었습니다.\nGAME OVER"); location.reload(); } }
+                        { text: `재계약 (${cost.toLocaleString()}원)`, effect: () => {
+                            if (gameState.finance < cost) { alert('자금 부족!'); return; }
+                            gameState.finance -= cost;
+                            m.contractEnd = gameState.day + 365;
+                            m.renewalRequested = false;
+                            m.mental = Math.min(100, m.mental + 15);
+                            alert(`${m.name} 재계약 완료!`);
+                            updateDisplay();
+                        }},
+                        { text: '보류 (나중에)', effect: () => {} }
                     ]
                 }
             });
         }
-        if (dateStr === '2025-12-26' && gameState.flags.albumPaid) { launchSong("MEGA PIECE HARMONY"); }
-        if (dateStr === '2026-01-09' && gameState.flags.albumPaid) { launchSong("두 번째 지구"); }
-        if (dateStr === '2026-01-19') {
-            if (gameState.flags.concertBought) { runConcert(); } 
-        }
-    }
-
-    function payTotalCost() {
-        if (gameState.finance < 160000000) {
-            alert("자금이 부족합니다... 파산했습니다.");
-            location.reload();
-        } else {
-            gameState.finance -= 160000000;
-            gameState.flags.albumPaid = true;
-            gameState.flags.concertBought = true; 
-            alert("통합 정산 완료! 음원 발매와 콘서트 준비가 확정되었습니다.");
-            updateDisplay(); renderContents();
-        }
-    }
-
-    function launchSong(title) {
-        const createScoreObj = (base) => ({ daily: base, monthly: base*10, yearly: base*10 });
-        const startScore = 5000;
-
-        gameState.activeCharts.push({ 
-            name: title, 
-            weekCount: 0, 
-            releaseDate: new Date(gameState.startDate.getTime() + (gameState.day-1)*86400000),
-            scores: { 
-                subak: createScoreObj(startScore), 
-                musicside: createScoreObj(startScore), 
-                tube: createScoreObj(startScore) 
-            },
-            prevRanks: { subak: 0, musicside: 0, tube: 0 }
-        });
-
-        gameState.popupQueue.push({
-            type: 'release',
-            event: {
-                id: 'rel_'+title, title: `💿 [발매] ${title}`, desc: `디지털 싱글 <${title}>가 발매되었습니다!\n차트 1위를 향해 달려봅시다.`,
-                choices: [{ text: "확인", effect: () => updateDisplay() }]
-            }
-        });
-        gameState.community.push({site:'음원반응', content: `<b><${title}> 노래 개좋음;; 무한스밍 간다</b>`});
-    }
-
-    function runConcert() {
-        gameState.flags.concertDone = true;
-        const viewers = Math.floor(Math.random() * (60000 - 40000 + 1)) + 40000; 
-        const ticketPrice = 33000;
-        const revenue = viewers * ticketPrice;
-        const fanInc = Math.floor(viewers * 0.3);
-
-        gameState.finance += revenue;
-        gameState.accumulatedSales += revenue;
-        updateFandom(fanInc);
-
-        gameState.popupQueue.push({
-            type: 'concert',
-            event: {
-                id: 'con_b905', title: '🎤 온라인 콘서트 [B905] 종료',
-                desc: `콘서트가 성황리에 종료되었습니다!\n\n접속 시청자: ${viewers.toLocaleString()}명\n티켓 수익: ${revenue.toLocaleString()}원\n팬덤 유입: +${fanInc.toLocaleString()}명`,
-                choices: [{ text: "뒤풀이 회식하러 가자!", effect: () => { gameState.finance-=1000000; alert("회식비로 100만원을 썼습니다. 멤버들의 사기가 오릅니다!"); gameState.members.forEach(m=>m.mental=Math.min(100, m.mental+10)); } }]
-            }
-        });
-        updateDisplay(); renderContents();
-    }
-
-    function processCharts() {
-        let totalStat = 0;
-        gameState.members.forEach(m => {
-            let eqBonus = 0; m.equipment.forEach(e => eqBonus += getEquipVal(e));
-            totalStat += (m.vocal + m.dance + m.visual + m.variety + m.charm + eqBonus);
-        });
-        const teamScore = totalStat / 5;
-
-        gameState.rivalCharts.forEach(rc => {
-            ['subak', 'musicside', 'tube'].forEach(plat => {
-                const dailyGain = Math.floor(Math.random() * 1000) - 400; 
-                rc.scores[plat].daily += dailyGain;
-                rc.scores[plat].daily = Math.max(0, Math.min(12000, rc.scores[plat].daily));
-                
-                rc.scores[plat].monthly += rc.scores[plat].daily;
-                rc.scores[plat].yearly += rc.scores[plat].daily;
-            });
-        });
-
-        gameState.activeCharts.forEach(ac => {
-            if (ac.weekCount >= 6) return;
-
-            const power = Math.floor(teamScore * 2); 
-            
-            ac.scores.subak.daily += power + Math.floor(Math.random() * 600) - 200;
-            ac.scores.musicside.daily += power + Math.floor(gameState.fandom / 5000) + Math.floor(Math.random() * 800) - 400;
-            
-            if(Math.random() < 0.1) ac.scores.tube.daily += 2000; 
-            else ac.scores.tube.daily += power + Math.floor(Math.random() * 1000) - 500;
-
-            ['subak', 'musicside', 'tube'].forEach(plat => {
-                ac.scores[plat].daily = Math.max(0, ac.scores[plat].daily);
-                ac.scores[plat].monthly += ac.scores[plat].daily;
-                ac.scores[plat].yearly += ac.scores[plat].daily;
-            });
-        });
-
-        updateChartRanks();
-
-        gameState.activeCharts.forEach(ac => {
-            if(ac.ref && ac.ref.rank <= 100) {
-                const dailyRevenue = (101 - ac.ref.rank) * 10000;
-                const dailyFan = (101 - ac.ref.rank) * 10;
-                gameState.finance += dailyRevenue;
-                gameState.accumulatedSales += dailyRevenue;
-                updateFandom(dailyFan);
-            }
-            if(Math.random() < 0.2) gameState.community.push({site:'음원반응', content: musicReactions[Math.floor(Math.random()*musicReactions.length)]});
-        });
-        
-        if (gameState.day % 7 === 0) {
-            gameState.activeCharts.forEach(song => {
-                song.weekCount++;
-                if (song.weekCount <= 5) {
-                    gameState.popupQueue.push({
-                        type: 'chart_week',
-                        event: {
-                            id: `wk_${song.name}_${song.weekCount}`, title: `📊 주간 차트 (${song.weekCount}주차)`,
-                            desc: `<${song.name}> 성적표\n\n🍈 수박: ${song.prevRanks.subak}위\n💿 뮤직사이드: ${song.prevRanks.musicside}위\n📺 너튜브: ${song.prevRanks.tube}위`,
-                            choices: [{ text: "확인", effect: () => {} }]
-                        }
-                    });
-                }
-            });
-        }
-    }
-
-    function checkBirthday() {
-        let d = new Date(gameState.startDate); d.setDate(d.getDate() + (gameState.day - 1));
-        let todayStr = `${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-        gameState.members.forEach(m => { if(m.birth === todayStr) gameState.popupQueue.push({type: 'birthday', event: { id:'bday_'+m.name, title: `🎂 ${m.name} 생일`, desc: `오늘은 ${m.name}의 생일입니다!`, choices: [{ text: "파티 (팬덤+10000)", effect: () => updateFandom(10000) }] }}); });
-    }
-
-    function checkBusinessProposal() {
-        if (gameState.day > 30 && gameState.day % 60 === Math.floor(Math.random() * 10)) { 
-            const types = ["굿즈 팝업스토어", "팬미팅", "타 게임 콜라보", "음료 광고"];
-            const type = types[Math.floor(Math.random() * types.length)];
-            const profit = Math.floor(Math.random() * 20000001) + 30000000; 
+        if (daysLeft <= 0) {
             gameState.popupQueue.push({
-                type: 'business',
+                type: 'contract_expired',
                 event: {
-                    id: 'biz_'+gameState.day, title: `💼 [제안] ${type}`, desc: `${type} 제안이 들어왔습니다.\n성공 시 수익, 실패 시 손해가 발생합니다.`,
-                    choices: [ { text: "수락하기 (도전!)", effect: () => executeBusiness(profit, type) }, { text: "거절하기", effect: () => {} } ]
+                    id: 'exp_'+m.name+'_'+gameState.day,
+                    title: `😱 ${m.name} 계약 만료!`,
+                    desc: `${m.name}이(가) 팀을 떠났습니다. 팬덤이 크게 줄어듭니다.`,
+                    choices: [{ text: '확인', effect: () => { updateFandom(-50000); m.contractEnd = gameState.day + 9999; } }]
                 }
             });
         }
-    }
-    
-    function executeBusiness(amount, type) {
-        if (Math.random() < 0.7) { 
-            gameState.finance += amount; gameState.accumulatedSales += amount; 
-            alert(`🎉 대성공!\n${type}가 대박나서 ${amount.toLocaleString()}원을 벌었습니다!`);
-        } else { 
-            gameState.finance -= amount;
-            alert(`😭 실패...\n${type}가 부진하여 ${amount.toLocaleString()}원 손해를 입었습니다.`);
-        }
-        updateDisplay();
+    });
+}
+
+// ═══════════════════════════════════════════
+//  일일 처리
+// ═══════════════════════════════════════════
+function nextDay() {
+    if (document.getElementById('eventModal').style.display === 'block') return;
+    if (document.getElementById('schedModal').style.display === 'block') return;
+
+    // 파산 체크
+    if (gameState.finance < -50000000) {
+        alert(`🚫 파산!\n최종 팬덤: ${gameState.fandom.toLocaleString()}명`);
+        location.reload(); return;
     }
 
-    function checkTierUp() {
+    // 스태프 SNS 일일 효과
+    gameState.sns += (gameState.staffBonus.dailySns || 0);
+    gameState.youtube += (gameState.staffBonus.dailyYt || 0);
+
+    // 월급 (30일마다)
+    if (gameState.day % 30 === 0) {
+        const salary = calcMonthlySalaryCost();
+        if (salary > 0) {
+            gameState.finance -= salary;
+            gameState.community.push({site:'속보', content:`📋 월 급여 ${salary.toLocaleString()}원 지급 완료`});
+        }
+    }
+
+    // 수익
+    const totalProfit = Math.floor(Math.random() * 800001) + 400000;
+    const isHit = totalProfit >= 1000000;
+    if (isHit) gameState.youtube += Math.floor(Math.random() * 5001) + 2000;
+
+    // 멤버 활동
+    const dayOfWeek = (gameState.day - 1) % 7;
+    const actionsPool = ['vocal','dance','visual','variety','charm','rest'];
+
+    gameState.members.forEach((m, mi) => {
+        const sched = m.weekSchedule || [];
+        let action = sched[dayOfWeek] || actionsPool[Math.floor(Math.random() * actionsPool.length)];
+        const trait = getTraitInfo(m.trait);
+        const mentalFactor = 1.2 - ((m.mental / 100) * 0.4);
+        const staffBonusForStat = gameState.staffBonus[action] || 0;
+        const trainChance = 0.35 + staffBonusForStat + (trait.id === 'hardworker' ? 0.2 : 0);
+
+        if (action === 'rest') {
+            const recBonus = gameState.staffBonus.fatigueRec || 0;
+            m.fatigue = Math.max(0, m.fatigue - 40 - recBonus);
+            m.mental = Math.min(100, m.mental + (trait.id === 'anxiety' ? 3 : 8));
+        } else if (m.fatigue < 100) {
+            if (m[action] !== undefined && m[action] < 50 && Math.random() < trainChance) {
+                const prev = m[action];
+                if (trait.id === 'genius' && Math.random() < 0.2) m[action] = Math.min(50, m[action] + 2);
+                else m[action]++;
+                gameState.weeklyStats.push({ name: m.name, stat: action, from: prev, to: m[action] });
+            }
+            m.fatigue = Math.min(100, m.fatigue + Math.floor(20 * mentalFactor));
+            m.mental = Math.max(10, m.mental - (trait.id === 'perfectionist' ? 3 : 1));
+        }
+
+        // 리더 특성: 팀 피로 회복
+        if (trait.id === 'leader' && Math.random() < 0.5) {
+            gameState.members.forEach(other => { if (other !== m) other.fatigue = Math.max(0, other.fatigue - 5); });
+        }
+        m.fatigue = Math.floor(m.fatigue);
+    });
+
+    // 커뮤니티
+    if (gameState.day % 3 === 0) {
+        const sites = ['에뱀','팬카페','너튜브','SNS','YZ'];
+        const randomSite = sites[Math.floor(Math.random() * sites.length)];
+        const msgPool = [ebemMsgs, cafeMsgs, ebemMsgs, ebemMsgs, yzMsgs][sites.indexOf(randomSite)];
+        gameState.community.push({ site: randomSite, content: msgPool[Math.floor(Math.random() * msgPool.length)] });
+    }
+    if (Math.random() < 0.05) gameState.community.push({ site:'속보', content:`<b>[NEWS] ${newsHeadlines[Math.floor(Math.random()*newsHeadlines.length)]}</b>` });
+    if (gameState.community.length > 60) gameState.community.shift();
+
+    // 날짜 이벤트
+    let d = new Date(gameState.startDate); d.setDate(d.getDate() + (gameState.day - 1));
+    checkDateEvents(d);
+    processCharts();
+    processRivalAgencies();
+    checkBirthday();
+    checkBusinessProposal();
+    checkContracts();
+    checkTierUp();
+    checkSeasonReport();
+
+    // 주간 리포트
+    if (gameState.day % 7 === 0) {
+        gameState.popupQueue.push({ type: 'training_report', data: [...gameState.weeklyStats] });
+        gameState.weeklyStats = [];
+    }
+
+    // 자금
+    gameState.finance += totalProfit; gameState.accumulatedSales += totalProfit;
+    gameState.finance -= 500000;
+    updateFandom(Math.floor(totalProfit / 10000));
+
+    // 리포트 표시
+    const reportEl = document.getElementById('profit-report');
+    const salaryNote = gameState.day % 30 === 0 ? `<br><span style="color:var(--danger);">💸 월급 지급: -${calcMonthlySalaryCost().toLocaleString()}원</span>` : '';
+    reportEl.style.display = 'block';
+    document.getElementById('profit-content').innerHTML = `
+        <div>📈 일일 수익: <strong class="money-text">+${totalProfit.toLocaleString()}원</strong>${isHit ? ' <span style="color:var(--danger);">🔥 조회수 급상승!</span>' : ''}</div>
+        <div>🏠 유지비: <strong style="color:var(--danger);">-500,000원</strong></div>
+        ${salaryNote}
+    `;
+
+    gameState.day++;
+    updateDisplay();
+    processNextPopup();
+}
+
+// ═══════════════════════════════════════════
+//  날짜 이벤트
+// ═══════════════════════════════════════════
+function checkDateEvents(d) {
+    const ds = d.toISOString().split('T')[0];
+    if (ds === '2025-12-25') {
+        gameState.popupQueue.unshift({
+            type: 'settlement',
+            event: {
+                id: 'settle_1225', title: '💸 통합 정산일',
+                desc: 'MEGA PIECE, 두 번째 지구, 온라인 콘서트 [B905] 대관료 정산일입니다.\n\n필요 금액: 160,000,000원\n납부하지 못하면 즉시 파산합니다.',
+                choices: [
+                    { text: '정산하기 (1.6억)', effect: () => payTotalCost() },
+                    { text: '돈이 없다... (파산)', effect: () => { alert('파산 처리되었습니다.\nGAME OVER'); location.reload(); } }
+                ]
+            }
+        });
+    }
+    if (ds === '2025-12-26' && gameState.flags.albumPaid) launchSong('MEGA PIECE HARMONY');
+    if (ds === '2026-01-09' && gameState.flags.albumPaid) launchSong('두 번째 지구');
+    if (ds === '2026-01-19' && gameState.flags.concertBought) runConcert();
+}
+
+function payTotalCost() {
+    if (gameState.finance < 160000000) { alert('자금 부족! 파산합니다.'); location.reload(); return; }
+    gameState.finance -= 160000000;
+    gameState.flags.albumPaid = true;
+    gameState.flags.concertBought = true;
+    alert('정산 완료! 음원 발매와 콘서트가 확정되었습니다.');
+    updateDisplay(); renderContents();
+}
+
+function launchSong(title) {
+    const cs = (b) => ({ daily: b, monthly: b*10, yearly: b*10 });
+    const startScore = 5000 + (gameState.staffBonus.chartBonus || 0);
+    gameState.activeCharts.push({
+        name: title, weekCount: 0,
+        scores: { subak: cs(startScore), musicside: cs(startScore), tube: cs(startScore) },
+        prevRanks: { subak:0, musicside:0, tube:0 }
+    });
+    gameState.community.push({site:'음원반응', content:`<b><${title}> 발매! 차트 진입 시작 🎵</b>`});
+    gameState.popupQueue.push({
+        type: 'release',
+        event: {
+            id:'rel_'+title, title:`💿 [발매] ${title}`,
+            desc:`<${title}>가 발매되었습니다!\n차트 1위를 향해 달려봅시다.`,
+            choices:[{text:'확인', effect:()=>{}}]
+        }
+    });
+}
+
+function runConcert() {
+    if (gameState.flags.concertDone) return;
+    gameState.flags.concertDone = true;
+    const viewers = Math.floor(Math.random() * (60000 - 40000 + 1)) + 40000;
+    const revenue = viewers * 33000;
+    gameState.finance += revenue; gameState.accumulatedSales += revenue;
+    updateFandom(Math.floor(viewers * 0.3));
+    gameState.popupQueue.push({
+        type: 'concert',
+        event: {
+            id:'con_b905', title:'🎤 온라인 콘서트 [B905] 종료',
+            desc:`성황리에 종료!\n\n접속: ${viewers.toLocaleString()}명\n수익: ${revenue.toLocaleString()}원\n팬 유입: +${Math.floor(viewers*0.3).toLocaleString()}명`,
+            choices:[{text:'회식하러 가자! (-100만원)', effect:()=>{ gameState.finance-=1000000; gameState.members.forEach(m=>m.mental=Math.min(100,m.mental+10)); }}]
+        }
+    });
+    updateDisplay(); renderContents();
+}
+
+// ═══════════════════════════════════════════
+//  이벤트 체크
+// ═══════════════════════════════════════════
+function checkBirthday() {
+    let d = new Date(gameState.startDate); d.setDate(d.getDate() + (gameState.day - 1));
+    const today = `${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    gameState.members.forEach(m => {
+        if (m.birth === today) {
+            gameState.popupQueue.push({
+                type:'birthday',
+                event:{
+                    id:'bday_'+m.name, title:`🎂 ${m.name} 생일`,
+                    desc:`오늘은 ${m.name}의 생일입니다! 팬들이 생일을 축하합니다.`,
+                    choices:[{text:'생일 파티 (팬덤+10,000)', effect:()=>{ updateFandom(10000); m.mental=Math.min(100,m.mental+20); }}]
+                }
+            });
+        }
+    });
+}
+
+function checkBusinessProposal() {
+    if (gameState.day > 30 && gameState.day % 45 === Math.floor(Math.random()*10)) {
+        const types = ["굿즈 팝업스토어","팬미팅","타 게임 콜라보","음료 광고","브랜드 앰배서더"];
+        const type = types[Math.floor(Math.random()*types.length)];
+        const profit = Math.floor(Math.random()*20000001)+30000000;
+        gameState.popupQueue.push({
+            type:'business',
+            event:{
+                id:'biz_'+gameState.day, title:`💼 [제안] ${type}`,
+                desc:`${type} 제안이 들어왔습니다. 성공하면 ${profit.toLocaleString()}원을 벌 수 있습니다.`,
+                choices:[
+                    {text:'수락 (도전!)', effect:()=>executeBusiness(profit, type)},
+                    {text:'거절', effect:()=>{}}
+                ]
+            }
+        });
+    }
+}
+
+function executeBusiness(amount, type) {
+    const successChance = 0.65 + (gameState.staffBonus.contentSuccess || 0);
+    if (Math.random() < successChance) {
+        gameState.finance += amount; gameState.accumulatedSales += amount;
+        alert(`🎉 성공!\n${type} 대박 — ${amount.toLocaleString()}원 획득!`);
+    } else {
+        gameState.finance -= Math.floor(amount*0.3);
+        alert(`😭 실패...\n${type} 부진 — ${Math.floor(amount*0.3).toLocaleString()}원 손해`);
+    }
+    updateDisplay();
+}
+
+function checkTierUp() {
+    const score = calculateTierScore();
+    const newTier = getTierInfo(score);
+    if (tierOrder.indexOf(newTier.name) > tierOrder.indexOf(gameState.currentTier || 'UNRANKED')) {
+        gameState.popupQueue.push({
+            type:'tier_up',
+            event:{
+                id:'tierup_'+gameState.day, title:'🎉 인지도 상승!',
+                desc:`하데스의 인지도가 올라갔습니다!`,
+                choices:[{text:'확인', effect:()=>{}}],
+                customHtml:`<div class="${newTier.class} tier-badge" style="margin:10px auto;">${newTier.name}</div>`
+            }
+        });
+    }
+    gameState.currentTier = newTier.name;
+}
+
+function checkSeasonReport() {
+    if (gameState.day % 180 === 0) {
         const score = calculateTierScore();
-        const newTierInfo = getTierInfo(score);
-        const oldTierName = gameState.currentTier || "UNRANKED";
-        if (tierOrder.indexOf(newTierInfo.name) > tierOrder.indexOf(oldTierName)) {
-            gameState.popupQueue.push({
-                type: 'tier_up',
-                event: {
-                    id: 'tierup_'+gameState.day, title: "🎉 인지도 등급 상승!",
-                    desc: `축하합니다! 하데스의 인지도가 상승했습니다.`,
-                    choices: [{ text: "확인", effect: () => {} }],
-                    customHtml: `<div class="${newTierInfo.class} tier-badge">${newTierInfo.name}</div><div style="margin-top:10px;">이제 더 많은 사람들이 우리를 알아봅니다!</div>`
-                }
-            });
-        }
-        gameState.currentTier = newTierInfo.name;
-    }
-
-    function checkSeasonReport() {
-        if (gameState.day % 180 === 0) {
-            const score = calculateTierScore();
-            const info = getTierInfo(score);
-            gameState.popupQueue.push({ type: 'season', event: { id: 'season_'+gameState.day, title: `🏆 시즌 ${gameState.day/180} 결산`, desc: "지난 6개월간의 성과 보고서입니다.", choices: [{ text: "확인", effect: () => {} }], customHtml: `<div class="${info.class} tier-badge">${info.name}</div><div style="margin-top:10px; padding:10px; background:#f8f9fa; border-radius:5px; font-size:12px; text-align:left;">팬덤: ${gameState.fandom.toLocaleString()}<br>누적매출: ${gameState.accumulatedSales.toLocaleString()}원<br>종합점수: ${score.toLocaleString()}점</div>` } });
-        }
-    }
-
-    function nextDay() {
-        if (document.getElementById('eventModal').style.display === 'block') return;
-        if (gameState.finance < -50000000) { alert(`🚫 파산 선고 🚫\n\n최종 팬덤: ${gameState.fandom.toLocaleString()}명`); location.reload(); return; }
-
-        let totalProfit = Math.floor(Math.random() * 800001) + 400000;
-        let isHit = totalProfit >= 1000000;
-        if (isHit) gameState.youtube += Math.floor(Math.random() * 7001) + 3000;
-
-        const actionsPool = ['vocal', 'dance', 'visual', 'variety', 'charm', 'rest'];
-        
-        // 자동 반응 생성 (글작성 기능 대체)
-        if (gameState.day % 3 === 0) {
-            const sites = ['에뱀', '팬카페', '너튜브', 'SNS', 'YZ'];
-            const randomSite = sites[Math.floor(Math.random() * sites.length)];
-            const randomMsg = [ebemMsgs, cafeMsgs, ebemMsgs, ebemMsgs, yzMsgs][sites.indexOf(randomSite)];
-            gameState.community.push({site: randomSite, content: randomMsg[Math.floor(Math.random() * randomMsg.length)]});
-        }
-
-        gameState.members.forEach(m => {
-            let action = m.manualAct || actionsPool[Math.floor(Math.random() * actionsPool.length)];
-            let mentalFactor = 1.2 - ((m.mental / 100) * 0.4); 
-            if (action === 'rest') m.fatigue = Math.max(0, m.fatigue - 40);
-            else if (m.fatigue < 100) {
-                let prev = m[action];
-                if (m[action] < 50 && Math.random() < 0.4) { 
-                    m[action]++; gameState.weeklyStats.push({name: m.name, stat: action, from: prev, to: m[action]}); 
-                    m.fatigue = Math.min(100, m.fatigue + (20 * mentalFactor)); 
-                } else m.fatigue = Math.min(100, m.fatigue + (15 * mentalFactor));
+        const info = getTierInfo(score);
+        gameState.popupQueue.push({
+            type:'season',
+            event:{
+                id:'season_'+gameState.day, title:`🏆 시즌 ${gameState.day/180} 결산`,
+                desc:'지난 6개월 성과 보고서',
+                choices:[{text:'확인', effect:()=>{}}],
+                customHtml:`<div class="${info.class} tier-badge" style="margin:10px auto;">${info.name}</div><div style="margin-top:12px; padding:12px; background:var(--card2); border-radius:8px; font-size:12px; text-align:left; line-height:2;">팬덤: ${gameState.fandom.toLocaleString()}명<br>누적매출: ${gameState.accumulatedSales.toLocaleString()}원<br>종합점수: ${score.toLocaleString()}점<br>음방 1위: ${Object.values(gameState.broadcastWins).reduce((a,b)=>a+b,0)}회</div>`
             }
-            m.manualAct = null; m.fatigue = Math.floor(m.fatigue); 
         });
-
-        if (Math.random() < 0.05) gameState.community.push({site:'속보', content: `<b>[NEWS] ${newsHeadlines[Math.floor(Math.random()*newsHeadlines.length)]}</b>`});
-        
-        if (gameState.community.length > 50) gameState.community.shift();
-
-        let d = new Date(gameState.startDate); d.setDate(d.getDate() + (gameState.day - 1));
-        
-        checkDateEvents(d); 
-        processCharts(); 
-        checkBirthday(); checkBusinessProposal(); checkTierUp(); checkSeasonReport(); 
-
-        if(gameState.day % 7 === 0) { gameState.popupQueue.push({type: 'training_report', data: [...gameState.weeklyStats]}); gameState.weeklyStats = []; }
-        
-        gameState.finance += totalProfit; gameState.accumulatedSales += totalProfit; 
-        gameState.finance -= 500000; updateFandom(Math.floor(totalProfit / 10000));
-        
-        document.getElementById('profit-report').style.display = 'block';
-        document.getElementById('profit-content').innerHTML = `수익: <span class="money-text">${totalProfit.toLocaleString()}원</span>${isHit ? '<br><span style="color:red;">🔥 조회수 급상승!</span>' : ''}`;
-        
-        gameState.day++; updateDisplay(); processNextPopup();
     }
+}
 
-    let currentEvent = null;
-    function processNextPopup() {
-        if (document.getElementById('eventModal').style.display === 'block' || gameState.popupQueue.length === 0) return;
-        const item = gameState.popupQueue.shift();
-        
-        if(item.type === 'season' || item.type === 'tier_up') {
-            document.getElementById('modal-title').innerText = item.event.title;
-            document.getElementById('modal-body').innerHTML = item.event.customHtml;
-            document.getElementById('modal-choices').innerHTML = `<button class="primary-btn" onclick="closeModal()">확인</button>`;
-            document.getElementById('eventModal').style.display = 'block';
-        } else if(item.type === 'training_report') {
-            showTrainingReport(item.data);
-        } else {
-            renderEventPopup(item.event, item.type === 'birthday');
-        }
+function calculateTierScore() {
+    return gameState.fandom + Math.floor(gameState.youtube*0.5) + Math.floor(gameState.sns*0.2) + Math.floor(gameState.accumulatedSales/10000);
+}
+function getTierInfo(score) {
+    if (score >= 15000000) return {name:'전세계에서 알려짐', class:'tier-world'};
+    if (score >= 6000000) return {name:'북미에서 알려짐', class:'tier-na'};
+    if (score >= 2000000) return {name:'아시아에서 알려짐', class:'tier-asia'};
+    if (score >= 600000) return {name:'국내에서 알려짐', class:'tier-domestic'};
+    if (score >= 200000) return {name:'라이징스타', class:'tier-rising'};
+    return {name:'루키', class:'tier-rookie'};
+}
+
+// ═══════════════════════════════════════════
+//  모달 처리
+// ═══════════════════════════════════════════
+let currentEvent = null;
+function processNextPopup() {
+    if (document.getElementById('eventModal').style.display === 'block' || gameState.popupQueue.length === 0) return;
+    const item = gameState.popupQueue.shift();
+    if (item.type === 'training_report') { showTrainingReport(item.data); return; }
+    if (item.type === 'tier_up' || item.type === 'season') {
+        document.getElementById('modal-title').innerText = item.event.title;
+        document.getElementById('modal-body').innerHTML = item.event.customHtml || item.event.desc;
+        document.getElementById('modal-choices').innerHTML = `<button class="primary-btn" onclick="closeModal()">확인</button>`;
+        document.getElementById('eventModal').style.display = 'block'; return;
     }
+    renderEventPopup(item.event, item.type === 'birthday');
+}
+function renderEventPopup(ev, isSpecial) {
+    currentEvent = ev;
+    document.getElementById('modal-title').innerText = ev.title;
+    document.getElementById('modal-body').innerHTML = `<div style="white-space:pre-line;">${ev.desc}</div>`;
+    document.getElementById('modal-choices').innerHTML = ev.choices.map((c,i) =>
+        `<button class="${isSpecial&&i===0?'primary-btn':'choice-btn'}" onclick="handleChoice(${i})" style="margin-bottom:6px;">${c.text}</button>`
+    ).join('');
+    document.getElementById('eventModal').style.display = 'block';
+}
+window.handleChoice = (idx) => { if (currentEvent?.choices[idx]) currentEvent.choices[idx].effect(); closeModal(); };
+function showTrainingReport(logs) {
+    document.getElementById('modal-title').innerText = '🗓️ 주간 훈련 결산';
+    const grouped = logs.reduce((acc, l) => { if (!acc[l.name]) acc[l.name]=[]; acc[l.name].push({vocal:'보컬',dance:'댄스',visual:'비주얼',variety:'예능',charm:'매력'}[l.stat]+'↑'); return acc; }, {});
+    const html = Object.entries(grouped).map(([n,s]) => `<div style="margin-bottom:6px;"><strong style="color:var(--point);">${n}</strong>: ${s.join(', ')}</div>`).join('') || '<div style="color:var(--text2);">이번 주 스탯 변화 없음</div>';
+    document.getElementById('modal-body').innerHTML = `<div style="background:var(--card2); padding:14px; border-radius:8px;">${html}</div>`;
+    document.getElementById('modal-choices').innerHTML = `<button class="primary-btn" onclick="closeModal()">확인 (Space)</button>`;
+    document.getElementById('eventModal').style.display = 'block';
+}
+function closeModal() { document.getElementById('eventModal').style.display = 'none'; setTimeout(processNextPopup, 100); }
 
-    function renderEventPopup(ev, isSpecial) {
-        currentEvent = ev;
-        document.getElementById('modal-title').innerText = ev.title; document.getElementById('modal-body').innerText = ev.desc;
-        let choicesHtml = ev.choices.map((c, idx) => `<button class="${isSpecial && idx===0?'primary-btn':'choice-btn'}" onclick="handleChoice(${idx})" style="margin-bottom:5px;">${c.text}</button>`).join('');
-        document.getElementById('modal-choices').innerHTML = choicesHtml; document.getElementById('eventModal').style.display = 'block';
+// ═══════════════════════════════════════════
+//  컨텐츠
+// ═══════════════════════════════════════════
+function renderContents() {
+    const special = document.getElementById('special-content-list');
+    const isSettled = gameState.flags.albumPaid;
+    special.innerHTML = `
+        <div class="content-card" style="border-color:rgba(255,77,148,0.3);">
+            <div class="content-header"><strong>💿 정규 프로젝트 (MEGA PIECE & 2nd Earth)</strong><span class="content-badge badge-special">필수</span></div>
+            <div class="content-info"><div>💰 60,000,000원</div><div>발매: 12/26 & 01/09</div></div>
+            ${isSettled ? `<button class="content-btn btn-cooldown" disabled>✅ 통합 정산 완료</button>` : `<button class="content-btn btn-cooldown" disabled>🔒 12월 25일 통합 정산 (1.6억)</button>`}
+        </div>
+        <div class="content-card" style="border-color:rgba(192,132,252,0.3);">
+            <div class="content-header"><strong>🎤 온라인 콘서트 [B905]</strong><span class="content-badge badge-special">필수</span></div>
+            <div class="content-info"><div>💰 100,000,000원</div><div>개최: 26년 01월 19일</div></div>
+            ${isSettled ? (gameState.flags.concertDone ? `<button class="content-btn btn-cooldown" disabled>🏁 개최 완료</button>` : `<button class="content-btn btn-cooldown" disabled>✅ 예매 완료</button>`) : `<button class="content-btn btn-cooldown" disabled>🔒 정산 시 자동 기획</button>`}
+        </div>
+    `;
+    const container = document.getElementById('content-list');
+    const successBonus = gameState.staffBonus.contentSuccess || 0;
+    container.innerHTML = Object.values(contentTypes).map(c => {
+        const remain = c.cooldown - (gameState.day - gameState.lastContents[c.id]);
+        const available = remain <= 0;
+        let btn = '';
+        if (gameState.finance < c.cost) btn = `<button class="content-btn btn-cooldown" disabled>자금 부족</button>`;
+        else if (available) btn = `<button class="content-btn btn-available" onclick="executeContent('${c.id}')">제작하기 (-${(c.cost/10000).toLocaleString()}만원)</button>`;
+        else btn = `<button class="content-btn btn-cooldown" disabled>준비 중 (D-${remain})</button>`;
+        return `<div class="content-card"><div class="content-header"><strong>${c.name}</strong><span class="content-badge ${c.badge}">${c.type}</span></div><div class="content-info"><div>💰 ${(c.cost/10000).toLocaleString()}만원</div><div>${c.desc}</div></div>${btn}</div>`;
+    }).join('');
+    renderBroadcastSection();
+}
+
+function executeContent(typeId) {
+    const c = contentTypes[typeId];
+    gameState.finance -= c.cost;
+    gameState.lastContents[typeId] = gameState.day;
+    gameState.members.forEach(m => m.fatigue = Math.min(100, m.fatigue + (typeId==='short'?10:25)));
+    const successBonus = gameState.staffBonus.contentSuccess || 0;
+    const roll = Math.random();
+    let title='', text='', revenue=0;
+    if (roll < (c.risk/100 - successBonus)) {
+        const loss = Math.floor(c.rewardMin * 0.3); updateFandom(-loss);
+        revenue = Math.floor(c.cost * 0.2);
+        title='😱 폭망...'; text=`반응이 싸늘합니다. (팬덤 -${loss.toLocaleString()}명)`;
+    } else if (roll > 0.9) {
+        const bonus = Math.floor((c.rewardMax + Math.random()*c.rewardMax*0.5) * 0.5);
+        updateFandom(bonus);
+        revenue = typeId==='long' ? 50000000+Math.floor(Math.random()*50000000) : Math.floor(c.cost*1.5);
+        title='🔥 초대박!'; text=`트렌드 장악! (팬덤 +${bonus.toLocaleString()}명)`;
+    } else {
+        const gain = Math.floor((Math.random()*(c.rewardMax-c.rewardMin)+c.rewardMin)*0.5);
+        updateFandom(gain);
+        revenue = Math.floor(c.cost * 0.8);
+        title='✅ 완료'; text=`무난한 반응. (팬덤 +${gain.toLocaleString()}명)`;
     }
+    gameState.finance += revenue; if (revenue>0) gameState.accumulatedSales += revenue;
+    document.getElementById('modal-title').innerText = title;
+    document.getElementById('modal-body').innerHTML = `<div style="white-space:pre-line;">${text}\n\n수익: +${revenue.toLocaleString()}원</div>`;
+    document.getElementById('modal-choices').innerHTML = `<button class="primary-btn" onclick="closeModal()">확인</button>`;
+    document.getElementById('eventModal').style.display = 'block';
+    updateDisplay(); renderContents();
+}
 
-    window.handleChoice = function(idx) { if(currentEvent && currentEvent.choices[idx]) { currentEvent.choices[idx].effect(); } closeModal(); };
+// ═══════════════════════════════════════════
+//  상점 & 장비
+// ═══════════════════════════════════════════
+function renderShop() {
+    document.getElementById('shop-finance').innerText = gameState.finance.toLocaleString()+'원';
+    document.getElementById('shop-list').innerHTML = shopItems.map(item => `
+        <div class="content-card">
+            <div class="content-header"><strong>${item.name}</strong><span class="content-badge badge-item">${item.stat}+${item.val}</span></div>
+            <div style="font-size:11px; color:var(--text2); margin-bottom:8px;">${item.desc} · ${item.price.toLocaleString()}원</div>
+            <button class="content-btn ${gameState.finance>=item.price?'btn-available':'btn-cooldown'}" ${gameState.finance<item.price?'disabled':''} onclick="buyItem('${item.id}')">구매</button>
+        </div>
+    `).join('');
+}
+function buyItem(id) {
+    const item = shopItems.find(i => i.id === id);
+    if (gameState.finance < item.price) return;
+    gameState.finance -= item.price;
+    gameState.inventory.push({...item, level:0});
+    alert(`${item.name} 구매 완료! 창고에 보관됐습니다.`);
+    updateDisplay(); renderShop();
+}
+function openEquipModal(memberIdx) {
+    const m = gameState.members[memberIdx];
+    document.getElementById('modal-title').innerText = `${m.name} 장비 & 강화`;
+    let html = `<h4 style="margin:5px 0 10px; font-size:13px; color:var(--text2);">착용 중</h4>`;
+    if (m.equipment.length === 0) html += `<div style="font-size:12px; color:var(--text2); margin-bottom:12px;">장비 없음</div>`;
+    else html += m.equipment.map((eq, i) => {
+        const isMax = eq.level >= 3;
+        const nextCost = !isMax ? Math.floor(eq.price * upgradeConfig[eq.level].costMult) : 0;
+        return `<div class="choice-btn" style="margin-bottom:8px;"><div style="flex:1;text-align:left;"><b>${eq.level>0?`+${eq.level} `:''}${eq.name}</b> (${eq.stat}+${getEquipVal(eq)})<br>${!isMax?`<span style="font-size:10px;color:var(--text2);">강화비: ${nextCost.toLocaleString()}원</span>`:'<span style="font-size:10px;color:#c084fc;">MAX</span>'}</div><div>${!isMax?`<button class="upgrade-btn" onclick="tryUpgrade(${memberIdx},${i})">강화</button>`:''}<button class="upgrade-btn" style="background:rgba(255,92,92,0.2);color:#ff8787;border-color:rgba(255,92,92,0.3);" onclick="unequipItem(${memberIdx},${i})">해제</button></div></div>`;
+    }).join('');
+    html += `<h4 style="margin:14px 0 10px; font-size:13px; color:var(--text2);">창고</h4>`;
+    if (gameState.inventory.length === 0) html += `<div style="font-size:12px; color:var(--text2);">창고가 비었습니다.</div>`;
+    else html += gameState.inventory.map((item,i) => `<button class="choice-btn" onclick="equipItem(${memberIdx},${i})"><span>🔵 ${item.name} (${item.stat}+${item.val})</span><span>장착</span></button>`).join('');
+    document.getElementById('modal-body').innerHTML = `<div style="text-align:left;">${html}</div>`;
+    document.getElementById('modal-choices').innerHTML = `<button class="primary-btn" onclick="closeModal()">닫기</button>`;
+    document.getElementById('eventModal').style.display = 'block';
+}
+function tryUpgrade(mi, ei) {
+    const item = gameState.members[mi].equipment[ei];
+    const cfg = upgradeConfig[item.level];
+    const cost = Math.floor(item.price * cfg.costMult);
+    if (gameState.finance < cost) { alert('자금 부족'); return; }
+    gameState.finance -= cost;
+    if (Math.random() < cfg.chance) { item.level++; alert(`✨ 강화 성공! +${item.level}`); }
+    else alert('💥 강화 실패...');
+    updateDisplay(); openEquipModal(mi);
+}
+function equipItem(mi, ii) {
+    const item = gameState.inventory[ii]; const m = gameState.members[mi];
+    if (m.equipment.some(e => e.id === item.id)) { alert('이미 착용 중인 장비입니다.'); return; }
+    gameState.inventory.splice(ii,1); m.equipment.push(item);
+    openEquipModal(mi); updateDisplay();
+}
+function unequipItem(mi, ei) {
+    const item = gameState.members[mi].equipment.splice(ei,1)[0];
+    gameState.inventory.push(item); openEquipModal(mi); updateDisplay();
+}
 
-    function showTrainingReport(logs) {
-        document.getElementById('modal-title').innerText = "🗓️ 주간 결산";
-        let listHtml = logs.length > 0 ? Object.entries(logs.reduce((acc, l) => { if (!acc[l.name]) acc[l.name] = []; acc[l.name].push(`${{vocal:'보컬',dance:'댄스',visual:'비주얼',variety:'예능',charm:'매력'}[l.stat]}↑`); return acc; }, {})).map(([n, s]) => `<div><b>${n}</b>: ${s.join(', ')}</div>`).join('') : "변화 없음";
-        document.getElementById('modal-body').innerHTML = `<div style="text-align:left; background:#f8f9fa; padding:15px; border-radius:10px;">${listHtml}</div>`;
-        document.getElementById('modal-choices').innerHTML = `<button class="primary-btn" onclick="closeModal()">확인 (Space)</button>`;
-        document.getElementById('eventModal').style.display = 'block';
-    }
+// ═══════════════════════════════════════════
+//  디스플레이 업데이트
+// ═══════════════════════════════════════════
+function updateDisplay() {
+    document.getElementById('current-day').innerText = gameState.day;
+    let d = new Date(gameState.startDate); d.setDate(d.getDate() + (gameState.day-1));
+    document.getElementById('current-date').innerText = d.toISOString().split('T')[0];
 
-    function closeModal() { document.getElementById('eventModal').style.display = 'none'; setTimeout(processNextPopup, 150); }
-    
-    function renderShop() {
-        const moneyDisplay = `<div style="padding:10px; background:#e9ecef; border-radius:8px; margin-bottom:15px; font-weight:bold; text-align:center;">현재 보유 자금: <span style="color:var(--money)">${gameState.finance.toLocaleString()}원</span></div>`;
-        document.getElementById('shop-list').innerHTML = moneyDisplay + shopItems.map(item => `
-            <div class="content-card">
-                <div class="content-header"><strong>${item.name}</strong><span class="content-badge badge-item">${item.stat.toUpperCase()} +${item.val}</span></div>
-                <div class="content-info"><div>💰 ${item.price.toLocaleString()}원</div><div>${item.desc}</div></div>
-                <button class="content-btn ${gameState.finance >= item.price ? 'btn-available' : 'btn-cooldown'}" ${gameState.finance < item.price ? 'disabled' : ''} onclick="buyItem('${item.id}')">구매하기</button>
+    document.getElementById('p-finance').innerText = gameState.finance.toLocaleString()+'원';
+    document.getElementById('p-fandom').innerText = gameState.fandom.toLocaleString()+'명';
+    document.getElementById('p-youtube').innerText = gameState.youtube.toLocaleString()+'명';
+    document.getElementById('p-sns').innerText = gameState.sns.toLocaleString()+'명';
+    document.getElementById('p-sales').innerText = gameState.accumulatedSales.toLocaleString()+'원';
+    document.getElementById('p-staffcost').innerText = calcMonthlySalaryCost().toLocaleString()+'원/월';
+
+    // 경고 배너
+    const warnEl = document.getElementById('warning-banner');
+    warnEl.style.display = gameState.finance < 20000000 ? 'block' : 'none';
+
+    // 티어
+    const score = calculateTierScore();
+    const tierInfo = getTierInfo(score);
+    gameState.currentTier = tierInfo.name;
+    const tierBadge = document.getElementById('tier-badge-small');
+    tierBadge.innerText = tierInfo.name;
+    tierBadge.className = `tier-badge-small ${tierInfo.class}`;
+    document.getElementById('tier-score-display').innerText = `${score.toLocaleString()}점`;
+
+    // 차트
+    if (d >= new Date('2025-12-26')) document.getElementById('chart-section').style.display = 'block';
+
+    // 티커
+    const tickerHtml = gameState.community.slice(-12).reverse().map(c => {
+        const siteClass = {
+            '속보':'site-news','음원반응':'site-music','SNS':'site-sns',
+            '에뱀':'site-ebem','너튜브':'site-yt','YZ':'site-yz','팬카페':'site-cafe'
+        }[c.site] || 'site-ebem';
+        return `<div class="ticker-item"><span class="ticker-site ${siteClass}">${c.site}</span>${c.content.replace(/<[^>]*>?/gm,'')}</div>`;
+    }).join('');
+    document.getElementById('reaction-ticker').innerHTML = tickerHtml || '<div class="ticker-item">데이터 수집 중...</div>';
+
+    // 멤버 카드
+    document.getElementById('member-grid-container').innerHTML = gameState.members.map((m, idx) => {
+        const bonuses = {vocal:0,dance:0,visual:0,variety:0,charm:0};
+        m.equipment.forEach(eq => { if (bonuses[eq.stat]!==undefined) bonuses[eq.stat]+=getEquipVal(eq); });
+        const trait = getTraitInfo(m.trait);
+        const daysLeft = m.contractEnd - gameState.day;
+        const contractColor = daysLeft < 60 ? 'var(--danger)' : 'var(--text2)';
+        const fatigueColor = m.fatigue>=80 ? '#ff5c5c' : m.fatigue>=50 ? '#fbbf24' : 'var(--success)';
+        const mentalColor = m.mental>=70 ? 'var(--success)' : m.mental>=40 ? '#fbbf24' : 'var(--danger)';
+        return `<div class="member-card ${m.fatigue>=100?'overload':''}">
+            <button class="equip-btn" onclick="openEquipModal(${idx})">🎒 장비</button>
+            <div class="profile-container">
+                <img src="${m.image}" class="profile-img" onerror="this.src='https://api.dicebear.com/7.x/avataaars/svg?seed=${m.name}'">
+                <div>
+                    <div class="profile-name">${m.name}</div>
+                    <div class="profile-birth">🎂 ${m.birth}</div>
+                    <div class="profile-trait" style="background:${trait.color}22; color:${trait.color};">${trait.emoji} ${trait.name}</div>
+                </div>
             </div>
-        `).join('');
-    }
-    
-    function buyItem(id) {
-        const item = shopItems.find(i => i.id === id);
-        if(gameState.finance >= item.price) {
-            gameState.finance -= item.price;
-            gameState.inventory.push({ ...item, level: 0 });
-            alert(`${item.name}을(를) 구매하여 창고에 보관했습니다.`);
-            updateDisplay(); renderShop();
-        }
-    }
-    
-    function openEquipModal(memberIdx) {
-        const m = gameState.members[memberIdx];
-        document.getElementById('modal-title').innerText = `${m.name} 장비 & 강화`;
-        let equipHtml = `<h4 style="margin:5px 0;">현재 착용 중 (강화 가능)</h4>`;
-        if(m.equipment.length === 0) equipHtml += `<div style="color:#999; font-size:12px; margin-bottom:10px;">착용 중인 장비가 없습니다.</div>`;
-        else {
-            equipHtml += m.equipment.map((eq, i) => {
-                const isMax = eq.level >= 3; const nextCost = !isMax ? Math.floor(eq.price * upgradeConfig[eq.level].costMult) : 0;
-                return `<div class="choice-btn" style="margin-bottom:8px;"><div style="flex:1;"><span style="display:block;"><b>${eq.level>0 ? `<span class="enhance-text">+${eq.level}</span> ` : ''}${eq.name}</b> (${eq.stat} +${getEquipVal(eq)})</span>${!isMax ? `<span style="font-size:11px; color:#666;">강화비용: ${nextCost.toLocaleString()}원</span>` : '<span style="font-size:11px; color:#845ef7;">최고 레벨 도달 (MAX)</span>'}</div><div style="display:flex; align-items:center;">${!isMax ? `<button class="upgrade-btn" onclick="tryUpgrade(${memberIdx}, ${i})">강화</button>` : ''}<button class="upgrade-btn" style="background:#fa5252;" onclick="unequipItem(${memberIdx}, ${i})">해제</button></div></div>`;
-            }).join('');
-        }
-        let invHtml = `<h4 style="margin:15px 0 5px 0;">보유 장비 (창고)</h4>`;
-        if(gameState.inventory.length === 0) invHtml += `<div style="color:#999; font-size:12px;">창고가 비었습니다. 상점에서 구매하세요.</div>`;
-        else { invHtml += gameState.inventory.map((item, i) => `<button class="choice-btn" onclick="equipItem(${memberIdx}, ${i})"><span>🔵 ${item.name} (${item.stat} +${item.val})</span><span>장착</span></button>`).join(''); }
-        document.getElementById('modal-body').innerHTML = `<div style="text-align:left;">${equipHtml}${invHtml}</div>`;
-        document.getElementById('modal-choices').innerHTML = `<button class="primary-btn" onclick="closeModal()">닫기</button>`;
-        document.getElementById('eventModal').style.display = 'block';
-    }
-    
-    function tryUpgrade(memberIdx, eqIdx) {
-        const item = gameState.members[memberIdx].equipment[eqIdx]; const config = upgradeConfig[item.level]; const cost = Math.floor(item.price * config.costMult);
-        if (gameState.finance < cost) { alert("자금이 부족합니다."); return; }
-        gameState.finance -= cost;
-        if (Math.random() < config.chance) { item.level++; alert(`✨ 강화 성공! (+${item.level})`); } else { alert(`💥 강화 실패...`); }
-        updateDisplay(); openEquipModal(memberIdx);
-    }
-    
-    function equipItem(memberIdx, invIdx) { 
-        const item = gameState.inventory[invIdx]; const member = gameState.members[memberIdx];
-        if (member.equipment.some(e => e.id === item.id)) { alert("이미 동일한 장비를 착용하고 있습니다."); return; }
-        gameState.inventory.splice(invIdx, 1); member.equipment.push(item); openEquipModal(memberIdx); updateDisplay(); 
-    }
-    
-    function unequipItem(memberIdx, eqIdx) { const item = gameState.members[memberIdx].equipment.splice(eqIdx, 1)[0]; gameState.inventory.push(item); openEquipModal(memberIdx); updateDisplay(); }
+            ${renderStat('보컬', m.vocal, bonuses.vocal, 'var(--vocal)')}
+            ${renderStat('댄스', m.dance, bonuses.dance, 'var(--dance)')}
+            ${renderStat('비주얼', m.visual, bonuses.visual, 'var(--visual)')}
+            ${renderStat('예능', m.variety, bonuses.variety, 'var(--variety)')}
+            ${renderStat('매력', m.charm, bonuses.charm, 'var(--charm)')}
+            <div class="equipped-items">${m.equipment.length>0 ? m.equipment.map(e=>`[${e.level>0?`+${e.level} `:''}${e.name}]`).join(' ') : '장비 없음'}</div>
+            <div class="mini-bars">
+                <div class="mini-bar-wrap">
+                    <div class="mini-bar-label"><span>피로도</span><span style="color:${fatigueColor}">${m.fatigue}%</span></div>
+                    <div class="mini-bar-bg"><div class="mini-bar-fill" style="width:${m.fatigue}%; background:${fatigueColor};"></div></div>
+                </div>
+                <div class="mini-bar-wrap">
+                    <div class="mini-bar-label"><span>멘탈</span><span style="color:${mentalColor}">${m.mental}%</span></div>
+                    <div class="mini-bar-bg"><div class="mini-bar-fill" style="width:${m.mental}%; background:${mentalColor};"></div></div>
+                </div>
+            </div>
+            <div class="contract-info" style="color:${contractColor};">📋 계약: ${daysLeft>0?`D-${daysLeft}`:'만료'}</div>
+        </div>`;
+    }).join('');
 
-    function openPage(pId, btn) {
-        document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById(pId).classList.add('active');
-        document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active');
-        if(pId === 'manual') document.getElementById('sel-member').innerHTML = gameState.members.map((m,i)=>`<option value="${i}">${m.name} (피로:${m.fatigue}%)</option>`).join('');
-        if(pId === 'contents') renderContents();
-        if(pId === 'store') renderShop();
+    renderHomeCharts(gameState.currentChartPlatform, gameState.currentChartPeriod);
+}
+
+function renderStat(l, base, bonus, c) {
+    const total = base + bonus;
+    return `<div class="stat-row">
+        <div class="stat-label">${l}</div>
+        <div class="stat-bar-bg"><div class="stat-bar-fill" style="width:${Math.min(100,(total/50)*100)}%; background:${total>=50?'#c084fc':c};"></div></div>
+        <div style="font-size:10px; color:var(--text2);">${base}${bonus>0?`<span class="bonus-stat">(+${bonus})</span>`:''}</div>
+    </div>`;
+}
+
+// ═══════════════════════════════════════════
+//  페이지 네비
+// ═══════════════════════════════════════════
+function openPage(pId, btn) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(pId).classList.add('active');
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    if (pId === 'contents') renderContents();
+    if (pId === 'store') renderShop();
+    if (pId === 'staff') renderStaffPage();
+    if (pId === 'rival') renderRivalPage();
+    if (pId === 'schedule') { renderSchedulePage(); renderConfirmedSchedule(); }
+}
+
+// 키보드
+window.addEventListener('keydown', e => {
+    if (e.code === 'Space') {
+        e.preventDefault();
+        const modal = document.getElementById('eventModal');
+        if (modal.style.display === 'block') {
+            const btn = modal.querySelector('.primary-btn, .choice-btn');
+            if (btn) btn.click();
+        } else if (document.getElementById('start-page').style.display === 'none') {
+            nextDay();
+        }
     }
-    function manualTrainAction() { const idx = document.getElementById('sel-member').value; gameState.members[idx].manualAct = document.getElementById('sel-stat').value; alert("지시 완료"); }
+});
 </script>
 </body>
 </html>
-

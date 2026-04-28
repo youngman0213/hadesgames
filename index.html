@@ -1590,15 +1590,15 @@ function renderHomeCharts(){
     return true;
   });
 
-  const allSongs=[
-    ...gameState.rivalCharts.map(s=>({...s, isPlayer:false})),
-    ...playerSongs.map(ac=>({
-      artist:'HADES', title:ac.name,
-      weeklyScore:ac.weeklyScore, monthlyScore:ac.monthlyScore, yearlyScore:ac.yearlyScore,
-      prevRanks:ac.prevRanks||{subak:0,musicside:0,tube:0},
-      isPlayer:true,
-    }))
-  ];
+const allSongs=[
+  ...gameState.rivalCharts.map(s=>({...s, isPlayer:false})),
+  ...playerSongs.map(ac=>({
+    artist:'HADES', title:ac.name,
+    weeklyScore:ac.weeklyScore, monthlyScore:ac.monthlyScore, yearlyScore:ac.yearlyScore,
+    prevRanks:ac.prevRanks||{subak:0,musicside:0,tube:0},
+    isPlayer:true,
+  }))
+];
 
   // 정렬 기준
   const scoreKey=period==='weekly'?'weeklyScore':period==='monthly'?'monthlyScore':'yearlyScore';

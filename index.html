@@ -1321,6 +1321,8 @@ function startGame(){
   document.getElementById('main-container').style.display='block';
   document.getElementById('main-footer').style.display='block';
   initRivalCharts();
+  updateDisplay();        // ← 추가
+  renderHomeCharts();     // ← 추가
   showTutorial();
 }
 
@@ -1333,7 +1335,7 @@ function showTutorial(){
     <div class="tutorial-step"><strong>🛍️ 굿즈 샵</strong><br>초도 물량을 직접 결정하고 팬들에게 판매합니다.</div>
     <div class="tutorial-step"><strong>💸 12월 25일 정산</strong><br>1억 6천만원이 필요합니다. 자금 관리에 주의하세요!</div>
   `;
-  document.getElementById('modal-choices').innerHTML=`<button class="primary-btn" onclick="closeModal(); updateDisplay(); renderHomeCharts();">게임 시작!</button>`;
+  document.getElementById('modal-choices').innerHTML=`<button class="primary-btn" onclick="closeModal();">게임 시작!</button>`;
   document.getElementById('eventModal').style.display='block';
 }
 

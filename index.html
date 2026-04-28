@@ -1500,7 +1500,7 @@ function renderSchedulePage(){
       const act=pendingSchedule[mi][di];
       const info=act?scheduleActions.find(a=>a.id===act):null;
       const injured=m.injuredUntil>gameState.day;
-      html+=`<div class="schedule-cell ${info?info.class:''} ${injured?'sched-rest':''}" onclick="${injured?'':``openSchedCell(${mi},${di})``}">${injured?'🤕':info?info.emoji:'—'}</div>`;
+      html+=`<div class="schedule-cell ${info?info.class:''} ${injured?'sched-rest':''}" onclick="${injured?'':`openSchedCell(${mi},${di})`}">${injured?'🤕':info?info.emoji:'—'}</div>`;
     }
   });
   grid.innerHTML=html;

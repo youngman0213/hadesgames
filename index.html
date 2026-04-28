@@ -1316,14 +1316,20 @@ let gameState = {
 //  시작
 // ═══════════════════════════════════════════
 function startGame(){
-  document.getElementById('start-page').style.display='none';
-  document.getElementById('main-nav').style.display='block';
-  document.getElementById('main-container').style.display='block';
-  document.getElementById('main-footer').style.display='block';
-  initRivalCharts();
-  updateDisplay();        // ← 추가
-  renderHomeCharts();     // ← 추가
-  showTutorial();
+  try {
+    document.getElementById('start-page').style.display='none';
+    document.getElementById('main-nav').style.display='block';
+    document.getElementById('main-container').style.display='block';
+    document.getElementById('main-footer').style.display='block';
+    initRivalCharts();
+    updateDisplay();
+    renderSchedulePage();
+    renderConfirmedSchedule();
+    renderHomeCharts();
+    showTutorial();
+  } catch(e) {
+    console.error('startGame error:', e);
+  }
 }
 
 function showTutorial(){

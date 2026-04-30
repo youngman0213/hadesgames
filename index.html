@@ -392,6 +392,46 @@ body::before {
 .chart-not-enough { text-align: center; padding: 24px; color: var(--text2); font-size: 12px; }
 
 /* ══════════════════════════════
+   기록/시상식
+══════════════════════════════ */
+.record-list { display: grid; gap: 8px; }
+.record-row {
+  background: var(--card2);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 12px;
+}
+.record-row.done { opacity: 0.72; }
+.record-title { font-weight: 700; color: var(--text); }
+.record-meta {
+  margin-top: 3px;
+  color: var(--text2);
+  font-size: 10px;
+  font-family: 'JetBrains Mono', monospace;
+}
+.career-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+@media (min-width: 720px) { .career-grid { grid-template-columns: repeat(4, 1fr); } }
+.career-item {
+  background: var(--card2);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  padding: 12px;
+}
+.career-item small {
+  display: block;
+  color: var(--text2);
+  font-size: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  margin-bottom: 4px;
+}
+.career-item strong { font-size: 14px; }
+
+/* ══════════════════════════════
    리포트 카드
 ══════════════════════════════ */
 .report-card {
@@ -933,6 +973,7 @@ body::before {
     <button class="nav-btn" onclick="openPage('gacha',this)">✨ 장비뽑기</button>
     <button class="nav-btn" onclick="openPage('staff',this)">🧑‍💼 스태프</button>
     <button class="nav-btn" onclick="openPage('tour',this)">🌍 투어</button>
+    <button class="nav-btn" onclick="openPage('awards',this)">🏆 시상식</button>
   </div>
 </div>
 
@@ -977,6 +1018,17 @@ body::before {
       </div>
     </div>
 
+    <div class="two-col">
+      <div class="card">
+        <div class="section-title">🔮 미래시</div>
+        <div id="future-event-list" class="record-list"></div>
+      </div>
+      <div class="card">
+        <div class="section-title">🎖️ 커리어</div>
+        <div id="career-summary" class="career-grid"></div>
+      </div>
+    </div>
+
     <div class="report-card" id="profit-report">
       <div class="section-title">🌙 일일 리포트</div>
       <div id="profit-content" style="font-size:13px;"></div>
@@ -995,7 +1047,7 @@ body::before {
         <button class="sub-tab-btn" onclick="switchChartPeriod('yearly',this)" id="tab-yearly">👑 연간</button>
       </div>
       <div id="chart-list-container"></div>
-      <div style="font-family:'JetBrains Mono',monospace; font-size:9px; text-align:center; color:var(--text3); margin-top:8px;">* 주간 발매 후 4주 경과 시 월간 · 52주 경과 시 연간 차트 진입</div>
+      <div style="font-family:'JetBrains Mono',monospace; font-size:9px; text-align:center; color:var(--text3); margin-top:8px;">* 첫 싱글 발매 후 주간 · 발매 30일 후 월간 · 365일 후 연간 차트 오픈</div>
     </div>
 
     <div class="save-load-btns">
@@ -1125,6 +1177,26 @@ body::before {
     </div>
   </div>
 
+  <!-- 시상식 & 기록 -->
+  <div id="awards" class="page">
+    <div class="card">
+      <div class="section-title">🔮 미래시</div>
+      <div id="future-event-page-list" class="record-list"></div>
+    </div>
+    <div class="card">
+      <div class="section-title">🎖️ 커리어 기록</div>
+      <div id="career-page-summary" class="career-grid"></div>
+    </div>
+    <div class="card">
+      <div class="section-title">🎵 곡 히스토리</div>
+      <div id="song-history-list" class="record-list"></div>
+    </div>
+    <div class="card">
+      <div class="section-title">🏆 시상식/수상 내역</div>
+      <div id="award-history-list" class="record-list"></div>
+    </div>
+  </div>
+
 </div>
 
 <!-- 다음날 버튼 -->
@@ -1156,14 +1228,89 @@ body::before {
 // ═══════════════════════════════════════════
 //  상수
 // ═══════════════════════════════════════════
-function makeTitlePool(front, back, limit){
+function pushSongTitle(titles, seen, title, limit){
+  const normalized=String(title).trim().replace(/\s+/g,' ');
+  if(normalized&&!seen.has(normalized)){
+    titles.push(normalized);
+    seen.add(normalized);
+  }
+  return titles.length>=limit;
+}
+function makeKoreanTitlePool(limit){
   const titles=[];
-  for(const a of front){
-    for(const b of back){
-      const title=`${a} ${b}`;
-      if(!titles.includes(title)) titles.push(title);
+  const seen=new Set();
+  const nouns=["고백","산책","일기","온도","이름","그림자","멜로디","문장","장면","향기","신호","대답","기다림","습관","미소","기분","노래","밤","아침","편린","기억","속도","풍경","여운","이별","시작","마침표","빛","사이","끝"];
+  const moods=["오늘","내일","새벽","밤하늘","첫눈","여름","겨울","봄날","비밀","기억","편지","그때","우리","너의","나의","흔적","안녕","사랑","마음","꿈속","하루","바람","우산","거리","노을","달빛","파도","약속","계절","순간"];
+  const people=["너","나","우리","그대","둘","아무도","서로","너와 나","그 사람","지난 우리"];
+  const times=["오늘","내일","새벽","어젯밤","이 밤","그날","주말","월요일","늦은 밤","아침"];
+  const timePhrases=["오늘도","내일도","새벽에","어젯밤","이 밤에","그날처럼","주말에","월요일에","늦은 밤","아침에"];
+  const places=["골목","정류장","창가","방 안","옥상","카페","거리","계단","바닷가","지하철"];
+  const verbs=["기다려","웃어줘","불러줘","돌아와","말해줘","안아줘","걸어가","기억해","사라져","흘러가","남겨줘","잊지마"];
+  const singles=["괜찮아","비밀이야","보고싶어","좋아해","미워해","그리워","몰랐어","잊을게","웃어줘","돌아와","말하지마","잠깐만","아무렇지 않아","다시 만나","잘 지내"];
+  const suffixes=["처럼","까지","뿐이야","인가봐","이니까","이라서","만큼","뒤에","앞에서","없이"];
+  const patterns=[
+    ()=>singles,
+    ()=>moods.flatMap(a=>nouns.map(b=>`${a} ${b}`)),
+    ()=>nouns.flatMap(a=>verbs.map(b=>`${a} ${b}`)),
+    ()=>people.flatMap(a=>verbs.map(b=>`${a} ${b}`)),
+    ()=>timePhrases.flatMap(a=>verbs.map(b=>`${a} ${b}`)),
+    ()=>places.flatMap(a=>verbs.map(b=>`${a}에서 ${b}`)),
+    ()=>people.flatMap(a=>nouns.map(b=>`${a}의 ${b}`)),
+    ()=>nouns.flatMap(a=>suffixes.map(b=>`${a}${b}`)),
+    ()=>nouns.flatMap(a=>verbs.map(b=>`${a}, ${b}`)),
+    ()=>nouns.flatMap(a=>times.map(b=>`${a} 없는 ${b}`)),
+    ()=>places.flatMap(a=>nouns.map(b=>`${a}의 ${b}`)),
+    ()=>moods.flatMap(a=>people.map(b=>`${a}은 ${b}`)),
+  ];
+  const generated=patterns.map(make=>make().filter(Boolean));
+  let row=0;
+  while(titles.length<limit){
+    let added=false;
+    for(const list of generated){
+      if(row<list.length){
+        pushSongTitle(titles,seen,list[row],limit);
+        added=true;
+      }
       if(titles.length>=limit) return titles;
     }
+    if(!added) break;
+    row++;
+  }
+  return titles;
+}
+function makeEnglishTitlePool(limit){
+  const titles=[];
+  const seen=new Set();
+  const singles=["Stay","Replay","Runaway","Daydream","Heartbeat","Moonlight","Promise","Somewhere","Tonight","Honestly","Closer","Remember","Afterglow","Sunrise","Bluebird","Loveline","Goodnight","Wishful","Timeless","Anyway"];
+  const adjectives=["Blue","Sweet","Last","Dear","Slow","Bright","Lonely","Good","Little","Lucky","Summer","Winter","Secret","Golden","Silent","New","Easy","Clear","Soft","Warm","City","Better","Deep","Quiet","Late","Tender","Brave","Faint","Sunday","Silver"];
+  const nouns=["Day","Night","Love","Letter","Room","Light","Dream","Heart","Mood","Sign","Season","Rain","Story","Wave","Time","Smile","Road","Song","Memory","Promise","Feeling","Chance","Moment","Garden","Street","Answer","Glow","Home","Sky","Name"];
+  const verbPhrases=["Find You","Hold Me","Keep It","Miss You","Need You","Call Me","Save Me","Follow Me","Leave Me","Catch Me","Meet Again","Lose Control","Trust Me","Touch The Sky","Wake Me"];
+  const preps=["After","Before","Inside","Under","Over","Around","Without","Beyond","Between","Through"];
+  const anchors=["Midnight","Sunset","Rain","Summer","Monday","Goodbye","The Show","The Light","The Last Song","This Moment","Your Window","My Room"];
+  const closers=["Again","Tonight","Forever","For You","With Me","All Night","So Close","Too Late","Right Now","One More Time"];
+  const patterns=[
+    ()=>singles,
+    ()=>adjectives.flatMap(a=>nouns.map(b=>`${a} ${b}`)),
+    ()=>verbPhrases,
+    ()=>preps.flatMap(a=>anchors.map(b=>`${a} ${b}`)),
+    ()=>nouns.flatMap(a=>closers.map(b=>`${a} ${b}`)),
+    ()=>verbPhrases.flatMap(a=>closers.map(b=>`${a} ${b}`)),
+    ()=>nouns.flatMap(a=>nouns.map(b=>a!==b?`${a} To ${b}`:'')),
+    ()=>adjectives.flatMap(a=>closers.map(b=>`${a} ${b}`)),
+  ];
+  const generated=patterns.map(make=>make().filter(Boolean));
+  let row=0;
+  while(titles.length<limit){
+    let added=false;
+    for(const list of generated){
+      if(row<list.length){
+        pushSongTitle(titles,seen,list[row],limit);
+        added=true;
+      }
+      if(titles.length>=limit) return titles;
+    }
+    if(!added) break;
+    row++;
   }
   return titles;
 }
@@ -1193,17 +1340,75 @@ const rivalArtists = [
   ...bandArtistNames.map((name,i)=>({ name, type:"band", popularity:randomRange(32,70), fandomPower:randomRange(38,78) }))
 ];
 
-const koreanSongTitles = makeTitlePool(
-  ["오늘","내일","새벽","밤하늘","첫눈","여름","겨울","봄날","비밀","기억","편지","그때","우리","너의","나의","흔적","안녕","사랑","마음","꿈속","하루","바람","우산","거리","노을","달빛","파도","약속","계절","순간"],
-  ["고백","산책","일기","온도","이름","그림자","멜로디","문장","장면","향기","신호","대답","기다림","습관","미소","기분","노래","밤","아침","편린","기억","속도","풍경","여운","이별","시작","마침표","빛","사이","끝"],
-  560
-);
-const englishSongTitles = makeTitlePool(
-  ["Blue","Sweet","Last","Dear","Slow","Bright","Lonely","Good","Little","Lucky","Summer","Winter","Secret","Golden","Silent","New","Every","One","Still","Easy","Late","Clear","Soft","Young","Warm","City","Simple","Better","Round","Deep"],
-  ["Day","Night","Love","Letter","Room","Light","Dream","Heart","Mood","Sign","Season","Rain","Story","Wave","Time","Smile","Road","Song","Memory","Promise","Feeling","Chance","Moment","Garden","Street","Sunday","Monday","Answer","Glow","Home"],
-  240
-);
+const koreanSongTitles = makeKoreanTitlePool(560);
+const englishSongTitles = makeEnglishTitlePool(240);
 const kpopSongTitles = [...koreanSongTitles, ...englishSongTitles];
+
+const futureEvents = [
+  {
+    day: 1,
+    date: "2025-12-26",
+    type: "release",
+    artist: "HADES",
+    title: "MEGA PIECE HARMONY",
+    releaseOrder: 1,
+    releaseType: "single",
+    confirmed: true,
+    triggered: false,
+    hint: "HADES의 첫 번째 싱글 발매일입니다."
+  },
+  {
+    day: 15,
+    date: "2026-01-09",
+    type: "release",
+    artist: "HADES",
+    title: "두번째 지구(Planet B)",
+    releaseOrder: 2,
+    releaseType: "single",
+    confirmed: true,
+    triggered: false,
+    hint: "HADES의 두 번째 싱글 발매일입니다."
+  },
+  {
+    day: 16,
+    date: "2026-01-10",
+    time: "21:00",
+    type: "concert",
+    artist: "HADES",
+    title: "UNIVERSE B905",
+    eventName: "온라인 콘서트",
+    confirmed: true,
+    triggered: false,
+    hint: "온라인 콘서트가 예정되어 있습니다."
+  }
+];
+
+const awardShows = [
+  { type: "year_award", name: "K-뮤직 그랜드 어워즈", focus: "overall" },
+  { type: "year_award", name: "디지털 사운드 어워즈", focus: "digital" },
+  { type: "year_award", name: "글로벌 팬 초이스 어워즈", focus: "fandom" },
+  { type: "year_award", name: "뮤직 크리틱 어워즈", focus: "quality" },
+  { type: "year_award", name: "라이브 사운드 어워즈", focus: "performance" }
+];
+const musicShows = [
+  { type: "music_show", id: "music_wave", name: "뮤직 웨이브" },
+  { type: "music_show", id: "live_stage", name: "라이브 스테이지" },
+  { type: "music_show", id: "sound_bank", name: "사운드 뱅크" }
+];
+const awardCategories = [
+  "올해의 노래",
+  "올해의 아티스트",
+  "베스트 퍼포먼스",
+  "베스트 디지털",
+  "글로벌 인기상",
+  "팬 초이스",
+  "베스트 라이브",
+  "올해의 신인",
+  "베스트 콜라보",
+  "올해의 트렌드",
+  "역주행 히트",
+  "롱런 히트"
+];
 
 const memberTraits = [
   { id:'hardworker', name:'성실형', emoji:'💪', desc:'훈련 스탯 상승 확률 +20%', color:'#2ecc8e' },
@@ -1244,14 +1449,14 @@ const staffPool = [
     fatiguePenalty: 15,
     effectFn:(gs)=>{ gs.staffBonus.directorStyle='hard'; } },
 
-  { id:'composer', name:'DJ 루나', role:'전속 작곡가', emoji:'🎵', minTier:'아시아에서 알려짐', salary:12000000, effect:'차트 점수 +3000', effectFn:(gs)=>{ gs.staffBonus.chartBonus+=3000; } },
+  { id:'composer', name:'DJ 루나', role:'전속 작곡가', emoji:'🎵', minTier:'아시아에서 알려짐', salary:12000000, effect:'신곡 차트 화력 상승', effectFn:(gs)=>{ gs.staffBonus.chartBonus+=3000; } },
   { id:'global_pr', name:'윤글로벌', role:'글로벌 PR 매니저', emoji:'🌐', minTier:'아시아에서 알려짐', salary:15000000, effect:'SNS 성장 +25%, SNS 일일 +1,000명, 유튜브 +500명', effectFn:(gs)=>{ gs.staffBonus.snsMult+=0.25; gs.staffBonus.dailySns+=1000; gs.staffBonus.dailyYt+=500; } },
-  { id:'tour_manager', name:'서투어', role:'투어 매니저', emoji:'🌍', minTier:'아시아에서 알려짐', salary:13000000, effect:'컨텐츠 성공 확률 +10%, 차트 점수 +1000', effectFn:(gs)=>{ gs.staffBonus.contentSuccess+=0.1; gs.staffBonus.chartBonus+=1000; } },
+  { id:'tour_manager', name:'서투어', role:'투어 매니저', emoji:'🌍', minTier:'아시아에서 알려짐', salary:13000000, effect:'컨텐츠 성공 확률 +10%, 차트 화력 상승', effectFn:(gs)=>{ gs.staffBonus.contentSuccess+=0.1; gs.staffBonus.chartBonus+=1000; } },
 
   { id:'brand_director', name:'강브랜드', role:'브랜드 디렉터', emoji:'💼', minTier:'북미에서 알려짐', salary:22000000, effect:'컨텐츠 성공 확률 +20%, SNS 성장 +20%, 유튜브 일일 +1,000명', effectFn:(gs)=>{ gs.staffBonus.contentSuccess+=0.2; gs.staffBonus.snsMult+=0.2; gs.staffBonus.dailyYt+=1000; } },
   { id:'senior_attorney', name:'로펌 한', role:'글로벌 법무 파트너', emoji:'🏛️', minTier:'북미에서 알려짐', salary:18000000, effect:'재계약 비용 -50%', effectFn:(gs)=>{ gs.staffBonus.contractDiscount+=0.5; } },
 
-  { id:'executive_producer', name:'마스터 프로듀서 리', role:'총괄 프로듀서', emoji:'👑', minTier:'전세계에서 알려짐', salary:35000000, effect:'차트 점수 +5000, 컨텐츠 성공 확률 +25%, SNS 일일 +2,000명', effectFn:(gs)=>{ gs.staffBonus.chartBonus+=5000; gs.staffBonus.contentSuccess+=0.25; gs.staffBonus.dailySns+=2000; } },
+  { id:'executive_producer', name:'마스터 프로듀서 리', role:'총괄 프로듀서', emoji:'👑', minTier:'전세계에서 알려짐', salary:35000000, effect:'차트 화력 크게 상승, 컨텐츠 성공 확률 +25%, SNS 일일 +2,000명', effectFn:(gs)=>{ gs.staffBonus.chartBonus+=5000; gs.staffBonus.contentSuccess+=0.25; gs.staffBonus.dailySns+=2000; } },
 ];
 
 const rivalAgencies = [
@@ -1375,6 +1580,10 @@ let gameState = {
   finance:200000000, fandom:110000, youtube:20000, sns:1000,
   fandomCasual:77000, fandomHardcore:27500, fandomWhale:5500,
   accumulatedSales:0,
+  futureEvents:JSON.parse(JSON.stringify(futureEvents)),
+  careerStats:{ totalSongs:0, totalNo1:0, totalWins:0, bestSong:null },
+  eventHistory:[],
+  awardHistory:[],
   currentTier:'루키',
   activeCharts:[], rivalCharts:[], usedSongTitles:[], rivalReleasePlan:{}, musicSimVersion:2,
   rivalAgencies:JSON.parse(JSON.stringify(rivalAgencies)),
@@ -1410,6 +1619,7 @@ let gameState = {
 // ═══════════════════════════════════════════
 function startGame(){
   try {
+    normalizeGameState();
     document.getElementById('start-page').style.display='none';
     document.getElementById('main-nav').style.display='block';
     document.getElementById('main-container').style.display='block';
@@ -1442,6 +1652,7 @@ function showTutorial(){
 //  저장/불러오기
 // ═══════════════════════════════════════════
 function saveGame(){
+  normalizeGameState();
   const toSave=JSON.parse(JSON.stringify(gameState));
   toSave.startDate=gameState.startDate.toISOString();
   localStorage.setItem('hades_save_v25',JSON.stringify(toSave));
@@ -1466,12 +1677,71 @@ function loadGame(){
   if(!loaded.crisisUsed) loaded.crisisUsed=[];
   if(!loaded.usedSongTitles) loaded.usedSongTitles=[];
   if(!loaded.rivalReleasePlan) loaded.rivalReleasePlan={};
+  if(!loaded.futureEvents) loaded.futureEvents=JSON.parse(JSON.stringify(futureEvents));
+  if(!loaded.careerStats) loaded.careerStats={ totalSongs:0, totalNo1:0, totalWins:0, bestSong:null };
+  if(!loaded.eventHistory) loaded.eventHistory=[];
+  if(!loaded.awardHistory) loaded.awardHistory=[];
   gameState=loaded;
   gameState.startDate=new Date(loaded.startDate);
+  normalizeGameState();
   initRivalCharts();
   recalcStaffBonus();
   updateDisplay();
   alert('불러오기 완료!');
+}
+
+function getCurrentDateString(day=gameState.day){
+  const d=new Date(gameState.startDate);
+  d.setDate(d.getDate()+(day-1));
+  return d.toISOString().split('T')[0];
+}
+function makeSongHistory(){
+  return { peakRank:null, weeksOnChart:0, firstEntryDay:null, lastRank:null, isOnChart:false, awards:[] };
+}
+function ensureSongHistory(song){
+  if(!song.history) song.history=makeSongHistory();
+  if(!Array.isArray(song.history.awards)) song.history.awards=[];
+  return song.history;
+}
+function normalizeGameState(){
+  if(!Array.isArray(gameState.futureEvents)) gameState.futureEvents=JSON.parse(JSON.stringify(futureEvents));
+  futureEvents.forEach(template=>{
+    const existing=gameState.futureEvents.find(ev=>ev.date===template.date&&ev.title===template.title&&ev.type===template.type);
+    if(!existing) gameState.futureEvents.push(JSON.parse(JSON.stringify(template)));
+    else Object.keys(template).forEach(key=>{ if(existing[key]===undefined) existing[key]=template[key]; });
+  });
+  if(!gameState.careerStats) gameState.careerStats={ totalSongs:0, totalNo1:0, totalWins:0, bestSong:null };
+  if(!Array.isArray(gameState.eventHistory)) gameState.eventHistory=[];
+  if(!Array.isArray(gameState.awardHistory)) gameState.awardHistory=[];
+  if(!Array.isArray(gameState.activeCharts)) gameState.activeCharts=Array.isArray(gameState.playerSongs)?gameState.playerSongs:[];
+  gameState.playerSongs=gameState.activeCharts;
+  gameState.activeCharts.forEach(song=>{
+    if(!song.title) song.title=song.name;
+    if(!song.name) song.name=song.title;
+    if(!song.artist) song.artist='HADES';
+    if(!song.releaseType) song.releaseType='single';
+    if(song.daysAfterRelease===undefined) song.daysAfterRelease=(song.weeksActive||0)*7;
+    if(!song.prevPeriodRanks) song.prevPeriodRanks={weekly:{},monthly:{},yearly:{}};
+    if(!song.periodRanks) song.periodRanks={weekly:{},monthly:{},yearly:{}};
+    if(!song.chartEventFlags) song.chartEventFlags={entry:!!song.hasShownChartEntry,no1:!!song.hasShownNo1};
+    if(song.hasShownChartEntry===undefined) song.hasShownChartEntry=!!song.chartEventFlags.entry;
+    if(song.hasShownNo1===undefined) song.hasShownNo1=!!song.chartEventFlags.no1;
+    if(song.musicShowWins===undefined) song.musicShowWins=0;
+    ensureSongHistory(song);
+  });
+  if(!gameState.careerStats.totalSongs) gameState.careerStats.totalSongs=gameState.activeCharts.length;
+  updateBestSong();
+}
+function addEventHistory(type,title,result,extra={}){
+  if(!Array.isArray(gameState.eventHistory)) gameState.eventHistory=[];
+  gameState.eventHistory.push({
+    day:gameState.day,
+    date:getCurrentDateString(),
+    type,
+    title,
+    result,
+    ...extra
+  });
 }
 
 // ═══════════════════════════════════════════
@@ -1825,6 +2095,92 @@ function updateChartRanking(){
   });
 }
 
+function hasHadesSongs(){
+  return Array.isArray(gameState.activeCharts)&&gameState.activeCharts.length>0;
+}
+function isChartPeriodOpen(period){
+  if(period==='weekly') return hasHadesSongs();
+  if(period==='monthly') return gameState.activeCharts.some(song=>(song.daysAfterRelease||0)>=30);
+  if(period==='yearly') return gameState.activeCharts.some(song=>(song.daysAfterRelease||0)>=365);
+  return false;
+}
+function canSongEnterPeriod(song, period){
+  if(period==='weekly') return true;
+  if(period==='monthly') return (song.daysAfterRelease||0)>=30;
+  if(period==='yearly') return (song.daysAfterRelease||0)>=365;
+  return true;
+}
+function getScoreKey(period){
+  return period==='weekly'?'weeklyScore':period==='monthly'?'monthlyScore':'yearlyScore';
+}
+function getChartRows(period, platform, limit=100){
+  const scoreKey=getScoreKey(period);
+  const rivalRows=gameState.rivalCharts.map(s=>({...s,isPlayer:false}));
+  const playerRows=gameState.activeCharts
+    .filter(song=>canSongEnterPeriod(song,period))
+    .map(song=>({
+      ...song,
+      artist:'HADES',
+      title:song.title||song.name,
+      name:song.name||song.title,
+      weeklyScore:song.weeklyScore,
+      monthlyScore:song.monthlyScore,
+      yearlyScore:song.yearlyScore,
+      isPlayer:true,
+    }));
+  return [...rivalRows,...playerRows]
+    .filter(song=>song[scoreKey]&&song[scoreKey][platform]!==undefined)
+    .sort((a,b)=>b[scoreKey][platform]-a[scoreKey][platform])
+    .slice(0,limit);
+}
+function updateBestSong(){
+  if(!gameState?.careerStats) return;
+  const best=[...gameState.activeCharts].sort((a,b)=>{
+    const ah=ensureSongHistory(a);
+    const bh=ensureSongHistory(b);
+    const ar=ah.peakRank||999;
+    const br=bh.peakRank||999;
+    if(ar!==br) return ar-br;
+    return (bh.weeksOnChart||0)-(ah.weeksOnChart||0);
+  })[0];
+  gameState.careerStats.bestSong=best?{ title:best.title||best.name, peakRank:ensureSongHistory(best).peakRank, weeksOnChart:ensureSongHistory(best).weeksOnChart }:null;
+}
+function updateHadesChartHistory(){
+  const ranked=getChartRows('weekly','subak',100);
+  gameState.activeCharts.forEach(song=>{
+    const history=ensureSongHistory(song);
+    const rowIndex=ranked.findIndex(row=>row.isPlayer&&(row.title===(song.title||song.name)));
+    const rank=rowIndex>=0?rowIndex+1:null;
+    history.isOnChart=!!rank;
+    if(rank){
+      if(history.firstEntryDay===null) history.firstEntryDay=gameState.day;
+      history.peakRank=history.peakRank?Math.min(history.peakRank,rank):rank;
+      if(gameState.day%7===0) history.weeksOnChart++;
+    }
+    history.lastRank=rank;
+  });
+  updateBestSong();
+}
+function updateHadesPeriodRanks(){
+  ['weekly','monthly','yearly'].forEach(period=>{
+    ['subak','musicside','tube'].forEach(platform=>{
+      gameState.activeCharts.forEach(song=>{
+        if(!song.prevPeriodRanks) song.prevPeriodRanks={weekly:{},monthly:{},yearly:{}};
+        if(!song.periodRanks) song.periodRanks={weekly:{},monthly:{},yearly:{}};
+        if(!song.prevPeriodRanks[period]) song.prevPeriodRanks[period]={};
+        if(!song.periodRanks[period]) song.periodRanks[period]={};
+        song.prevPeriodRanks[period][platform]=song.periodRanks[period][platform]||0;
+        song.periodRanks[period][platform]=0;
+      });
+      getChartRows(period,platform,100).forEach((row,idx)=>{
+        if(!row.isPlayer) return;
+        const original=gameState.activeCharts.find(song=>(song.title||song.name)===row.title);
+        if(original) original.periodRanks[period][platform]=idx+1;
+      });
+    });
+  });
+}
+
 function getHadesChartBadges(song, rank, prevRank, period){
   if(!song.isPlayer) return '';
   const badges=[];
@@ -1838,41 +2194,32 @@ function getHadesChartBadges(song, rank, prevRank, period){
 
 function checkHadesChartEvents(){
   ['weekly','monthly','yearly'].forEach(period=>{
-    const scoreKey=period==='weekly'?'weeklyScore':period==='monthly'?'monthlyScore':'yearlyScore';
     ['subak','musicside','tube'].forEach(platform=>{
-      const ranked=[
-        ...gameState.rivalCharts.map(s=>({...s,isPlayer:false})),
-        ...gameState.activeCharts.map(ac=>({
-          ...ac,
-          artist:'HADES',
-          title:ac.name,
-          weeklyScore:ac.weeklyScore,
-          monthlyScore:ac.monthlyScore,
-          yearlyScore:ac.yearlyScore,
-          isPlayer:true,
-        }))
-      ].sort((a,b)=>b[scoreKey][platform]-a[scoreKey][platform]).slice(0,100);
-      ranked.forEach((song,idx)=>{
+      getChartRows(period,platform,100).forEach((song,idx)=>{
         if(!song.isPlayer) return;
-        const original=gameState.activeCharts.find(ac=>ac.name===song.name);
+        const original=gameState.activeCharts.find(ac=>(ac.title||ac.name)===song.title);
         if(!original) return;
         const rank=idx+1;
         if(!original.chartEventFlags) original.chartEventFlags={entry:false,no1:false};
-        if(!original.chartEventFlags.entry){
+        if(!original.hasShownChartEntry&&!original.chartEventFlags.entry){
           original.chartEventFlags.entry=true;
+          original.hasShownChartEntry=true;
           gameState.popupQueue.push({type:'chart_entry',event:{
             id:`entry_${original.name}_${period}_${platform}`,
             title:'🎵 차트 진입!',
-            desc:`HADES 신곡 <${original.name}>이 차트에 진입했습니다!`,
+            desc:`HADES 신곡이 차트에 진입했습니다!\n\n<${original.title||original.name}>`,
             choices:[{text:'확인',effect:()=>{}}]
           }});
         }
-        if(rank===1&&!original.chartEventFlags.no1){
+        if(rank===1&&!original.hasShownNo1&&!original.chartEventFlags.no1){
           original.chartEventFlags.no1=true;
+          original.hasShownNo1=true;
+          gameState.careerStats.totalNo1++;
+          updateBestSong();
           gameState.popupQueue.push({type:'chart_no1',event:{
             id:`no1_${original.name}_${period}_${platform}`,
             title:'🏆 1위 달성!',
-            desc:`HADES가 <${original.name}>으로 차트 정상에 올랐습니다!`,
+            desc:`🏆 1위 달성! HADES가 차트 정상에 올랐습니다!\n\n<${original.title||original.name}>`,
             choices:[{text:'확인',effect:()=>{}}]
           }});
         }
@@ -1942,47 +2289,36 @@ function renderHomeCharts(){
   const platform=gameState.currentChartPlatform;
   const period=gameState.currentChartPeriod;
   const container=document.getElementById('chart-list-container');
+  const monthlyOpen=isChartPeriodOpen('monthly');
+  const yearlyOpen=isChartPeriodOpen('yearly');
+  const tabWeekly=document.getElementById('tab-weekly');
+  const tabMonthly=document.getElementById('tab-monthly');
+  const tabYearly=document.getElementById('tab-yearly');
+  if(tabWeekly) tabWeekly.disabled=!isChartPeriodOpen('weekly');
+  if(tabMonthly) tabMonthly.disabled=!monthlyOpen;
+  if(tabYearly) tabYearly.disabled=!yearlyOpen;
 
-  // 플레이어 곡 — 발매 경과 주수에 따라 차트 진입 가능 여부 결정
-  const playerSongs=gameState.activeCharts.filter(ac=>{
-    if(period==='weekly') return true; // 주간은 항상
-    if(period==='monthly') return ac.weeksActive>=4; // 월간은 4주 이상
-    if(period==='yearly') return ac.weeksActive>=52; // 연간은 52주 이상
-    return true;
-  });
+  if(!hasHadesSongs()){
+    container.innerHTML=`<div class="chart-not-enough">아직 발매한 곡이 없습니다. 첫 싱글 발매 후 차트가 열립니다.</div>`;
+    return;
+  }
+  if(!isChartPeriodOpen(period)){
+    const msg=period==='monthly'
+      ? '발매 후 30일이 지난 HADES 곡이 있을 때 월간 차트가 열립니다.'
+      : '발매 후 365일이 지난 HADES 곡이 있을 때 연간 차트가 열립니다.';
+    container.innerHTML=`<div class="chart-not-enough">${msg}</div>`;
+    return;
+  }
 
-const allSongs=[
-  ...gameState.rivalCharts.map(s=>({...s, isPlayer:false})),
-  ...playerSongs.map(ac=>({
-    artist:'HADES', title:ac.name,
-    weeklyScore:ac.weeklyScore, monthlyScore:ac.monthlyScore, yearlyScore:ac.yearlyScore,
-    prevRanks:ac.prevRanks||{subak:0,musicside:0,tube:0},
-    prevPeriodRanks:ac.prevPeriodRanks||{},
-    weeksActive:ac.weeksActive||0,
-    daysAfterRelease:ac.daysAfterRelease||((ac.weeksActive||0)*7),
-    isPlayer:true,
-  }))
-];
-
-  const scoreKey=period==='weekly'?'weeklyScore':period==='monthly'?'monthlyScore':'yearlyScore';
-  allSongs.sort((a,b)=>b[scoreKey][platform]-a[scoreKey][platform]);
   const displayLimit=period==='weekly'?20:period==='monthly'?30:50;
-  const chartRows=allSongs.slice(0,displayLimit);
+  const chartRows=getChartRows(period,platform,displayLimit);
 
   if(chartRows.length===0){
     container.innerHTML=`<div class="chart-not-enough">아직 차트 데이터가 없습니다.</div>`;
     return;
   }
 
-  // 월간/연간이고 플레이어 곡이 아직 진입 못한 경우 안내
-  const playerInChart=chartRows.some(s=>s.isPlayer);
-  let notice='';
-  if(!playerInChart && gameState.activeCharts.length>0){
-    if(period==='monthly') notice=`<div style="font-size:11px; color:var(--warn); margin-bottom:8px; padding:8px 10px; background:rgba(244,162,45,0.08); border-radius:6px; border-left:2px solid var(--warn);">📅 발매 후 4주가 지나야 월간 차트에 반영됩니다.</div>`;
-    if(period==='yearly') notice=`<div style="font-size:11px; color:var(--warn); margin-bottom:8px; padding:8px 10px; background:rgba(244,162,45,0.08); border-radius:6px; border-left:2px solid var(--warn);">📅 발매 후 52주(1년)가 지나야 연간 차트에 반영됩니다.</div>`;
-  }
-
-  container.innerHTML=notice+chartRows.map((song,idx)=>{
+  container.innerHTML=chartRows.map((song,idx)=>{
     const rank=idx+1;
     const prevRank=song.prevPeriodRanks?.[period]?.[platform]||song.prevRanks?.[platform]||0;
     let changeHtml='<span class="rank-change" style="color:var(--text3);">NEW</span>';
@@ -2014,9 +2350,9 @@ function processCharts(){
   // 플레이어 차트 처리
   const cb=gameState.staffBonus.chartBonus||0;
   gameState.activeCharts.forEach(ac=>{
-    if(ac.weeksActive>=12) return;
     ac.daysAfterRelease=(ac.daysAfterRelease||0)+1;
-    const power=Math.floor(teamScore*2)+cb;
+    const ageDecay=ac.daysAfterRelease>90?0.55:ac.daysAfterRelease>30?0.78:1;
+    const power=Math.floor((teamScore*2+cb)*ageDecay)+(ac.viralBonus||0);
     ['subak','musicside','tube'].forEach(plat=>{
       const delta=power+Math.floor(Math.random()*600)-200;
       ac.weeklyScore[plat]=Math.max(0,ac.weeklyScore[plat]+delta);
@@ -2026,9 +2362,10 @@ function processCharts(){
       ac.weeksActive=(ac.weeksActive||0)+1;
       ['subak','musicside','tube'].forEach(plat=>{
         ac.monthlyScore[plat]+=ac.weeklyScore[plat];
-        ac.yearlyScore[plat]+=ac.weeklyScore[plat];
+      ac.yearlyScore[plat]+=ac.weeklyScore[plat];
       });
     }
+    if(ac.viralBonus>0) ac.viralBonus=Math.max(0,ac.viralBonus-1);
   });
 
   // 차트 순위 기반 수익
@@ -2048,27 +2385,10 @@ function processCharts(){
     if(Math.random()<0.2) gameState.community.push({site:'음원반응',content:musicReactions[Math.floor(Math.random()*musicReactions.length)]});
   });
 
-  ['weekly','monthly','yearly'].forEach(period=>{
-    const scoreKey=period==='weekly'?'weeklyScore':period==='monthly'?'monthlyScore':'yearlyScore';
-    ['subak','musicside','tube'].forEach(plat=>{
-      const ranked=[
-        ...gameState.rivalCharts.map(s=>({...s,isPlayer:false})),
-        ...gameState.activeCharts.map(ac=>({...ac,artist:'HADES',title:ac.name,isPlayer:true}))
-      ].sort((a,b)=>b[scoreKey][plat]-a[scoreKey][plat]).slice(0,100);
-      ranked.forEach((song,idx)=>{
-        if(!song.isPlayer) return;
-        const original=gameState.activeCharts.find(ac=>ac.name===song.name);
-        if(!original) return;
-        if(!original.prevPeriodRanks) original.prevPeriodRanks={weekly:{},monthly:{},yearly:{}};
-        if(!original.periodRanks) original.periodRanks={weekly:{},monthly:{},yearly:{}};
-        if(!original.prevPeriodRanks[period]) original.prevPeriodRanks[period]={};
-        if(!original.periodRanks[period]) original.periodRanks[period]={};
-        original.prevPeriodRanks[period][plat]=original.periodRanks[period][plat]||0;
-        original.periodRanks[period][plat]=idx+1;
-      });
-    });
-  });
+  updateHadesPeriodRanks();
+  updateHadesChartHistory();
   checkHadesChartEvents();
+  processAwards();
 
   if(gameState.day%7===0){
     gameState.activeCharts.forEach(song=>{
@@ -2076,7 +2396,7 @@ function processCharts(){
         gameState.popupQueue.push({type:'chart_week',event:{
           id:`wk_${song.name}_${song.weeksActive}`,
           title:`📊 [${song.name}] ${song.weeksActive}주차`,
-          desc:`수박 주간: ${Math.floor(song.weeklyScore.subak).toLocaleString()}점\n뮤직사이드: ${Math.floor(song.weeklyScore.musicside).toLocaleString()}점\n너튜브: ${Math.floor(song.weeklyScore.tube).toLocaleString()}점\n차트 순위: ${song.rank||'?'}위`,
+          desc:`주간 차트 순위: ${song.rank||'?'}위\n최고 순위: ${ensureSongHistory(song).peakRank||'?'}위\n차트인: ${ensureSongHistory(song).weeksOnChart}주`,
           choices:[{text:'확인',effect:()=>{}}]
         }});
       }
@@ -2093,11 +2413,7 @@ function renderBroadcastSection(){
   const activeSongs=gameState.activeCharts.filter(ac=>(ac.weeksActive||0)<8);
   if(activeSongs.length===0){ section.style.display='none'; return; }
   section.style.display='block';
-  const shows=[
-    {id:'inkigayo',name:'인기가요',wins:gameState.broadcastWins.inkigayo},
-    {id:'musicbank',name:'뮤직뱅크',wins:gameState.broadcastWins.musicbank},
-    {id:'showchamp',name:'쇼챔피언',wins:gameState.broadcastWins.showchamp},
-  ];
+  const shows=musicShows.map(show=>({id:show.id,name:show.name,wins:gameState.broadcastWins[show.id]||0}));
   list.innerHTML=shows.map(show=>{
     const song=activeSongs[0];
     const rank=song.rank||99;
@@ -2105,15 +2421,22 @@ function renderBroadcastSection(){
     return `<div class="broadcast-card">
       <div style="font-family:'Syne',sans-serif; font-weight:700; margin-bottom:6px;">${show.name} <span style="font-size:11px; color:var(--text2); font-family:'JetBrains Mono',monospace;">통산 ${show.wins}회 1위</span></div>
       <div style="font-size:12px; color:var(--text2); margin-bottom:8px;">현재 차트 ${rank}위 · 1위 확률 약 ${winChance}%</div>
-      <button class="content-btn btn-available" onclick="tryBroadcastWin('${show.id}','${show.name}',${winChance})">1위 도전!</button>
+      <button class="content-btn btn-available" onclick="tryBroadcastWin('${show.id}','${show.name}',${winChance},'${song.title||song.name}')">1위 도전!</button>
     </div>`;
   }).join('');
 }
 
-function tryBroadcastWin(showId,showName,chance){
+function tryBroadcastWin(showId,showName,chance,songTitle=''){
   const roll=Math.random()*100;
   if(roll<chance){
+    if(!gameState.broadcastWins[showId]) gameState.broadcastWins[showId]=0;
     gameState.broadcastWins[showId]++;
+    gameState.careerStats.totalWins++;
+    const song=gameState.activeCharts.find(ac=>(ac.title||ac.name)===songTitle);
+    if(song){
+      song.musicShowWins=(song.musicShowWins||0)+1;
+      ensureSongHistory(song).awards.push({ year:getAwardYear(), show:showName, category:'음악방송 1위' });
+    }
     const reward=5000000+Math.floor(Math.random()*10000000);
     gameState.finance+=reward; gameState.accumulatedSales+=reward;
     updateFandom(50000);
@@ -2632,13 +2955,14 @@ function startComebackStep(step){
   if(step===0){
     const title=document.getElementById('comeback-title-input')?.value?.trim();
     if(!title) return alert('곡 제목을 입력하세요!');
+    if(isHadesTitleUsed(title)) return alert('이미 사용한 HADES 곡 제목입니다. 다른 제목을 입력하세요.');
     gameState.comebackTitle=title;
   }
   gameState.finance-=cost;
   gameState.comebackStep=step+1;
   gameState.members.forEach(m=>m.fatigue=Math.min(100,m.fatigue+10));
   if(step===3){
-    launchComebackSong(gameState.comebackTitle);
+    launchComebackSong(gameState.comebackTitle,{source:'manual',releaseType:'single'});
     gameState.comebackStep=4;
   }
   gameState.community.push({site:'속보',content:`<b>[속보] HADES ${stepNames[step]} 완료! ${gameState.comebackTitle}</b>`});
@@ -2646,10 +2970,31 @@ function startComebackStep(step){
   alert(`${stepNames[step]} 완료!`);
 }
 
-function launchComebackSong(title){
+function isHadesTitleUsed(title){
+  const normalized=String(title||'').trim();
+  return gameState.activeCharts.some(song=>(song.title||song.name)===normalized);
+}
+function launchComebackSong(title, options={}){
+  normalizeGameState();
+  const finalTitle=String(title||'').trim()||getRandomSong();
+  if(isHadesTitleUsed(finalTitle)) return null;
   const startScore=3000+(gameState.staffBonus.chartBonus||0);
-  gameState.activeCharts.push({
-    name:title, weeksActive:0, daysAfterRelease:0,
+  const song={
+    id:`hades_${finalTitle}_${gameState.day}`.replace(/\s+/g,'_'),
+    artist:'HADES',
+    name:finalTitle,
+    title:finalTitle,
+    releaseOrder:options.releaseOrder||gameState.activeCharts.length+1,
+    releaseType:options.releaseType||'single',
+    source:options.source||'manual',
+    releaseDay:gameState.day,
+    releaseDate:options.date||getCurrentDateString(),
+    weeksActive:0,
+    daysAfterRelease:0,
+    songPower:randomRange(58,90),
+    quality:randomRange(55,92),
+    fandomPower:Math.min(100,Math.floor((gameState.fandomHardcore+gameState.fandomWhale*2)/(gameState.fandom||1)*120)),
+    viralBonus:options.viralBonus||0,
     weeklyScore:{subak:startScore, musicside:startScore, tube:startScore},
     monthlyScore:{subak:0, musicside:0, tube:0},
     yearlyScore:{subak:0, musicside:0, tube:0},
@@ -2657,10 +3002,19 @@ function launchComebackSong(title){
     prevPeriodRanks:{weekly:{},monthly:{},yearly:{}},
     periodRanks:{weekly:{},monthly:{},yearly:{}},
     chartEventFlags:{entry:false,no1:false},
+    hasShownChartEntry:false,
+    hasShownNo1:false,
+    musicShowWins:0,
+    history:makeSongHistory(),
     rank:99,
-  });
-  gameState.community.push({site:'음원반응',content:`<b><${title}> 발매! 차트 진입 🎵</b>`});
+  };
+  gameState.activeCharts.push(song);
+  gameState.careerStats.totalSongs++;
+  addEventHistory('release',finalTitle,`${song.releaseType} 발매`,{artist:'HADES',date:song.releaseDate});
+  gameState.community.push({site:'음원반응',content:`<b><${finalTitle}> 발매! 차트 진입 🎵</b>`});
   document.getElementById('chart-section').style.display='block';
+  updateBestSong();
+  return song;
 }
 
 // ═══════════════════════════════════════════
@@ -2898,9 +3252,48 @@ function checkDateEvents(d){
       ]
     }});
   }
-  if(ds==='2025-12-26'&&gameState.flags.albumPaid) launchComebackSong('MEGA PIECE HARMONY');
-  if(ds==='2026-01-09'&&gameState.flags.albumPaid) launchComebackSong('두 번째 지구');
-  if(ds==='2026-01-19'&&gameState.flags.concertBought) runConcert();
+}
+
+function checkFutureEvents(){
+  normalizeGameState();
+  gameState.futureEvents.forEach(ev=>{
+    if(ev.triggered||gameState.day<ev.day) return;
+    ev.triggered=true;
+    if(ev.type==='release') executeFutureRelease(ev);
+    if(ev.type==='concert') executeFutureConcert(ev);
+  });
+}
+function executeFutureRelease(ev){
+  const song=launchComebackSong(ev.title,{
+    source:'future',
+    releaseOrder:ev.releaseOrder,
+    releaseType:ev.releaseType,
+    date:ev.date
+  });
+  if(song){
+    gameState.popupQueue.push({type:'future_release',event:{
+      id:`future_release_${ev.releaseOrder}`,
+      title:'💿 예정 싱글 발매',
+      desc:`${ev.title} 발매가 시작되었습니다.\n차트 성적은 활동 결과에 따라 달라집니다.`,
+      choices:[{text:'확인',effect:()=>{}}]
+    }});
+  }
+}
+function executeFutureConcert(ev){
+  const viewers=randomRange(25000,90000)+Math.floor(gameState.fandom*0.08);
+  const revenue=viewers*randomRange(18000,33000);
+  const fanGain=Math.floor(viewers*0.22);
+  gameState.finance+=revenue;
+  gameState.accumulatedSales+=revenue;
+  updateFandom(fanGain);
+  gameState.activeCharts.forEach(song=>{ song.viralBonus=(song.viralBonus||0)+randomRange(20,45); });
+  addEventHistory('concert',ev.title,`${ev.eventName||'콘서트'} 개최`,{artist:'HADES',date:ev.date});
+  gameState.popupQueue.push({type:'future_concert',event:{
+    id:`future_concert_${ev.title}`,
+    title:`🎤 ${ev.title}`,
+    desc:`${ev.eventName||'콘서트'}가 개최되었습니다.\n팬덤 +${fanGain.toLocaleString()}명\n수익 +${revenue.toLocaleString()}원\n기존 HADES 곡의 화제성이 상승했습니다.`,
+    choices:[{text:'확인',effect:()=>{}}]
+  }});
 }
 
 function payTotalCost(){
@@ -3016,6 +3409,84 @@ function checkTierUp(){
   gameState.currentTier=newTier.name;
 }
 
+function getAwardYear(){
+  return Number(getCurrentDateString().slice(0,4));
+}
+function getAwardCandidates(period='weekly'){
+  return getChartRows(period,'subak',100).map((row,idx)=>{
+    const original=row.isPlayer?gameState.activeCharts.find(song=>(song.title||song.name)===row.title):null;
+    const history=original?ensureSongHistory(original):null;
+    return {
+      ...row,
+      rank:idx+1,
+      original,
+      history,
+      quality:row.quality||original?.quality||randomRange(45,85),
+      fandomPower:row.fandomPower||original?.fandomPower||Math.min(100,Math.floor((gameState.fandomHardcore+gameState.fandomWhale*2)/(gameState.fandom||1)*120)),
+      weeksOnChart:history?.weeksOnChart||row.weeksActive||0,
+    };
+  });
+}
+function calcAwardCandidateScore(candidate, focus){
+  const rankScore=Math.max(0,101-(candidate.rank||100));
+  const weeksScore=Math.min(80,(candidate.weeksOnChart||0)*4);
+  const fandomScore=candidate.artist==='HADES'?Math.min(100,Math.floor(gameState.fandom/20000)):candidate.fandomPower||40;
+  const qualityScore=candidate.quality||50;
+  const performanceScore=candidate.artist==='HADES'
+    ? Math.min(100,gameState.eventHistory.filter(e=>e.type==='concert').length*25+Object.values(gameState.broadcastWins||{}).reduce((a,b)=>a+b,0)*4)
+    : randomRange(25,85);
+  const random=randomRange(-8,12);
+  if(focus==='digital') return rankScore*1.8+weeksScore*0.6+random;
+  if(focus==='fandom') return fandomScore*1.8+rankScore*0.5+random;
+  if(focus==='quality') return qualityScore*1.7+weeksScore*0.5+random;
+  if(focus==='performance') return performanceScore*1.6+rankScore*0.6+random;
+  return rankScore+weeksScore+fandomScore*0.8+qualityScore*0.6+performanceScore*0.5+random;
+}
+function pickAwardWinner(focus='overall', period='yearly'){
+  const candidates=getAwardCandidates(period);
+  if(candidates.length===0) return null;
+  return candidates.sort((a,b)=>calcAwardCandidateScore(b,focus)-calcAwardCandidateScore(a,focus))[0];
+}
+function recordAward(show, category, winner, options={}){
+  if(!winner) return;
+  const award={
+    year:getAwardYear(),
+    show,
+    category,
+    artist:winner.artist,
+    song:winner.title||winner.name||null
+  };
+  gameState.awardHistory.push(award);
+  addEventHistory('award',show,`${category}: ${winner.artist}${award.song?` - ${award.song}`:''}`,{category,artist:winner.artist,song:award.song});
+  if(winner.artist==='HADES'){
+    gameState.careerStats.totalWins++;
+    const original=winner.original||gameState.activeCharts.find(song=>(song.title||song.name)===award.song);
+    if(original){
+      ensureSongHistory(original).awards.push({ year:award.year, show, category });
+      if(options.musicShow) original.musicShowWins=(original.musicShowWins||0)+1;
+    }
+  }
+}
+function processAwards(){
+  if(gameState.day%7===0){
+    const show=musicShows[(Math.floor(gameState.day/7)-1)%musicShows.length];
+    const winner=getChartRows('weekly','subak',1)[0];
+    if(winner) recordAward(show.name,'음악방송 1위',winner,{musicShow:true});
+  }
+  if(gameState.day%90===0){
+    const winner=pickAwardWinner('overall','monthly');
+    if(winner) recordAward('시즌 뮤직 어워즈','분기 히트',winner);
+  }
+  if(gameState.day%365===0){
+    const categoryMap={overall:'올해의 노래',digital:'베스트 디지털',fandom:'팬 초이스',quality:'올해의 트렌드',performance:'베스트 퍼포먼스'};
+    awardShows.forEach(show=>{
+      const winner=pickAwardWinner(show.focus,'yearly')||pickAwardWinner(show.focus,'monthly')||pickAwardWinner(show.focus,'weekly');
+      if(winner) recordAward(show.name,categoryMap[show.focus]||awardCategories[0],winner);
+    });
+  }
+  updateBestSong();
+}
+
 function checkSeasonReport(){
   if(gameState.day%180===0){
     const score=calculateTierScore();
@@ -3128,6 +3599,7 @@ function nextDay(){
   // 날짜 이벤트
   let d=new Date(gameState.startDate); d.setDate(d.getDate()+(gameState.day-1));
   checkDateEvents(d);
+  checkFutureEvents();
   processCharts();
   processRivalAgencies();
   processSoloActivities();
@@ -3198,6 +3670,80 @@ function showTrainingReport(logs){
 function closeModal(){ document.getElementById('eventModal').style.display='none'; setTimeout(processNextPopup,100); }
 
 // ═══════════════════════════════════════════
+//  기록 UI
+// ═══════════════════════════════════════════
+function renderFutureEvents(targetId='future-event-list',limit=5){
+  const el=document.getElementById(targetId);
+  if(!el) return;
+  normalizeGameState();
+  const events=[...gameState.futureEvents]
+    .sort((a,b)=>a.day-b.day)
+    .filter(ev=>targetId.includes('page')||!ev.triggered||gameState.day-ev.day<=30)
+    .slice(0,limit);
+  el.innerHTML=events.map(ev=>{
+    const typeLabel=ev.type==='release'?'발매':ev.eventName||'온라인 콘서트';
+    const state=ev.triggered?'완료':ev.confirmed?'확정':'예정';
+    const icon=ev.confirmed?'✅':'◌';
+    return `<div class="record-row ${ev.triggered?'done':''}">
+      <div class="record-title">${icon} D+${ev.day} ${ev.title} ${typeLabel}</div>
+      <div class="record-meta">${ev.date}${ev.time?` ${ev.time}`:''} · ${state} · ${ev.hint||''}</div>
+    </div>`;
+  }).join('')||'<div class="chart-not-enough">등록된 미래시가 없습니다.</div>';
+}
+function renderCareerSummary(targetId='career-summary'){
+  const el=document.getElementById(targetId);
+  if(!el) return;
+  normalizeGameState();
+  const best=gameState.careerStats.bestSong;
+  el.innerHTML=`
+    <div class="career-item"><small>TOTAL SONGS</small><strong>${gameState.careerStats.totalSongs}</strong></div>
+    <div class="career-item"><small>NO.1 SONGS</small><strong>${gameState.careerStats.totalNo1}</strong></div>
+    <div class="career-item"><small>AWARDS</small><strong>${gameState.careerStats.totalWins}</strong></div>
+    <div class="career-item"><small>BEST SONG</small><strong>${best?best.title:'—'}</strong></div>
+  `;
+}
+function renderSongHistory(){
+  const el=document.getElementById('song-history-list');
+  if(!el) return;
+  normalizeGameState();
+  if(gameState.activeCharts.length===0){
+    el.innerHTML='<div class="chart-not-enough">아직 HADES 발매곡이 없습니다.</div>';
+    return;
+  }
+  el.innerHTML=[...gameState.activeCharts].map(song=>{
+    const h=ensureSongHistory(song);
+    const awards=h.awards||[];
+    const awardText=awards.length>0?awards.map(a=>`${a.show} ${a.category}`).join(' · '):'수상 기록 없음';
+    const trophy=song.musicShowWins?` · 🏆 음악방송 1위 x${song.musicShowWins}`:'';
+    return `<div class="record-row">
+      <div class="record-title">🎵 ${song.title||song.name}${trophy}</div>
+      <div class="record-meta">발매 ${song.releaseDate||getCurrentDateString(song.releaseDay||gameState.day)} · 최고 ${h.peakRank?h.peakRank+'위':'—'} · 차트인 ${h.weeksOnChart||0}주 · ${awardText}</div>
+    </div>`;
+  }).join('');
+}
+function renderAwardHistory(){
+  const el=document.getElementById('award-history-list');
+  if(!el) return;
+  if(!gameState.awardHistory||gameState.awardHistory.length===0){
+    el.innerHTML='<div class="chart-not-enough">아직 시상식 기록이 없습니다.</div>';
+    return;
+  }
+  const sorted=[...gameState.awardHistory].sort((a,b)=>(b.year-a.year)||String(a.show).localeCompare(String(b.show)));
+  el.innerHTML=sorted.map(a=>`<div class="record-row">
+    <div class="record-title">🏆 ${a.year} ${a.show}</div>
+    <div class="record-meta">${a.category}: ${a.artist}${a.song?` - ${a.song}`:''}</div>
+  </div>`).join('');
+}
+function renderRecordSections(){
+  renderFutureEvents('future-event-list',5);
+  renderFutureEvents('future-event-page-list',20);
+  renderCareerSummary('career-summary');
+  renderCareerSummary('career-page-summary');
+  renderSongHistory();
+  renderAwardHistory();
+}
+
+// ═══════════════════════════════════════════
 //  디스플레이 업데이트
 // ═══════════════════════════════════════════
 function updateDisplay(){
@@ -3235,6 +3781,7 @@ function updateDisplay(){
     return `<div class="ticker-item"><span class="ticker-site ${siteClass}">${c.site}</span>${c.content.replace(/<[^>]*>?/gm,'')}</div>`;
   }).join('');
   document.getElementById('reaction-ticker').innerHTML=tickerHtml||'<div class="ticker-item">데이터 수집 중...</div>';
+  renderRecordSections();
 
   // 멤버 카드
   document.getElementById('member-grid-container').innerHTML=gameState.members.map((m,idx)=>{
@@ -3304,6 +3851,7 @@ function openPage(pId,btn){
   if(pId==='goods') renderGoodsPage();
   if(pId==='staff') renderStaffPage();
   if(pId==='tour') renderTourPage();
+  if(pId==='awards') renderRecordSections();
   if(pId==='schedule'){ renderSchedulePage(); renderConfirmedSchedule(); }
 }
 

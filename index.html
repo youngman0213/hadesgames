@@ -1157,8 +1157,54 @@ body::before {
 // ═══════════════════════════════════════════
 //  상수
 // ═══════════════════════════════════════════
-const rivalArtists = ["시퀀서","디지노믹","글리치문","뉴럴웨이브","비트셸","코어링크","사이버리프","픽셀헤이즈","싱크비전","벡터보이즈","알고리듬","플로팅칩","언리얼소울","서브레이어","메타모프","하이퍼루프","신스플로우","KRYX","LYNQ","V-ZIT","X-IEL","JOYN","N-ZIA","RYZE-O","QUV","W-AVE","SYLK","F-REEL","G-LOWD","VEXEN","TYRO"];
-const kpopSongTitles = ["Black Out","Glitch Mode","Venomous Love","Wildfire","No Gravity","Double Dare","Phantom Pain","Crimson Sky","Thunderbolt","Overload","Shatter","Iron Heart","Vortex","Unstoppable","Midnight Chase","Blue Lemonade","Summer Breeze","Sparkling","Neon Dream","Surf's Up","Candy Cloud","Electric Youth","Paper Plane","Star Gazing","Wink","Soda Pop","Sun-Kissed","달의 뒷면","새벽 세 시","비밀의 정원","Last Letter","잔상","Mist","기억 조각","Falling Star","Urban Night","Deep Blue","우주 유영","Whisper","Stardust","Bad Attitude","Level Up","Money Talk","Swagger","On the Top","Zero to One","Game Changer","Neon Sign","Blindfold","Catalyst","Golden Hour","Wild Side","Prism","Love Dive","Satellite","Break the Wall","Blue Hour","Cherry Bomb","Dive In","Focus On","Horizon","In the Dark","Lucid Dream","Make a Wish","Night Owl","Purple Night","Velocity","Quantum","Cipher","Eclipse","Parallax","Resonance","Fracture","Axiom"];
+function makeTitlePool(front, back, limit){
+  const titles=[];
+  for(const a of front){
+    for(const b of back){
+      const title=`${a} ${b}`;
+      if(!titles.includes(title)) titles.push(title);
+      if(titles.length>=limit) return titles;
+    }
+  }
+  return titles;
+}
+
+const idolArtistNames = [
+  "LUVIT","MAY:ON","NOVA6","BLUEME","RAONZ","HEARTSIX","DAYLIT","LUMIA","NINEUP","SEREIN",
+  "VIVACE","ONEST","MELTIC","ROSEL","ECLIN","BREEZE","TINTY","ARISE","LOVINA","MIRAEZ",
+  "ELLAIR","FLORET","D:LIGHT","PRISM8","HONEYV","STELLAN","AURIN","CANDY8","VENIA","LILAC5",
+  "NEONIA","LUSTER","SOMDAY","RUBIN","AVENUE9","LOOPIN","PEACHY","MONDAYZ","CHERIN","MELLOW7",
+  "BLOOMY","SIGNAL4","NEWVIE","HEARTIN","FAVOR","RAY:NE","MINTAGE","CLARIS","DARING","SOLMATE"
+];
+const soloArtistNames = [
+  "서이안","윤해나","도하민","이루다","한서율","민채원","유하림","강시온","문라희","차유빈",
+  "오세린","백지운","류하나","정이든","신아린","고은재","하설아","나유정","권도윤","임서후",
+  "채리온","유민서","김로아","박이솔","한지오","서리온","윤세나","도아윤","이하겸","장루빈",
+  "송하엘","문서아","최이레","남유라","강다온","주하린","백연우","서도하","민재온","이채린",
+  "노아린","연우빈","하서진","루하민","권세아"
+];
+const bandArtistNames = [
+  "노을거리","오후열차","달빛식탁","파란우체국","소란한밤","낮은계절","바람서점","모래정류장","유리온도","비오는목요일",
+  "작은파도","은하주차장","새벽다방","느린필름","서울안개","빈방클럽","구름우체부","하루정원","푸른계단","낭만수리소",
+  "긴여름","흰고래밴드","오래된지도","서랍속바다","오늘의기분"
+];
+const rivalArtists = [
+  ...idolArtistNames.map((name,i)=>({ name, type:"idol", popularity:randomRange(48,82), fandomPower:randomRange(65,95) })),
+  ...soloArtistNames.map((name,i)=>({ name, type:"solo", popularity:randomRange(45,88), fandomPower:randomRange(30,72) })),
+  ...bandArtistNames.map((name,i)=>({ name, type:"band", popularity:randomRange(32,70), fandomPower:randomRange(38,78) }))
+];
+
+const koreanSongTitles = makeTitlePool(
+  ["오늘","내일","새벽","밤하늘","첫눈","여름","겨울","봄날","비밀","기억","편지","그때","우리","너의","나의","흔적","안녕","사랑","마음","꿈속","하루","바람","우산","거리","노을","달빛","파도","약속","계절","순간"],
+  ["고백","산책","일기","온도","이름","그림자","멜로디","문장","장면","향기","신호","대답","기다림","습관","미소","기분","노래","밤","아침","편린","기억","속도","풍경","여운","이별","시작","마침표","빛","사이","끝"],
+  560
+);
+const englishSongTitles = makeTitlePool(
+  ["Blue","Sweet","Last","Dear","Slow","Bright","Lonely","Good","Little","Lucky","Summer","Winter","Secret","Golden","Silent","New","Every","One","Still","Easy","Late","Clear","Soft","Young","Warm","City","Simple","Better","Round","Deep"],
+  ["Day","Night","Love","Letter","Room","Light","Dream","Heart","Mood","Sign","Season","Rain","Story","Wave","Time","Smile","Road","Song","Memory","Promise","Feeling","Chance","Moment","Garden","Street","Sunday","Monday","Answer","Glow","Home"],
+  240
+);
+const kpopSongTitles = [...koreanSongTitles, ...englishSongTitles];
 
 const memberTraits = [
   { id:'hardworker', name:'성실형', emoji:'💪', desc:'훈련 스탯 상승 확률 +20%', color:'#2ecc8e' },
@@ -1331,7 +1377,7 @@ let gameState = {
   fandomCasual:77000, fandomHardcore:27500, fandomWhale:5500,
   accumulatedSales:0,
   currentTier:'루키',
-  activeCharts:[], rivalCharts:[],
+  activeCharts:[], rivalCharts:[], usedSongTitles:[], rivalReleasePlan:{}, musicSimVersion:2,
   rivalAgencies:JSON.parse(JSON.stringify(rivalAgencies)),
   flags:{ albumPaid:false, concertBought:false, concertDone:false },
   currentChartPlatform:'subak', currentChartPeriod:'weekly',
@@ -1419,8 +1465,11 @@ function loadGame(){
   if(!loaded.tourCooldown) loaded.tourCooldown={};
   if(!loaded.sponsorships) loaded.sponsorships=[];
   if(!loaded.crisisUsed) loaded.crisisUsed=[];
+  if(!loaded.usedSongTitles) loaded.usedSongTitles=[];
+  if(!loaded.rivalReleasePlan) loaded.rivalReleasePlan={};
   gameState=loaded;
   gameState.startDate=new Date(loaded.startDate);
+  initRivalCharts();
   recalcStaffBonus();
   updateDisplay();
   alert('불러오기 완료!');
@@ -1604,23 +1653,221 @@ function renderConfirmedSchedule(){
 // ═══════════════════════════════════════════
 //  차트 (주간/월간/연간 누적 방식)
 // ═══════════════════════════════════════════
-function initRivalCharts(){
-  if(gameState.rivalCharts.length>0) return;
-  // 라이벌 곡들 — 이미 오랫동안 활동한 것처럼 누적 점수 있음
-  for(let i=0;i<50;i++){
-    const artist=rivalArtists[Math.floor(Math.random()*rivalArtists.length)];
-    const title=getRandomSong();
-    const weeklyBase=Math.floor(Math.random()*8000)+1000;
-    const weeksElapsed=Math.floor(Math.random()*52)+4; // 이미 4~52주 활동
-    gameState.rivalCharts.push({
-      artist, title,
-      weeklyScore:{subak:weeklyBase, musicside:weeklyBase+Math.floor(Math.random()*2000)-1000, tube:weeklyBase+Math.floor(Math.random()*3000)-1500},
-      monthlyScore:{subak:weeklyBase*4+Math.floor(Math.random()*10000), musicside:weeklyBase*4+Math.floor(Math.random()*10000), tube:weeklyBase*4+Math.floor(Math.random()*10000)},
-      yearlyScore:{subak:weeklyBase*weeksElapsed+Math.floor(Math.random()*100000), musicside:weeklyBase*weeksElapsed+Math.floor(Math.random()*100000), tube:weeklyBase*weeksElapsed+Math.floor(Math.random()*100000)},
-      prevRanks:{subak:0,musicside:0,tube:0},
-      weeksActive:weeksElapsed,
-    });
+function randomRange(min, max){
+  return Math.floor(Math.random()*(max-min+1))+min;
+}
+
+function validateMusicData(){
+  const artistNames=rivalArtists.map(a=>a.name);
+  const titleSet=new Set(kpopSongTitles);
+  const artistNameSet=new Set(artistNames);
+  const validTypes=['idol','solo','band'];
+  const counts=rivalArtists.reduce((acc,a)=>{ acc[a.type]=(acc[a.type]||0)+1; return acc; },{});
+  const errors=[];
+  if(rivalArtists.length<120) errors.push('rivalArtists must be at least 120');
+  if(kpopSongTitles.length<300) errors.push('kpopSongTitles must be at least 300');
+  if(artistNameSet.size!==artistNames.length) errors.push('duplicate rival artist name');
+  if(titleSet.size!==kpopSongTitles.length) errors.push('duplicate song title');
+  if(counts.idol!==50||counts.solo!==45||counts.band!==25) errors.push('artist type count mismatch');
+  rivalArtists.forEach(a=>{
+    if(!validTypes.includes(a.type)) errors.push(`invalid artist type: ${a.name}`);
+    if(typeof a.popularity!=='number'||typeof a.fandomPower!=='number') errors.push(`invalid artist stats: ${a.name}`);
+  });
+  if(errors.length) console.warn('[music data validation]', errors);
+  return errors.length===0;
+}
+
+function initMusicSimState(){
+  validateMusicData();
+  if(!Array.isArray(gameState.rivalCharts)) gameState.rivalCharts=[];
+  if(!Array.isArray(gameState.usedSongTitles)) gameState.usedSongTitles=[];
+  if(!gameState.rivalReleasePlan) gameState.rivalReleasePlan={};
+  const needsReset=gameState.musicSimVersion!==2||gameState.rivalCharts.some(song=>!song.artistType||typeof song.artist!=='string');
+  if(needsReset){
+    gameState.musicSimVersion=2;
+    gameState.rivalCharts=[];
+    gameState.usedSongTitles=[];
+    gameState.rivalReleasePlan={};
   }
+}
+
+function getUnusedSongTitle(){
+  if(!Array.isArray(gameState.usedSongTitles)) gameState.usedSongTitles=[];
+  const used=new Set(gameState.usedSongTitles);
+  const available=kpopSongTitles.filter(title=>!used.has(title));
+  if(available.length===0) return null;
+  const title=available[randomRange(0,available.length-1)];
+  gameState.usedSongTitles.push(title);
+  return title;
+}
+
+function getRandomSong(){
+  return getUnusedSongTitle()||kpopSongTitles[randomRange(0,kpopSongTitles.length-1)];
+}
+
+function createSong(artist, daysAfterRelease=0){
+  const title=getUnusedSongTitle();
+  if(!title) return null;
+  const typeBoost=artist.type==='idol'?{power:18,quality:0}:artist.type==='solo'?{power:8,quality:12}:{power:-2,quality:18};
+  const song={
+    id:`rival_${artist.name}_${title}_${gameState.day||1}`.replace(/\s+/g,'_'),
+    artist:artist.name,
+    artistType:artist.type,
+    artistPopularity:artist.popularity,
+    fandomPower:artist.fandomPower,
+    title,
+    songPower:randomRange(45,88)+typeBoost.power,
+    quality:randomRange(42,90)+typeBoost.quality,
+    daysAfterRelease,
+    viralBonus:randomRange(0,18),
+    reverseRun:false,
+    reverseRunDays:0,
+    weeklyScore:{subak:0,musicside:0,tube:0},
+    monthlyScore:{subak:0,musicside:0,tube:0},
+    yearlyScore:{subak:0,musicside:0,tube:0},
+    prevRanks:{subak:0,musicside:0,tube:0},
+    ranks:{subak:0,musicside:0,tube:0},
+    weeksActive:Math.floor(daysAfterRelease/7),
+  };
+  calcChartScore(song);
+  return song;
+}
+
+function getAgeMultiplier(days, type){
+  if(type==='idol'){
+    if(days<=7) return 1.45;
+    if(days<=30) return 1.05-(days-7)*0.018;
+    if(days<=90) return 0.64-(days-30)*0.006;
+    return Math.max(0.12,0.28-(days-90)*0.0008);
+  }
+  if(type==='solo'){
+    if(days<=30) return 1.12;
+    if(days<=120) return 1.0-(days-30)*0.004;
+    return Math.max(0.2,0.64-(days-120)*0.0007);
+  }
+  if(days<=30) return 0.62;
+  if(days<=90) return 0.74;
+  if(days<=365) return 0.9-(days-90)*0.001;
+  return Math.max(0.28,0.62-(days-365)*0.00025);
+}
+
+function maybeReverseRun(song){
+  if(song.reverseRunDays>0){
+    song.reverseRunDays--;
+    song.reverseRun=true;
+    return;
+  }
+  song.reverseRun=false;
+  if(song.daysAfterRelease<90) return;
+  const chance=song.artistType==='band'?0.012:song.artistType==='solo'?0.005:0.002;
+  if(Math.random()<chance){
+    song.reverseRun=true;
+    song.reverseRunDays=randomRange(25,120);
+    song.viralBonus+=randomRange(25,55);
+  }
+}
+
+function calcChartScore(song){
+  maybeReverseRun(song);
+  const type=song.artistType||'solo';
+  const ageMultiplier=getAgeMultiplier(song.daysAfterRelease||0,type);
+  const typeProfile=type==='idol'
+    ? {power:1.05, quality:0.75, popularity:0.85, fandom:1.25}
+    : type==='solo'
+      ? {power:1.0, quality:1.22, popularity:1.1, fandom:0.65}
+      : {power:0.82, quality:1.35, popularity:0.75, fandom:0.85};
+  const base=(
+    song.songPower*typeProfile.power+
+    song.quality*typeProfile.quality+
+    song.artistPopularity*typeProfile.popularity+
+    song.fandomPower*typeProfile.fandom+
+    (song.viralBonus||0)+
+    (song.reverseRun?45:0)+
+    randomRange(-8,12)
+  )*ageMultiplier*42;
+  const subak=Math.max(50,Math.floor(base+randomRange(-250,450)));
+  const musicside=Math.max(50,Math.floor(base*(type==='solo'?1.08:0.98)+randomRange(-300,400)));
+  const tube=Math.max(50,Math.floor(base*(type==='idol'?1.12:type==='band'?0.92:1)+randomRange(-400,600)));
+  song.weeklyScore={subak,musicside,tube};
+  song.monthlyScore={
+    subak:Math.floor(subak*Math.min(4,Math.max(1,Math.ceil((song.daysAfterRelease||1)/7)))*(type==='solo'?1.16:type==='band'?1.08:0.92)),
+    musicside:Math.floor(musicside*Math.min(4,Math.max(1,Math.ceil((song.daysAfterRelease||1)/7)))*(type==='solo'?1.22:type==='band'?1.1:0.9)),
+    tube:Math.floor(tube*Math.min(4,Math.max(1,Math.ceil((song.daysAfterRelease||1)/7)))*(type==='idol'?1.05:type==='band'?1.08:1)),
+  };
+  song.yearlyScore={
+    subak:Math.floor(subak*Math.min(52,Math.max(1,song.weeksActive||1))*(type==='band'?1.35:type==='solo'?1.08:0.78)*(song.reverseRun?1.18:1)),
+    musicside:Math.floor(musicside*Math.min(52,Math.max(1,song.weeksActive||1))*(type==='band'?1.42:type==='solo'?1.12:0.76)*(song.reverseRun?1.2:1)),
+    tube:Math.floor(tube*Math.min(52,Math.max(1,song.weeksActive||1))*(type==='band'?1.25:type==='solo'?1.02:0.86)*(song.reverseRun?1.15:1)),
+  };
+  if(song.viralBonus>0) song.viralBonus=Math.max(0,song.viralBonus-0.25);
+  return song.weeklyScore;
+}
+
+function updateChartRanking(){
+  const scoreMap={weekly:'weeklyScore',monthly:'monthlyScore',yearly:'yearlyScore'};
+  Object.entries(scoreMap).forEach(([period,scoreKey])=>{
+    ['subak','musicside','tube'].forEach(plat=>{
+      const sorted=[...gameState.rivalCharts].sort((a,b)=>b[scoreKey][plat]-a[scoreKey][plat]).slice(0,100);
+      sorted.forEach((song,idx)=>{
+        if(!song.prevPeriodRanks) song.prevPeriodRanks={weekly:{},monthly:{},yearly:{}};
+        if(!song.periodRanks) song.periodRanks={weekly:{},monthly:{},yearly:{}};
+        if(!song.prevPeriodRanks[period]) song.prevPeriodRanks[period]={};
+        if(!song.periodRanks[period]) song.periodRanks[period]={};
+        song.prevPeriodRanks[period][plat]=song.periodRanks[period][plat]||0;
+        song.periodRanks[period][plat]=idx+1;
+        if(period==='weekly'){
+          if(!song.prevRanks) song.prevRanks={subak:0,musicside:0,tube:0};
+          if(!song.ranks) song.ranks={subak:0,musicside:0,tube:0};
+          song.prevRanks[plat]=song.prevPeriodRanks[period][plat];
+          song.ranks[plat]=idx+1;
+        }
+      });
+    });
+  });
+}
+
+function simulateRivals(){
+  initMusicSimState();
+  gameState.rivalCharts.forEach(song=>{
+    song.daysAfterRelease=(song.daysAfterRelease||0)+1;
+    song.weeksActive=Math.floor(song.daysAfterRelease/7);
+    calcChartScore(song);
+  });
+
+  const releaseChance={idol:0.12,solo:0.07,band:0.04};
+  rivalArtists.forEach(artist=>{
+    if(!gameState.rivalReleasePlan[artist.name]){
+      gameState.rivalReleasePlan[artist.name]=randomRange(1,720);
+    }
+    if(gameState.day<gameState.rivalReleasePlan[artist.name]) return;
+    if(Math.random()>=releaseChance[artist.type]) return;
+    const song=createSong(artist);
+    if(song){
+      gameState.rivalCharts.push(song);
+      if(Math.random()<0.08) gameState.community.push({site:'속보',content:`<b>[컴백] ${song.artist}, 신곡 <${song.title}> 발매</b>`});
+    }
+    const nextGap=artist.type==='idol'?randomRange(900,1600):artist.type==='solo'?randomRange(1200,2200):randomRange(1600,3000);
+    gameState.rivalReleasePlan[artist.name]=gameState.day+nextGap;
+  });
+
+  gameState.rivalCharts=gameState.rivalCharts
+    .filter(song=>song.daysAfterRelease<7300||song.weeklyScore.subak>150)
+    .sort((a,b)=>b.weeklyScore.subak-a.weeklyScore.subak)
+    .slice(0,500);
+  updateChartRanking();
+}
+
+function initRivalCharts(){
+  initMusicSimState();
+  if(gameState.rivalCharts.length>0) return;
+  const starters=[...rivalArtists].sort(()=>Math.random()-0.5).slice(0,90);
+  starters.forEach(artist=>{
+    const daysAgo=randomRange(1,1200);
+    const song=createSong(artist,daysAgo);
+    if(song) gameState.rivalCharts.push(song);
+    gameState.rivalReleasePlan[artist.name]=gameState.day+randomRange(30,720);
+  });
+  updateChartRanking();
 }
 
 function switchChartPlatform(plat, btn){
@@ -1659,41 +1906,41 @@ const allSongs=[
   }))
 ];
 
-  // 정렬 기준
   const scoreKey=period==='weekly'?'weeklyScore':period==='monthly'?'monthlyScore':'yearlyScore';
   allSongs.sort((a,b)=>b[scoreKey][platform]-a[scoreKey][platform]);
-  const top10=allSongs.slice(0,10);
+  const displayLimit=period==='weekly'?20:period==='monthly'?30:50;
+  const chartRows=allSongs.slice(0,displayLimit);
 
-  if(top10.length===0){
+  if(chartRows.length===0){
     container.innerHTML=`<div class="chart-not-enough">아직 차트 데이터가 없습니다.</div>`;
     return;
   }
 
   // 월간/연간이고 플레이어 곡이 아직 진입 못한 경우 안내
-  const playerInChart=top10.some(s=>s.isPlayer);
+  const playerInChart=chartRows.some(s=>s.isPlayer);
   let notice='';
   if(!playerInChart && gameState.activeCharts.length>0){
     if(period==='monthly') notice=`<div style="font-size:11px; color:var(--warn); margin-bottom:8px; padding:8px 10px; background:rgba(244,162,45,0.08); border-radius:6px; border-left:2px solid var(--warn);">📅 발매 후 4주가 지나야 월간 차트에 반영됩니다.</div>`;
     if(period==='yearly') notice=`<div style="font-size:11px; color:var(--warn); margin-bottom:8px; padding:8px 10px; background:rgba(244,162,45,0.08); border-radius:6px; border-left:2px solid var(--warn);">📅 발매 후 52주(1년)가 지나야 연간 차트에 반영됩니다.</div>`;
   }
 
-  container.innerHTML=notice+top10.map((song,idx)=>{
+  container.innerHTML=notice+chartRows.map((song,idx)=>{
     const rank=idx+1;
-    let changeHtml='<span class="rank-change" style="color:var(--text3);">—</span>';
-    if(period==='weekly'&&song.prevRanks&&song.prevRanks[platform]){
-      const diff=song.prevRanks[platform]-rank;
+    const prevRank=song.prevPeriodRanks?.[period]?.[platform]||song.prevRanks?.[platform]||0;
+    let changeHtml='<span class="rank-change" style="color:var(--text3);">NEW</span>';
+    if(prevRank){
+      const diff=prevRank-rank;
       if(diff>0) changeHtml=`<span class="rank-change rank-up">▲${diff}</span>`;
       else if(diff<0) changeHtml=`<span class="rank-change rank-down">▼${Math.abs(diff)}</span>`;
       else changeHtml='<span class="rank-change" style="color:var(--text3);">—</span>';
     }
-    const scoreVal=Math.floor(song[scoreKey][platform]);
     return `<div class="chart-row ${song.isPlayer?'my-song':''}">
-      <div class="rank">${rank}</div>${changeHtml}
+      <div class="rank">${rank}</div>
       <div class="song-info">
         <div class="song-title">${song.title}${song.isPlayer?' ⭐':''}</div>
         <div class="artist-name">${song.artist}</div>
       </div>
-      <div class="chart-score">${scoreVal.toLocaleString()}</div>
+      ${changeHtml}
     </div>`;
   }).join('');
 }
@@ -1703,20 +1950,7 @@ function processCharts(){
   gameState.members.forEach(m=>{ let eq=0; m.equipment.forEach(e=>eq+=getEquipVal(e)); totalStat+=m.vocal+m.dance+m.visual+m.variety+m.charm+eq; });
   const teamScore=totalStat/5;
 
-  // 라이벌 점수 변동
-  gameState.rivalCharts.forEach(rc=>{
-    ['subak','musicside','tube'].forEach(plat=>{
-      const gain=Math.floor(Math.random()*800)-300;
-      rc.weeklyScore[plat]=Math.max(100,Math.min(10000,rc.weeklyScore[plat]+gain));
-    });
-    rc.weeksActive++;
-    if(gameState.day%7===0){
-      ['subak','musicside','tube'].forEach(plat=>{
-        rc.monthlyScore[plat]+=rc.weeklyScore[plat];
-        rc.yearlyScore[plat]+=rc.weeklyScore[plat];
-      });
-    }
-  });
+  simulateRivals();
 
   // 플레이어 차트 처리
   const cb=gameState.staffBonus.chartBonus||0;
@@ -2556,41 +2790,7 @@ function renderRivalPage(){
 }
 
 function processRivalAgencies(){
-  gameState.rivalAgencies.forEach(agency=>{
-    if(agency.comebackCooldown>0) agency.comebackCooldown--;
-    if(!agency.isComingBack&&agency.comebackCooldown===0&&Math.random()<0.008){
-      agency.isComingBack=true;
-      agency.comebackDay=gameState.day+Math.floor(Math.random()*21)+14;
-      const daysLeft=agency.comebackDay-gameState.day;
-      gameState.popupQueue.push({type:'rival_comeback',event:{
-        id:'rc_'+agency.id+'_'+gameState.day,
-        title:`⚠️ [긴급] ${agency.name} 컴백 예고`,
-        desc:`경쟁사 ${agency.name}이(가) ${daysLeft}일 후 컴백을 예고했습니다!`,
-        choices:[{text:'확인',effect:()=>{}}]
-      }});
-    }
-    if(agency.isComingBack&&gameState.day>=agency.comebackDay){
-      gameState.rivalCharts.forEach(rc=>{
-        if(agency.artists.includes(rc.artist)){
-          rc.weeklyScore.subak+=3000+Math.floor(Math.random()*2000);
-          rc.weeklyScore.musicside+=3000+Math.floor(Math.random()*2000);
-          rc.weeklyScore.tube+=3000+Math.floor(Math.random()*2000);
-        }
-      });
-      const newSong=getRandomSong();
-      const newArtist=agency.artists[Math.floor(Math.random()*agency.artists.length)];
-      const base=6000+Math.floor(Math.random()*3000);
-      gameState.rivalCharts.push({
-        artist:newArtist, title:newSong,
-        weeklyScore:{subak:base,musicside:base,tube:base},
-        monthlyScore:{subak:base*4,musicside:base*4,tube:base*4},
-        yearlyScore:{subak:base*10,musicside:base*10,tube:base*10},
-        prevRanks:{subak:0,musicside:0,tube:0}, weeksActive:4,
-      });
-      agency.isComingBack=false;
-      agency.comebackCooldown=60+Math.floor(Math.random()*60);
-    }
-  });
+  // 라이벌 음악 활동은 simulateRivals()에서 rivalArtists 기반으로 처리합니다.
 }
 
 // ═══════════════════════════════════════════

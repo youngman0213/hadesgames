@@ -362,9 +362,12 @@ body::before {
 }
 .chart-row:hover { background: rgba(255,255,255,0.02); }
 .chart-row.my-song {
-  background: rgba(232,64,122,0.06);
-  border-radius: 6px; border: 1px solid rgba(232,64,122,0.18);
-  margin-bottom: 2px;
+  background: rgba(232,64,122,0.08);
+  border-radius: 6px;
+  border: 1px solid rgba(232,64,122,0.3);
+  border-left: 4px solid var(--point);
+  box-shadow: 0 0 18px rgba(232,64,122,0.12);
+  margin-bottom: 3px;
 }
 .rank { width: 28px; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 14px; text-align: center; margin-right: 8px; color: var(--text2); }
 .chart-row:nth-child(1) .rank { color: #ffd43b; text-shadow: 0 0 8px rgba(255,212,59,0.5); }
@@ -376,7 +379,16 @@ body::before {
 .song-info { flex: 1; overflow: hidden; }
 .song-title { font-weight: 700; font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .artist-name { font-size: 10px; color: var(--text2); }
-.chart-score { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text2); text-align: right; width: 70px; }
+.chart-badge {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  background: rgba(232,64,122,0.14);
+  color: var(--point);
+}
 .chart-not-enough { text-align: center; padding: 24px; color: var(--text2); font-size: 12px; }
 
 /* ══════════════════════════════
@@ -920,7 +932,6 @@ body::before {
     <button class="nav-btn" onclick="openPage('goods',this)">🛍️ 굿즈</button>
     <button class="nav-btn" onclick="openPage('gacha',this)">✨ 장비뽑기</button>
     <button class="nav-btn" onclick="openPage('staff',this)">🧑‍💼 스태프</button>
-    <button class="nav-btn" onclick="openPage('rival',this)">⚔️ 라이벌</button>
     <button class="nav-btn" onclick="openPage('tour',this)">🌍 투어</button>
   </div>
 </div>
@@ -1097,18 +1108,6 @@ body::before {
     <div class="card">
       <div class="section-title">📋 채용 가능</div>
       <div id="available-staff-list"></div>
-    </div>
-  </div>
-
-  <!-- 라이벌 -->
-  <div id="rival" class="page">
-    <div class="card">
-      <div class="section-title">⚔️ 라이벌 기획사</div>
-      <div id="rival-agency-list"></div>
-    </div>
-    <div class="card">
-      <div class="section-title">📊 업계 현황</div>
-      <div id="industry-status"></div>
     </div>
   </div>
 
@@ -1826,6 +1825,62 @@ function updateChartRanking(){
   });
 }
 
+function getHadesChartBadges(song, rank, prevRank, period){
+  if(!song.isPlayer) return '';
+  const badges=[];
+  if(!prevRank) badges.push('NEW');
+  if(prevRank&&prevRank-rank>=10) badges.push('🚀 급상승');
+  if(rank===1) badges.push('👑 1위');
+  if((song.weeksActive||0)>=4) badges.push('💎 롱런');
+  if((song.daysAfterRelease||0)>=30&&prevRank&&prevRank-rank>=5) badges.push('📈 역주행');
+  return badges.map(b=>`<span class="chart-badge">${b}</span>`).join('');
+}
+
+function checkHadesChartEvents(){
+  ['weekly','monthly','yearly'].forEach(period=>{
+    const scoreKey=period==='weekly'?'weeklyScore':period==='monthly'?'monthlyScore':'yearlyScore';
+    ['subak','musicside','tube'].forEach(platform=>{
+      const ranked=[
+        ...gameState.rivalCharts.map(s=>({...s,isPlayer:false})),
+        ...gameState.activeCharts.map(ac=>({
+          ...ac,
+          artist:'HADES',
+          title:ac.name,
+          weeklyScore:ac.weeklyScore,
+          monthlyScore:ac.monthlyScore,
+          yearlyScore:ac.yearlyScore,
+          isPlayer:true,
+        }))
+      ].sort((a,b)=>b[scoreKey][platform]-a[scoreKey][platform]).slice(0,100);
+      ranked.forEach((song,idx)=>{
+        if(!song.isPlayer) return;
+        const original=gameState.activeCharts.find(ac=>ac.name===song.name);
+        if(!original) return;
+        const rank=idx+1;
+        if(!original.chartEventFlags) original.chartEventFlags={entry:false,no1:false};
+        if(!original.chartEventFlags.entry){
+          original.chartEventFlags.entry=true;
+          gameState.popupQueue.push({type:'chart_entry',event:{
+            id:`entry_${original.name}_${period}_${platform}`,
+            title:'🎵 차트 진입!',
+            desc:`HADES 신곡 <${original.name}>이 차트에 진입했습니다!`,
+            choices:[{text:'확인',effect:()=>{}}]
+          }});
+        }
+        if(rank===1&&!original.chartEventFlags.no1){
+          original.chartEventFlags.no1=true;
+          gameState.popupQueue.push({type:'chart_no1',event:{
+            id:`no1_${original.name}_${period}_${platform}`,
+            title:'🏆 1위 달성!',
+            desc:`HADES가 <${original.name}>으로 차트 정상에 올랐습니다!`,
+            choices:[{text:'확인',effect:()=>{}}]
+          }});
+        }
+      });
+    });
+  });
+}
+
 function simulateRivals(){
   initMusicSimState();
   gameState.rivalCharts.forEach(song=>{
@@ -1902,6 +1957,9 @@ const allSongs=[
     artist:'HADES', title:ac.name,
     weeklyScore:ac.weeklyScore, monthlyScore:ac.monthlyScore, yearlyScore:ac.yearlyScore,
     prevRanks:ac.prevRanks||{subak:0,musicside:0,tube:0},
+    prevPeriodRanks:ac.prevPeriodRanks||{},
+    weeksActive:ac.weeksActive||0,
+    daysAfterRelease:ac.daysAfterRelease||((ac.weeksActive||0)*7),
     isPlayer:true,
   }))
 ];
@@ -1934,10 +1992,11 @@ const allSongs=[
       else if(diff<0) changeHtml=`<span class="rank-change rank-down">▼${Math.abs(diff)}</span>`;
       else changeHtml='<span class="rank-change" style="color:var(--text3);">—</span>';
     }
+    const hadesBadges=getHadesChartBadges(song,rank,prevRank,period);
     return `<div class="chart-row ${song.isPlayer?'my-song':''}">
       <div class="rank">${rank}</div>
       <div class="song-info">
-        <div class="song-title">${song.title}${song.isPlayer?' ⭐':''}</div>
+        <div class="song-title">${song.isPlayer?'🔥 ':''}${song.title}${hadesBadges}</div>
         <div class="artist-name">${song.artist}</div>
       </div>
       ${changeHtml}
@@ -1956,6 +2015,7 @@ function processCharts(){
   const cb=gameState.staffBonus.chartBonus||0;
   gameState.activeCharts.forEach(ac=>{
     if(ac.weeksActive>=12) return;
+    ac.daysAfterRelease=(ac.daysAfterRelease||0)+1;
     const power=Math.floor(teamScore*2)+cb;
     ['subak','musicside','tube'].forEach(plat=>{
       const delta=power+Math.floor(Math.random()*600)-200;
@@ -1987,6 +2047,28 @@ function processCharts(){
     });
     if(Math.random()<0.2) gameState.community.push({site:'음원반응',content:musicReactions[Math.floor(Math.random()*musicReactions.length)]});
   });
+
+  ['weekly','monthly','yearly'].forEach(period=>{
+    const scoreKey=period==='weekly'?'weeklyScore':period==='monthly'?'monthlyScore':'yearlyScore';
+    ['subak','musicside','tube'].forEach(plat=>{
+      const ranked=[
+        ...gameState.rivalCharts.map(s=>({...s,isPlayer:false})),
+        ...gameState.activeCharts.map(ac=>({...ac,artist:'HADES',title:ac.name,isPlayer:true}))
+      ].sort((a,b)=>b[scoreKey][plat]-a[scoreKey][plat]).slice(0,100);
+      ranked.forEach((song,idx)=>{
+        if(!song.isPlayer) return;
+        const original=gameState.activeCharts.find(ac=>ac.name===song.name);
+        if(!original) return;
+        if(!original.prevPeriodRanks) original.prevPeriodRanks={weekly:{},monthly:{},yearly:{}};
+        if(!original.periodRanks) original.periodRanks={weekly:{},monthly:{},yearly:{}};
+        if(!original.prevPeriodRanks[period]) original.prevPeriodRanks[period]={};
+        if(!original.periodRanks[period]) original.periodRanks[period]={};
+        original.prevPeriodRanks[period][plat]=original.periodRanks[period][plat]||0;
+        original.periodRanks[period][plat]=idx+1;
+      });
+    });
+  });
+  checkHadesChartEvents();
 
   if(gameState.day%7===0){
     gameState.activeCharts.forEach(song=>{
@@ -2567,11 +2649,15 @@ function startComebackStep(step){
 function launchComebackSong(title){
   const startScore=3000+(gameState.staffBonus.chartBonus||0);
   gameState.activeCharts.push({
-    name:title, weeksActive:0,
+    name:title, weeksActive:0, daysAfterRelease:0,
     weeklyScore:{subak:startScore, musicside:startScore, tube:startScore},
     monthlyScore:{subak:0, musicside:0, tube:0},
     yearlyScore:{subak:0, musicside:0, tube:0},
-    prevRanks:{subak:0,musicside:0,tube:0}, rank:99,
+    prevRanks:{subak:0,musicside:0,tube:0},
+    prevPeriodRanks:{weekly:{},monthly:{},yearly:{}},
+    periodRanks:{weekly:{},monthly:{},yearly:{}},
+    chartEventFlags:{entry:false,no1:false},
+    rank:99,
   });
   gameState.community.push({site:'음원반응',content:`<b><${title}> 발매! 차트 진입 🎵</b>`});
   document.getElementById('chart-section').style.display='block';
@@ -2760,35 +2846,6 @@ function injureMember(gs,days){
 // ═══════════════════════════════════════════
 //  라이벌
 // ═══════════════════════════════════════════
-function renderRivalPage(){
-  const listEl=document.getElementById('rival-agency-list');
-  const industryEl=document.getElementById('industry-status');
-  listEl.innerHTML=gameState.rivalAgencies.map(agency=>{
-    const tierColor=agency.tier==='북미'?'#ff7eb3':agency.tier==='아시아'?'#ffd166':'#2ecc8e';
-    let statusHtml='';
-    if(agency.isComingBack){
-      const daysLeft=agency.comebackDay-gameState.day;
-      statusHtml=daysLeft>0
-        ?`<div class="rival-warning">⚠️ 컴백 예고! D-${daysLeft}</div>`
-        :`<div class="rival-warning">🔥 현재 활동 중!</div>`;
-    }
-    return `<div class="rival-card">
-      <div class="rival-header">
-        <div class="rival-name">${agency.name}</div>
-        <div class="rival-tier" style="background:${tierColor}22; color:${tierColor};">${agency.tier}</div>
-      </div>
-      <div style="font-size:12px; color:var(--text2);">${agency.artists.join(' · ')}</div>
-      ${statusHtml}
-    </div>`;
-  }).join('');
-  industryEl.innerHTML=`<div style="font-size:13px; line-height:2;">
-    <div>🏆 인지도: <strong style="color:var(--point);">${gameState.currentTier}</strong></div>
-    <div>👥 통합 팬덤: <strong>${gameState.fandom.toLocaleString()}명</strong></div>
-    <div>📀 방송 1위: <strong>${Object.values(gameState.broadcastWins).reduce((a,b)=>a+b,0)}회</strong></div>
-    <div>💰 누적 매출: <strong style="color:var(--money);">${gameState.accumulatedSales.toLocaleString()}원</strong></div>
-  </div>`;
-}
-
 function processRivalAgencies(){
   // 라이벌 음악 활동은 simulateRivals()에서 rivalArtists 기반으로 처리합니다.
 }
@@ -3246,7 +3303,6 @@ function openPage(pId,btn){
   if(pId==='gacha'){ renderInventory(); }
   if(pId==='goods') renderGoodsPage();
   if(pId==='staff') renderStaffPage();
-  if(pId==='rival') renderRivalPage();
   if(pId==='tour') renderTourPage();
   if(pId==='schedule'){ renderSchedulePage(); renderConfirmedSchedule(); }
 }

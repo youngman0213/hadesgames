@@ -692,7 +692,7 @@ body::before {
 .gacha-card {
   position: relative; min-height: 118px;
   border: none; background: transparent;
-  cursor: pointer; perspective: 900px;
+  color: var(--text); cursor: pointer; perspective: 900px;
 }
 .gacha-card-inner {
   position: absolute; inset: 0;
@@ -723,6 +723,7 @@ body::before {
 }
 .gacha-card-front {
   background: var(--card2);
+  color: var(--text);
   text-align: center;
   transform: rotateY(180deg);
 }
@@ -737,7 +738,7 @@ body::before {
 @keyframes urFlash { 0%,100%{box-shadow:none} 35%{box-shadow:0 0 70px rgba(255,107,205,0.75), inset 0 0 45px rgba(255,204,68,0.18)} 65%{box-shadow:0 0 110px rgba(255,204,68,0.55), inset 0 0 55px rgba(255,107,205,0.22)} }
 
 .gacha-item-emoji { font-size: 28px; margin-bottom: 4px; }
-.gacha-item-name { font-size: 10px; font-weight: 700; margin-bottom: 2px; }
+.gacha-item-name { font-size: 10px; font-weight: 700; margin-bottom: 2px; color: var(--text); }
 .gacha-item-rarity {
   font-size: 9px; font-family: 'JetBrains Mono', monospace;
   font-weight: 700;
@@ -1083,6 +1084,12 @@ body::before {
     </div>
     <div class="card">
       <div class="section-title">🎒 창고</div>
+      <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:6px; margin-bottom:12px;">
+        <button class="save-btn" onclick="bulkDeleteInventoryByRarity('R')">R 삭제</button>
+        <button class="save-btn" onclick="bulkDeleteInventoryByRarity('SR')">SR 삭제</button>
+        <button class="save-btn" onclick="bulkDeleteInventoryByRarity('SSR')">SSR 삭제</button>
+        <button class="save-btn" onclick="bulkDeleteInventoryByRarity('UR')">UR 삭제</button>
+      </div>
       <div id="inventory-list"></div>
     </div>
   </div>
@@ -1997,6 +2004,25 @@ function getSortedInventoryWithIndex(){
     .sort((a,b)=>(rarityOrder[a.rarity]||3)-(rarityOrder[b.rarity]||3));
 }
 
+function getInventoryGroupKey(item){
+  return [item.id,item.rarity,item.stat,item.val,item.level||0].join('|');
+}
+
+function getGroupedInventoryWithIndex(){
+  const groups=[];
+  getSortedInventoryWithIndex().forEach(item=>{
+    const key=getInventoryGroupKey(item);
+    let group=groups.find(g=>g.key===key);
+    if(!group){
+      group={key,item,indices:[],count:0};
+      groups.push(group);
+    }
+    group.indices.push(item._invIdx);
+    group.count++;
+  });
+  return groups;
+}
+
 function updatePityDisplay(){
   document.getElementById('pity-count').innerText=`${gameState.pityCount}/${GACHA_PITY_LIMIT}`;
   document.getElementById('pity-bar').style.width=`${(gameState.pityCount/GACHA_PITY_LIMIT)*100}%`;
@@ -2069,17 +2095,19 @@ function revealAllGachaCards(){
 function renderInventory(){
   const el=document.getElementById('inventory-list');
   if(gameState.inventory.length===0){ el.innerHTML='<div style="font-size:13px; color:var(--text2);">창고가 비었습니다. 뽑기를 해보세요!</div>'; return; }
-  const sorted=getSortedInventoryWithIndex();
-  el.innerHTML=sorted.map(item=>{
+  const groups=getGroupedInventoryWithIndex();
+  el.innerHTML=groups.map(group=>{
+    const item=group.item;
     const col=getRarityColor(item.rarity);
+    const countText=group.count>1?` <span style="color:var(--text2); font-family:'JetBrains Mono',monospace;">· x${group.count}</span>`:'';
     return `<div style="display:flex; align-items:center; gap:10px; padding:8px; border-radius:6px; margin-bottom:6px; background:var(--card2); border:1px solid ${col}22;">
       <span style="font-size:22px;">${item.emoji}</span>
       <div style="flex:1;">
-        <div style="font-weight:700; font-size:13px;">${item.name}</div>
+        <div style="font-weight:700; font-size:13px;">${item.name}${countText}</div>
         <div style="font-size:10px; font-family:'JetBrains Mono',monospace; color:${col};">${item.rarity} · ${item.stat}+${item.val}</div>
       </div>
-      <button class="hire-btn" style="font-size:11px; padding:5px 10px;" onclick="openEquipFromInventory(${item._invIdx})">장착</button>
-      <button class="fire-btn" style="font-size:11px; padding:5px 10px;" onclick="deleteInventoryItem(${item._invIdx})">삭제</button>
+      <button class="hire-btn" style="font-size:11px; padding:5px 10px;" onclick="openEquipFromInventory(${group.indices[0]})">장착</button>
+      <button class="fire-btn" style="font-size:11px; padding:5px 10px;" onclick="deleteInventoryItem(${group.indices[0]})">삭제</button>
     </div>`;
   }).join('');
 }
@@ -2112,6 +2140,14 @@ function deleteInventoryItem(invIdx){
   if(!item) return;
   if(!confirm(`${item.name}을(를) 삭제하시겠습니까?`)) return;
   gameState.inventory.splice(invIdx,1);
+  updateDisplay(); renderInventory();
+}
+
+function bulkDeleteInventoryByRarity(rarity){
+  const count=gameState.inventory.filter(item=>item.rarity===rarity).length;
+  if(count===0) return alert(`${rarity} 장비가 없습니다.`);
+  if(!confirm(`${rarity} 장비 ${count}개를 모두 삭제하시겠습니까?`)) return;
+  gameState.inventory=gameState.inventory.filter(item=>item.rarity!==rarity);
   updateDisplay(); renderInventory();
 }
 
@@ -2176,16 +2212,18 @@ function openEquipModal(memberIdx){
     </div>`;
   }).join('');
 
-  const inventoryItems=getSortedInventoryWithIndex();
+  const inventoryItems=getGroupedInventoryWithIndex();
   html+=`<h4 style="margin:14px 0 10px; font-size:12px; color:var(--text2);">창고에서 장착</h4>`;
   if(inventoryItems.length===0){
     html+=`<div style="font-size:12px; color:var(--text2);">창고 장비 없음</div>`;
   } else {
-    html+=inventoryItems.map(item=>{
+    html+=inventoryItems.map(group=>{
+      const item=group.item;
       const col=getRarityColor(item.rarity);
       const disabled=m.equipment.some(e=>e.id===item.id);
-      return `<button class="choice-btn" ${disabled?'disabled style="opacity:0.45; cursor:not-allowed;"':''} onclick="equipItemToMember(${item._invIdx},${memberIdx})">
-        <span style="text-align:left;"><b style="color:${col};">${item.name}</b><br><small>${item.rarity} · ${item.stat}+${item.val}</small></span>
+      const countText=group.count>1?` · x${group.count}`:'';
+      return `<button class="choice-btn" ${disabled?'disabled style="opacity:0.45; cursor:not-allowed;"':''} onclick="equipItemToMember(${group.indices[0]},${memberIdx})">
+        <span style="text-align:left;"><b style="color:${col};">${item.name}${countText}</b><br><small>${item.rarity} · ${item.stat}+${item.val}</small></span>
         <span>${disabled?'착용 중':'장착'}</span>
       </button>`;
     }).join('');

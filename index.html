@@ -1057,12 +1057,6 @@ body::before {
     <div class="gacha-banner">
       <div class="gacha-title">✨ 장비 뽑기</div>
       <div class="gacha-sub">멤버에게 장착할 레어 장비를 뽑으세요</div>
-      <div class="gacha-rates">
-        <span class="gacha-rate-item rate-r">R 67%</span>
-        <span class="gacha-rate-item rate-sr">SR 27%</span>
-        <span class="gacha-rate-item rate-ssr">SSR 5.5%</span>
-        <span class="gacha-rate-item rate-ur">UR 0.5%</span>
-      </div>
       <div class="pity-bar-container">
         <div class="pity-label"><span>천장 게이지 (200뽑마다 SSR 보장)</span><span id="pity-count">0/200</span></div>
         <div class="pity-bar-bg"><div class="pity-bar-fill" id="pity-bar" style="width:0%"></div></div>
@@ -1457,14 +1451,6 @@ function getTierIndex(tierName){
 function isStaffUnlocked(staff){
   return getTierIndex(gameState.currentTier)>=getTierIndex(staff.minTier||'루키');
 }
-function getNextStaffUnlockText(){
-  const currentIdx=getTierIndex(gameState.currentTier);
-  const nextTier=tierOrder.find((tier,idx)=>idx>currentIdx&&staffPool.some(s=>getTierIndex(s.minTier||'루키')===idx&&!gameState.hiredStaff.includes(s.id)));
-  if(!nextTier) return '';
-  const names=staffPool.filter(s=>(s.minTier||'루키')===nextTier).map(s=>s.name).join(' · ');
-  return `<div style="font-size:12px; color:var(--text2); margin-bottom:12px;">다음 해금 (${nextTier}): ${names}</div>`;
-}
-
 function renderStaffPage(){
   const hiredEl=document.getElementById('hired-staff-list');
   const availEl=document.getElementById('available-staff-list');
@@ -1489,7 +1475,7 @@ function renderStaffPage(){
   }
   const hasDirector=!!getHiredDirector();
   const availableStaff=staffPool.filter(s=>!gameState.hiredStaff.includes(s.id)&&isStaffUnlocked(s));
-  availEl.innerHTML=getNextStaffUnlockText()+availableStaff.map(s=>{
+  availEl.innerHTML=availableStaff.map(s=>{
     const disabled=gameState.finance<s.salary*3||(s.isDirector&&hasDirector);
     const reason=s.isDirector&&hasDirector?'이미 디렉터가 있음':gameState.finance<s.salary*3?'자금 부족':'';
     return `<div class="staff-card"><div class="staff-info">

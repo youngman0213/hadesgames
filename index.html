@@ -1057,11 +1057,11 @@ body::before {
         </div>
       </div>
       <div class="stat-grid">
-        <div class="stat-item"><small>보유 자산</small><strong id="p-finance" style="color:var(--money);">200,000,000원</strong></div>
+        <div class="stat-item"><small>자산</small><strong id="p-finance" style="color:var(--money);">200,000,000원</strong></div>
         <div class="stat-item"><small>팬카페</small><strong id="p-fandom">110,000명</strong></div>
         <div class="stat-item"><small>너튜브</small><strong id="p-youtube">20,000명</strong></div>
         <div class="stat-item"><small>SNS</small><strong id="p-sns">1,000명</strong></div>
-        <div class="stat-item"><small>월 스태프비</small><strong id="p-staffcost" style="color:var(--danger);">0원</strong></div>
+        <div class="stat-item"><small>스태프 월급</small><strong id="p-staffcost" style="color:var(--danger);">0원</strong></div>
         <div class="stat-item"><small>누적 매출</small><strong id="p-sales">0원</strong></div>
       </div>
       <div class="fandom-tier-row" id="fandom-tier-row">
@@ -1074,7 +1074,7 @@ body::before {
 
     <div class="two-col">
       <div class="card">
-        <div class="section-title">🔮 미래시</div>
+        <div class="section-title">🔮 일정</div>
         <div id="future-event-list" class="record-list"></div>
       </div>
       <div class="card">
@@ -1234,7 +1234,7 @@ body::before {
   <!-- 시상식 & 기록 -->
   <div id="awards" class="page">
     <div class="card">
-      <div class="section-title">🔮 미래시</div>
+      <div class="section-title">🔮 일정</div>
       <div id="future-event-page-list" class="record-list"></div>
     </div>
     <div class="card">
@@ -3760,7 +3760,7 @@ function renderFutureEvents(targetId='future-event-list',limit=5){
       <div class="record-title">${icon} ${dday} ${ev.title} ${typeLabel}</div>
       <div class="record-meta">${ev.date}${ev.time?` ${ev.time}`:''} · ${state} · ${ev.hint||''}</div>
     </div>`;
-  }).join('')||'<div class="chart-not-enough">등록된 미래시가 없습니다.</div>';
+  }).join('')||'<div class="chart-not-enough">등록된 일정이 없습니다.</div>';
 }
 function renderCareerSummary(targetId='career-summary'){
   const el=document.getElementById(targetId);

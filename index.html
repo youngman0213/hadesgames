@@ -3583,6 +3583,7 @@ function nextDay(){
   if(document.getElementById('eventModal').style.display==='block') return;
   if(document.getElementById('schedModal').style.display==='block') return;
   if(gameState.finance<-50000000){ alert(`🚫 파산!\n최종 팬덤: ${gameState.fandom.toLocaleString()}명`); location.reload(); return; }
+  const keepScrollY=window.scrollY||window.pageYOffset||0;
 
   // SNS 스태프 효과
   gameState.sns+=(gameState.staffBonus.dailySns||0);
@@ -3693,6 +3694,12 @@ function nextDay(){
   gameState.day++;
   checkFutureEvents();
   updateDisplay();
+  requestAnimationFrame(()=>{
+    if(document.getElementById('eventModal').style.display!=='block'){
+      window.scrollTo(0,keepScrollY);
+      if(document.activeElement&&document.activeElement.blur) document.activeElement.blur();
+    }
+  });
   processNextPopup();
 }
 

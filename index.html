@@ -1625,6 +1625,7 @@ function startGame(){
     document.getElementById('main-container').style.display='block';
     document.getElementById('main-footer').style.display='block';
     initRivalCharts();
+    checkFutureEvents();
     updateDisplay();
     renderSchedulePage();
     renderConfirmedSchedule();
@@ -1694,6 +1695,13 @@ function getCurrentDateString(day=gameState.day){
   const d=new Date(gameState.startDate);
   d.setDate(d.getDate()+(day-1));
   return d.toISOString().split('T')[0];
+}
+function dateToUtcDays(dateStr){
+  const [y,m,d]=dateStr.split('-').map(Number);
+  return Math.floor(Date.UTC(y,m-1,d)/86400000);
+}
+function getDateDiffFromCurrent(dateStr){
+  return dateToUtcDays(dateStr)-dateToUtcDays(getCurrentDateString());
 }
 function makeSongHistory(){
   return { peakRank:null, weeksOnChart:0, firstEntryDay:null, lastRank:null, isOnChart:false, awards:[] };
@@ -3256,8 +3264,9 @@ function checkDateEvents(d){
 
 function checkFutureEvents(){
   normalizeGameState();
+  const currentDate=getCurrentDateString();
   gameState.futureEvents.forEach(ev=>{
-    if(ev.triggered||gameState.day<ev.day) return;
+    if(ev.triggered||currentDate!==ev.date) return;
     ev.triggered=true;
     if(ev.type==='release') executeFutureRelease(ev);
     if(ev.type==='concert') executeFutureConcert(ev);
@@ -3599,7 +3608,6 @@ function nextDay(){
   // 날짜 이벤트
   let d=new Date(gameState.startDate); d.setDate(d.getDate()+(gameState.day-1));
   checkDateEvents(d);
-  checkFutureEvents();
   processCharts();
   processRivalAgencies();
   processSoloActivities();
@@ -3629,6 +3637,7 @@ function nextDay(){
   `;
 
   gameState.day++;
+  checkFutureEvents();
   updateDisplay();
   processNextPopup();
 }
@@ -3677,15 +3686,17 @@ function renderFutureEvents(targetId='future-event-list',limit=5){
   if(!el) return;
   normalizeGameState();
   const events=[...gameState.futureEvents]
-    .sort((a,b)=>a.day-b.day)
-    .filter(ev=>targetId.includes('page')||!ev.triggered||gameState.day-ev.day<=30)
+    .sort((a,b)=>a.date.localeCompare(b.date))
+    .filter(ev=>targetId.includes('page')||!ev.triggered||Math.abs(getDateDiffFromCurrent(ev.date))<=30)
     .slice(0,limit);
   el.innerHTML=events.map(ev=>{
     const typeLabel=ev.type==='release'?'발매':ev.eventName||'온라인 콘서트';
     const state=ev.triggered?'완료':ev.confirmed?'확정':'예정';
     const icon=ev.confirmed?'✅':'◌';
+    const diff=getDateDiffFromCurrent(ev.date);
+    const dday=ev.triggered?'완료':diff===0?'D-DAY':diff>0?`D-${diff}`:`D+${Math.abs(diff)}`;
     return `<div class="record-row ${ev.triggered?'done':''}">
-      <div class="record-title">${icon} D+${ev.day} ${ev.title} ${typeLabel}</div>
+      <div class="record-title">${icon} ${dday} ${ev.title} ${typeLabel}</div>
       <div class="record-meta">${ev.date}${ev.time?` ${ev.time}`:''} · ${state} · ${ev.hint||''}</div>
     </div>`;
   }).join('')||'<div class="chart-not-enough">등록된 미래시가 없습니다.</div>';

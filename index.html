@@ -1018,6 +1018,15 @@ html[data-theme="light"] { --bg:#f4f5f9; --bg2:#fff; --card:#fff; --card2:#f7f8f
 .condition-mini-status { text-align:right; font-weight:700; color:var(--text2); }
 .condition-mini-status.danger { color:var(--danger); }
 .condition-mini-status.ok { color:var(--success); }
+
+/* 디렉터 리포트 */
+.ops-line.coach-info, .inbox-item.coach-info { border-color:rgba(77,159,255,0.28); background:rgba(77,159,255,0.07); }
+.ops-line.coach-warning, .inbox-item.coach-warning { border-color:rgba(244,162,45,0.35); background:rgba(244,162,45,0.08); }
+.ops-line.coach-critical, .inbox-item.coach-critical { border-color:rgba(255,77,109,0.42); background:rgba(255,77,109,0.09); }
+.coach-severity { display:inline-block; font-size:9px; font-family:'JetBrains Mono',monospace; font-weight:800; padding:2px 6px; border-radius:4px; margin-right:6px; }
+.coach-severity.info { color:var(--info); background:rgba(77,159,255,0.12); }
+.coach-severity.warning { color:var(--warn); background:rgba(244,162,45,0.12); }
+.coach-severity.critical { color:var(--danger); background:rgba(255,77,109,0.12); }
 /* PC 가독성 보정 */
 @media (min-width: 900px) {
   body { font-size: 15px; }
@@ -1101,7 +1110,7 @@ html[data-theme="light"] { --bg:#f4f5f9; --bg2:#fff; --card:#fff; --card2:#f7f8f
       </div>
     </div>
 
-    <div class="dashboard-grid" id="home-dashboard"><div class="ops-card"><div class="ops-card-title"><span>오늘의 핵심 알림</span></div><div id="dashboard-alerts" class="ops-list"></div></div><div class="ops-card"><div class="ops-card-title"><span>예정 활동</span></div><div id="dashboard-roadmap" class="ops-list"></div></div><div class="ops-card"><div class="ops-card-title"><span>첫 활동 목표</span></div><div id="dashboard-objectives" class="ops-list"></div></div><div class="ops-card"><div class="ops-card-title"><span>컴백 준비도</span><strong id="dashboard-prep-status"></strong></div><div id="dashboard-prep" class="ops-list"></div></div><div class="ops-card"><div class="ops-card-title"><span>멤버 컨디션</span></div><div id="dashboard-members" class="ops-list"></div></div><div class="ops-card"><div class="ops-card-title"><span>차트 요약</span></div><div id="dashboard-chart" class="ops-list"></div></div><div class="ops-card"><div class="ops-card-title"><span>오늘 할 일</span></div><div id="dashboard-todos" class="ops-list"></div></div><div class="ops-card"><div class="ops-card-title"><span>HADES 곡 미니 차트</span></div><div id="dashboard-hades-chart" class="ops-list"></div></div><div class="ops-card"><div class="ops-card-title"><span>운영 코치</span></div><div id="dashboard-coach" class="ops-list"></div></div><div class="ops-card wide"><div class="ops-card-title"><span>재무 요약</span></div><div id="dashboard-finance" class="finance-grid"></div></div></div>
+    <div class="dashboard-grid" id="home-dashboard"><div class="ops-card"><div class="ops-card-title"><span>오늘의 핵심 알림</span></div><div id="dashboard-alerts" class="ops-list"></div></div><div class="ops-card"><div class="ops-card-title"><span>예정 활동</span></div><div id="dashboard-roadmap" class="ops-list"></div></div><div class="ops-card"><div class="ops-card-title"><span>첫 활동 목표</span></div><div id="dashboard-objectives" class="ops-list"></div></div><div class="ops-card"><div class="ops-card-title"><span>컴백 준비도</span><strong id="dashboard-prep-status"></strong></div><div id="dashboard-prep" class="ops-list"></div></div><div class="ops-card"><div class="ops-card-title"><span>멤버 컨디션</span></div><div id="dashboard-members" class="ops-list"></div></div><div class="ops-card"><div class="ops-card-title"><span>차트 요약</span></div><div id="dashboard-chart" class="ops-list"></div></div><div class="ops-card"><div class="ops-card-title"><span>오늘 할 일</span></div><div id="dashboard-todos" class="ops-list"></div></div><div class="ops-card"><div class="ops-card-title"><span>HADES 곡 미니 차트</span></div><div id="dashboard-hades-chart" class="ops-list"></div></div><div class="ops-card"><div class="ops-card-title"><span>디렉터 리포트</span></div><div id="dashboard-coach" class="ops-list"></div></div><div class="ops-card wide"><div class="ops-card-title"><span>재무 요약</span></div><div id="dashboard-finance" class="finance-grid"></div></div></div>
 
     <div class="card card-glow">
       <div class="status-header">
@@ -1752,6 +1761,8 @@ let gameState = {
   eventHistory:[],
   awardHistory:[],
   inbox:[],
+  coachReports:[],
+  coachReportCooldowns:{},
   ui:{ theme:'dark', selectedMemberIndex:0 },
   currentTier:'루키',
   activeCharts:[], rivalCharts:[], usedSongTitles:[], rivalReleasePlan:{}, musicSimVersion:3,
@@ -1857,6 +1868,8 @@ function loadGame(){
   if(!loaded.eventHistory) loaded.eventHistory=[];
   if(!loaded.awardHistory) loaded.awardHistory=[];
   if(!loaded.inbox) loaded.inbox=[];
+  if(!loaded.coachReports) loaded.coachReports=[];
+  if(!loaded.coachReportCooldowns) loaded.coachReportCooldowns={};
   if(!loaded.ui) loaded.ui={theme:localStorage.getItem('hades_theme')||'dark', selectedMemberIndex:0};
   gameState=loaded;
   gameState.startDate=new Date(loaded.startDate);
@@ -1906,6 +1919,8 @@ function normalizeGameState(){
   if(!Array.isArray(gameState.eventHistory)) gameState.eventHistory=[];
   if(!Array.isArray(gameState.awardHistory)) gameState.awardHistory=[];
   if(!Array.isArray(gameState.inbox)) gameState.inbox=[];
+  if(!Array.isArray(gameState.coachReports)) gameState.coachReports=[];
+  if(!gameState.coachReportCooldowns) gameState.coachReportCooldowns={};
   if(!gameState.ui) gameState.ui={theme:localStorage.getItem('hades_theme')||'dark', selectedMemberIndex:0};
   if(typeof gameState.ui.selectedMemberIndex!=='number') gameState.ui.selectedMemberIndex=0;
   if(!Array.isArray(gameState.activeCharts)) gameState.activeCharts=Array.isArray(gameState.playerSongs)?gameState.playerSongs:[];
@@ -4087,6 +4102,7 @@ function nextDay(){
   checkScheduledEvents();
   checkComebackPrepWarnings();
   evaluateObjectivesIfNeeded();
+  generateCoachReports();
   updateDisplay();
   requestAnimationFrame(()=>{
     if(document.getElementById('eventModal').style.display!=='block'){
@@ -4265,7 +4281,80 @@ function renderFirstSettlementList(){
     <div class="record-meta">선택: ${optional}</div>
   </div>`;
 }
-function applyTheme(theme){
+function addCoachReport({severity='info',title,body,target='',actionType='general',page='home',reportKey}){
+  normalizeGameState();
+  const key=reportKey||`${actionType}_${target||title}`;
+  const last=gameState.coachReportCooldowns[key]||-999;
+  const cooldown=severity==='critical'?3:5;
+  if(gameState.day-last<cooldown) return false;
+  const report={day:gameState.day,date:getCurrentDateString(),type:'coach',severity,title,body,target,actionType,page,reportKey:key,read:false};
+  gameState.coachReports.unshift(report);
+  if(gameState.coachReports.length>80) gameState.coachReports.length=80;
+  gameState.coachReportCooldowns[key]=gameState.day;
+  gameState.inbox.unshift({...report,type:'coach-'+severity});
+  if(gameState.inbox.length>120) gameState.inbox.length=120;
+  return true;
+}
+function getStatLabel(stat){ return {vocal:'보컬',dance:'댄스',visual:'비주얼',variety:'예능',charm:'매력'}[stat]||stat; }
+function getMemberConditionValue(m){ return Math.max(0,Math.min(100,Math.round((m.mental||0)-((m.fatigue||0)*0.45)))); }
+function generateCoachReports(){
+  normalizeGameState();
+  let created=0;
+  const tryAdd=report=>{ if(created>=5) return; if(addCoachReport(report)) created++; };
+  const stats=['vocal','dance','visual','variety','charm'];
+  const avg={};
+  stats.forEach(stat=>{ avg[stat]=gameState.members.reduce((sum,m)=>sum+(m[stat]||0),0)/Math.max(1,gameState.members.length); });
+  for(const m of gameState.members){
+    if(created>=5) break;
+    for(const stat of stats){
+      if((m[stat]||0)<=avg[stat]-10){
+        tryAdd({severity:'info',title:`${getStatLabel(stat)} 보강 필요`,body:`${m.name}의 ${getStatLabel(stat)} 능력이 팀 평균보다 낮습니다. 다음 스케줄에 ${getStatLabel(stat)} 훈련을 배정하세요.`,target:m.name,actionType:`${stat}_training`,page:'schedule',reportKey:`low_${stat}_${m.name}`});
+        break;
+      }
+    }
+    if((m.fatigue||0)>=90) tryAdd({severity:'critical',title:'피로도 긴급 관리',body:`${m.name}의 피로도가 매우 높습니다. 즉시 휴식 스케줄을 배정하세요.`,target:m.name,actionType:'rest',page:'schedule',reportKey:`fatigue_critical_${m.name}`});
+    else if((m.fatigue||0)>=75) tryAdd({severity:'warning',title:'피로도 주의',body:`${m.name}의 피로도가 높습니다. 이번 주 휴식 스케줄이 필요합니다.`,target:m.name,actionType:'rest',page:'schedule',reportKey:`fatigue_warning_${m.name}`});
+    const condition=getMemberConditionValue(m);
+    if(condition<=40||(m.mental||0)<=40) tryAdd({severity:'warning',title:'컨디션 관리 필요',body:`${m.name}의 컨디션이 낮습니다. 무리한 스케줄을 줄이고 휴식을 배정하세요.`,target:m.name,actionType:'condition_care',page:'members',reportKey:`low_condition_${m.name}`});
+  }
+  const nextRelease=(gameState.activityRoadmap||[]).filter(ev=>ev.type==='release'&&!ev.triggered).sort((a,b)=>dateToUtcDays(a.date)-dateToUtcDays(b.date))[0];
+  if(nextRelease){
+    const diff=getDateDiffFromCurrent(nextRelease.date);
+    const prep=getComebackPrepScore();
+    if(diff>=0&&diff<=7&&prep<60){
+      const lowKey=Object.entries(gameState.comebackPrep).sort((a,b)=>a[1]-b[1])[0]?.[0]||'promotion';
+      const lowLabel=lowKey==='promotion'?'홍보':lowKey==='concept'?'콘셉트':lowKey==='fandom'?'팬덤':getStatLabel(lowKey);
+      tryAdd({severity:prep<40?'critical':'warning',title:'컴백 준비 부족',body:`컴백까지 ${diff}일 남았습니다. ${lowLabel} 준비도가 낮습니다. 관련 스케줄을 보강하세요.`,target:nextRelease.title,actionType:'comeback_prep',page:'contents',reportKey:`prep_${nextRelease.title}`});
+    }
+  }
+  const cost=getFirstActivityCost();
+  if(cost&&!cost.paid&&!cost.failed){
+    const diff=getDateDiffFromCurrent(cost.dueDate);
+    if(diff>=0&&diff<=3&&(gameState.finance<cost.amount||gameState.finance-cost.amount<30000000)){
+      tryAdd({severity:'warning',title:'활동 정산 자금 주의',body:'첫 활동 패키지 비용 정산이 임박했습니다. 정산 후 잔액이 부족할 수 있으니 자금 운용에 주의하세요.',target:cost.title,actionType:'finance',page:'finance',reportKey:'first_package_finance'});
+    }
+  }
+  if(gameState.finance<30000000) tryAdd({severity:gameState.finance<10000000?'critical':'warning',title:'운영 자금 부족',body:'보유 자금이 낮습니다. 굿즈, 콘텐츠, 투어 등 수익 활동을 검토하세요.',target:'finance',actionType:'finance',page:'finance',reportKey:'low_finance'});
+  const weakSong=(gameState.activeCharts||[]).find(song=>(song.daysAfterRelease||0)>=7&&(!song.rank||song.rank>20)&&!(ensureSongHistory(song).peakRank&&ensureSongHistory(song).peakRank<=20));
+  if(weakSong) tryAdd({severity:'info',title:'차트 반응 보강 필요',body:`${weakSong.title||weakSong.name}의 차트 반응이 약합니다. 다음 발매 전 홍보와 팬덤 관리를 강화하세요.`,target:weakSong.title||weakSong.name,actionType:'chart_promo',page:'contents',reportKey:`weak_chart_${weakSong.title||weakSong.name}`});
+  const nextConcert=(gameState.activityRoadmap||[]).filter(ev=>ev.type==='concert'&&!ev.triggered).sort((a,b)=>dateToUtcDays(a.date)-dateToUtcDays(b.date))[0];
+  if(nextConcert){
+    const diff=getDateDiffFromCurrent(nextConcert.date);
+    const avgCondition=getMemberConditionScore();
+    const avgFatigue=Math.round(gameState.members.reduce((s,m)=>s+(m.fatigue||0),0)/Math.max(1,gameState.members.length));
+    if(diff>=0&&diff<=7&&(gameState.fandom<120000||avgCondition<55||avgFatigue>=70)){
+      tryAdd({severity:avgFatigue>=80||avgCondition<45?'critical':'warning',title:'콘서트 준비 점검',body:'온라인 콘서트가 임박했습니다. 팬덤, 평균 컨디션, 피로도를 점검해 공연 퀄리티 하락을 막으세요.',target:nextConcert.title,actionType:'concert_prep',page:'schedule',reportKey:`concert_prep_${nextConcert.title}`});
+    }
+  }
+}
+function renderCoachReports(targetId='dashboard-coach',limit=5){
+  const el=document.getElementById(targetId);
+  if(!el) return;
+  normalizeGameState();
+  const list=(gameState.coachReports||[]).slice(0,limit);
+  if(list.length===0){ el.innerHTML='<div class="ops-line success"><strong>디렉터 리포트 없음</strong><small>운영 안정</small></div>'; return; }
+  el.innerHTML=list.map(r=>`<div class="ops-line coach-${r.severity}" onclick="openPage('${r.page||'home'}', document.querySelector('.nav-btn[onclick*=\\'${r.page||'home'}\\']'))"><strong><span class="coach-severity ${r.severity}">${r.severity.toUpperCase()}</span>${r.title}</strong><small>${r.body}</small></div>`).join('');
+}function applyTheme(theme){
   const safe=theme==='light'?'light':'dark';
   document.documentElement.dataset.theme=safe;
   localStorage.setItem('hades_theme',safe);
@@ -4340,26 +4429,7 @@ function renderDashboard(){
       return `<div class="ops-line point"><strong>${song.title||song.name}</strong><small>현재 ${rank} · 최고 ${peak} · ${status}</small></div>`;
     }).join(''):'<div class="ops-line"><strong>발매곡 없음</strong><small>첫 싱글 이후 표시</small></div>';
   }
-  const coachEl=document.getElementById('dashboard-coach');
-  if(coachEl){
-    const tips=[];
-    const prepTotal=getComebackPrepScore();
-    const avgFatigue=Math.round(gameState.members.reduce((sum,m)=>sum+(m.fatigue||0),0)/Math.max(1,gameState.members.length));
-    const lowMental=gameState.members.filter(m=>(m.mental||0)<=35).map(m=>m.name);
-    const highFatigue=gameState.members.filter(m=>(m.fatigue||0)>=75).map(m=>m.name);
-    const cost=getFirstActivityCost();
-    const costDiff=(!cost.paid&&!cost.failed)?getDateDiffFromCurrent(cost.dueDate):null;
-    const nextEvent=getUpcomingRoadmap(1)[0];
-    if(prepTotal<40) tips.push({type:'warning',title:'컴백 준비 위험',body:'훈련/홍보를 우선 배정하세요.'});
-    else if(prepTotal<70) tips.push({type:'point',title:'준비도 보강',body:'콘셉트와 홍보를 더 올리면 안정적입니다.'});
-    if(highFatigue.length) tips.push({type:'warning',title:'휴식 권장',body:highFatigue.slice(0,2).join(', ')+' 피로도가 높습니다.'});
-    else if(avgFatigue<35) tips.push({type:'success',title:'훈련 여유 있음',body:'이번 주는 성장 스케줄을 늘려도 좋습니다.'});
-    if(lowMental.length) tips.push({type:'warning',title:'멘탈 케어 필요',body:lowMental.slice(0,2).join(', ')+' 관리가 필요합니다.'});
-    if(costDiff!==null&&costDiff>=0&&gameState.finance<cost.amount) tips.push({type:'warning',title:'정산 자금 부족',body:'수익 활동이나 비용 절감이 필요합니다.'});
-    if(nextEvent){ const diff=getDateDiffFromCurrent(nextEvent.date); if(diff>=0&&diff<=14) tips.push({type:'event',title:'예정 활동 임박',body:nextEvent.title+' 준비 상태를 확인하세요.'}); }
-    if(tips.length===0) tips.push({type:'success',title:'운영 안정',body:'현재 큰 위험은 없습니다.'});
-    coachEl.innerHTML=tips.slice(0,3).map(t=>`<div class="ops-line ${t.type}"><strong>${t.title}</strong><small>${t.body}</small></div>`).join('');
-  }
+  renderCoachReports('dashboard-coach',5);
   renderFinanceSummary('dashboard-finance');
 }
 function renderFinanceSummary(targetId='finance-summary-page'){

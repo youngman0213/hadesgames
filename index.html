@@ -1085,7 +1085,7 @@ html[data-theme="light"] { --bg:#f4f5f9; --bg2:#fff; --card:#fff; --card2:#f7f8f
       </div>
     </div>
 
-    <div class="dashboard-grid" id="home-dashboard"><div class="ops-card"><div class="ops-card-title"><span>오늘의 핵심 알림</span></div><div id="dashboard-alerts" class="ops-list"></div></div><div class="ops-card"><div class="ops-card-title"><span>예정 활동</span></div><div id="dashboard-roadmap" class="ops-list"></div></div><div class="ops-card"><div class="ops-card-title"><span>첫 활동 목표</span></div><div id="dashboard-objectives" class="ops-list"></div></div><div class="ops-card"><div class="ops-card-title"><span>컴백 준비도</span><strong id="dashboard-prep-status"></strong></div><div id="dashboard-prep" class="ops-list"></div></div><div class="ops-card"><div class="ops-card-title"><span>멤버 컨디션</span></div><div id="dashboard-members" class="ops-list"></div></div><div class="ops-card"><div class="ops-card-title"><span>차트 요약</span></div><div id="dashboard-chart" class="ops-list"></div></div><div class="ops-card wide"><div class="ops-card-title"><span>재무 요약</span></div><div id="dashboard-finance" class="finance-grid"></div></div></div>
+    <div class="dashboard-grid" id="home-dashboard"><div class="ops-card"><div class="ops-card-title"><span>오늘의 핵심 알림</span></div><div id="dashboard-alerts" class="ops-list"></div></div><div class="ops-card"><div class="ops-card-title"><span>예정 활동</span></div><div id="dashboard-roadmap" class="ops-list"></div></div><div class="ops-card"><div class="ops-card-title"><span>첫 활동 목표</span></div><div id="dashboard-objectives" class="ops-list"></div></div><div class="ops-card"><div class="ops-card-title"><span>컴백 준비도</span><strong id="dashboard-prep-status"></strong></div><div id="dashboard-prep" class="ops-list"></div></div><div class="ops-card"><div class="ops-card-title"><span>멤버 컨디션</span></div><div id="dashboard-members" class="ops-list"></div></div><div class="ops-card"><div class="ops-card-title"><span>차트 요약</span></div><div id="dashboard-chart" class="ops-list"></div></div><div class="ops-card"><div class="ops-card-title"><span>오늘 할 일</span></div><div id="dashboard-todos" class="ops-list"></div></div><div class="ops-card"><div class="ops-card-title"><span>HADES 곡 미니 차트</span></div><div id="dashboard-hades-chart" class="ops-list"></div></div><div class="ops-card wide"><div class="ops-card-title"><span>재무 요약</span></div><div id="dashboard-finance" class="finance-grid"></div></div></div>
 
     <div class="card card-glow">
       <div class="status-header">
@@ -4278,6 +4278,32 @@ function renderDashboard(){
   if(memberEl){ const avgCondition=getMemberConditionScore(); const avgFatigue=Math.round(gameState.members.reduce((s,m)=>s+(m.fatigue||0),0)/Math.max(1,gameState.members.length)); const risky=gameState.members.filter(m=>(m.fatigue||0)>=80||(m.mental||0)<=30).map(m=>m.name).join(', ')||'없음'; memberEl.innerHTML=`<div class="ops-line"><strong>평균 컨디션</strong><small>${avgCondition}</small></div><div class="ops-line ${avgFatigue>=70?'warning':''}"><strong>평균 피로도</strong><small>${avgFatigue}%</small></div><div class="ops-line"><strong>위험 멤버</strong><small>${risky}</small></div>`; }
   const chartEl=document.getElementById('dashboard-chart');
   if(chartEl){ const hades=gameState.activeCharts||[]; const best=hades.map(song=>({song,rank:ensureSongHistory(song).peakRank||999})).sort((a,b)=>a.rank-b.rank)[0]; const recent=hades.map(song=>({song,rank:song.rank||999})).sort((a,b)=>a.rank-b.rank)[0]; chartEl.innerHTML=hades.length?`<div class="ops-line point"><strong>최고 순위</strong><small>${best.rank<999?`${best.rank}위 · ${best.song.title||best.song.name}`:'집계 중'}</small></div><div class="ops-line"><strong>최근 차트</strong><small>${recent.rank<999?`${recent.rank}위 · ${recent.song.title||recent.song.name}`:'진입 대기'}</small></div>`:'<div class="ops-line"><strong>발매곡 없음</strong><small>첫 싱글 이후 열림</small></div>'; }
+  const todoEl=document.getElementById('dashboard-todos');
+  if(todoEl){
+    const todos=[];
+    const hasUnsetSchedule=gameState.members.some(m=>(m.weekSchedule||[]).some(v=>!v));
+    const prepTotal=getComebackPrepScore();
+    const cost=getFirstActivityCost();
+    const nextEvent=getUpcomingRoadmap(1)[0];
+    const risky=gameState.members.filter(m=>(m.fatigue||0)>=80||(m.mental||0)<=30).map(m=>m.name);
+    if(hasUnsetSchedule) todos.push({type:'warning',title:'스케줄 점검',body:'미배정 일정이 있습니다.'});
+    if(prepTotal<60) todos.push({type:'warning',title:'컴백 준비 보강',body:`현재 준비도 ${prepTotal}/100`});
+    if(!cost.paid&&!cost.failed){ const diff=getDateDiffFromCurrent(cost.dueDate); if(diff>=0) todos.push({type:diff<=7?'warning':'info',title:'선투자 비용 대비',body:diff===0?'오늘 정산':`${diff}일 남음`}); }
+    if(nextEvent){ const diff=getDateDiffFromCurrent(nextEvent.date); if(diff>=0&&diff<=7) todos.push({type:'event',title:'예정 활동 확인',body:`${nextEvent.title} · D-${diff}`}); }
+    if(risky.length) todos.push({type:'warning',title:'휴식 필요 멤버',body:risky.join(', ')});
+    todoEl.innerHTML=todos.slice(0,5).map(t=>`<div class="ops-line ${t.type||'info'}"><strong>${t.title}</strong><small>${t.body}</small></div>`).join('')||'<div class="ops-line success"><strong>오늘 할 일 없음</strong><small>운영 안정</small></div>';
+  }
+  const miniChartEl=document.getElementById('dashboard-hades-chart');
+  if(miniChartEl){
+    const songs=[...(gameState.activeCharts||[])].slice().sort((a,b)=>(a.rank||999)-(b.rank||999)).slice(0,4);
+    miniChartEl.innerHTML=songs.length?songs.map(song=>{
+      const h=ensureSongHistory(song);
+      const rank=song.rank&&song.rank<999?`${song.rank}위`:'차트 대기';
+      const peak=h.peakRank?`${h.peakRank}위`:'—';
+      const status=song.hasShownNo1?'👑 1위':(song.weeksActive||0)>=4?'💎 롱런':song.hasShownChartEntry?'차트인':'발매곡';
+      return `<div class="ops-line point"><strong>${song.title||song.name}</strong><small>현재 ${rank} · 최고 ${peak} · ${status}</small></div>`;
+    }).join(''):'<div class="ops-line"><strong>발매곡 없음</strong><small>첫 싱글 이후 표시</small></div>';
+  }
   renderFinanceSummary('dashboard-finance');
 }
 function renderFinanceSummary(targetId='finance-summary-page'){

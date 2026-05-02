@@ -1002,6 +1002,22 @@ html[data-theme="light"] { --bg:#f4f5f9; --bg2:#fff; --card:#fff; --card2:#f7f8f
   #home-dashboard .ops-card:first-child { grid-column: span 2; }
   #home-dashboard .ops-card.wide { grid-column: span 2; }
 }
+
+/* 스케줄 탭 운영 패널 */
+.schedule-bottom-grid { display:grid; grid-template-columns:1fr; gap:12px; }
+@media (min-width:900px) { .schedule-bottom-grid { grid-template-columns:1fr 1fr; } }
+.schedule-summary-card { padding:14px; }
+.schedule-summary-card .section-title { margin-bottom:10px; }
+.schedule-summary-list { display:grid; gap:6px; font-size:11px; color:var(--text2); }
+.schedule-summary-row { display:flex; justify-content:space-between; gap:10px; padding:7px 9px; background:var(--card2); border:1px solid var(--border2); border-radius:7px; }
+.condition-mini-list { display:grid; gap:7px; }
+.condition-mini-row { display:grid; grid-template-columns:70px 1fr 48px; align-items:center; gap:8px; padding:8px 9px; background:var(--card2); border:1px solid var(--border2); border-radius:7px; font-size:11px; }
+.condition-mini-row.warning { border-color:rgba(255,77,109,0.32); background:rgba(255,77,109,0.07); }
+.condition-mini-row strong { color:var(--text); }
+.condition-mini-meta { color:var(--text2); font-family:'JetBrains Mono',monospace; }
+.condition-mini-status { text-align:right; font-weight:700; color:var(--text2); }
+.condition-mini-status.danger { color:var(--danger); }
+.condition-mini-status.ok { color:var(--success); }
 /* PC 가독성 보정 */
 @media (min-width: 900px) {
   body { font-size: 15px; }
@@ -1178,9 +1194,15 @@ html[data-theme="light"] { --bg:#f4f5f9; --bg2:#fff; --card:#fff; --card2:#f7f8f
         <button class="primary-btn" style="flex:1; background:var(--card2); color:var(--text2); border:1px solid var(--border); box-shadow:none;" onclick="autoSchedule()">🤖 디렉터 자동 배정</button>
       </div>
     </div>
-    <div class="card">
-      <div class="section-title">📋 확정 스케줄</div>
-      <div id="confirmed-schedule" style="font-size:12px; color:var(--text2);">스케줄을 배정한 뒤 확정하세요.</div>
+    <div class="schedule-bottom-grid">
+      <div class="card schedule-summary-card">
+        <div class="section-title">📋 확정 스케줄 요약</div>
+        <div id="confirmed-schedule" class="schedule-summary-list">스케줄을 배정한 뒤 확정하세요.</div>
+      </div>
+      <div class="card schedule-summary-card">
+        <div class="section-title">🩺 멤버 컨디션</div>
+        <div id="schedule-condition-list" class="condition-mini-list"></div>
+      </div>
     </div>
   </div>
 
@@ -1778,6 +1800,7 @@ function startGame(){
     updateDisplay();
     renderSchedulePage();
     renderConfirmedSchedule();
+    renderScheduleConditionList();
     renderHomeCharts();
     showTutorial();
   } catch(e) {
@@ -2190,19 +2213,32 @@ function saveSchedule(){
   renderConfirmedSchedule();
   alert('스케줄 확정!');
 }
-function renderConfirmedSchedule(){
+function renderScheduleConditionList(){
+  const el=document.getElementById('schedule-condition-list');
+  if(!el) return;
+  el.innerHTML=gameState.members.map(m=>{
+    const condition=Math.max(0,Math.min(100,Math.round((m.mental||0)-((m.fatigue||0)*0.45))));
+    const injured=m.injuredUntil>gameState.day;
+    const onSolo=m.soloUntil>gameState.day;
+    const danger=condition<45||m.fatigue>=75||m.mental<=35||injured;
+    const status=injured?`부상 D-${m.injuredUntil-gameState.day}`:onSolo?`솔로 D-${m.soloUntil-gameState.day}`:danger?'휴식 권장':'정상';
+    const statusClass=danger?'danger':'ok';
+    return `<div class="condition-mini-row ${danger?'warning':''}"><strong>${m.name}</strong><div class="condition-mini-meta">컨디션 ${condition} · 피로 ${m.fatigue}% · 멘탈 ${m.mental}%</div><div class="condition-mini-status ${statusClass}">${status}</div></div>`;
+  }).join('');
+}function renderConfirmedSchedule(){
   const days=['월','화','수','목','금','토','일'];
   const el=document.getElementById('confirmed-schedule');
   let html='';
   gameState.members.forEach(m=>{
-    html+=`<div style="margin-bottom:8px;"><strong>${m.name}</strong>: `;
+    html+=`<div class="schedule-summary-row"><strong>${m.name}</strong><span>`;
     html+=m.weekSchedule.map((a,i)=>{
       const info=a?scheduleActions.find(x=>x.id===a):null;
       return `<span style="margin-right:4px;">${days[i]}:${info?info.emoji:'—'}</span>`;
     }).join('');
-    html+='</div>';
+    html+='</span></div>';
   });
   el.innerHTML=html||'스케줄 없음';
+  renderScheduleConditionList();
 }
 
 // ═══════════════════════════════════════════
@@ -4454,7 +4490,7 @@ function openPage(pId,btn){
   if(pId==='roadmap') renderRoadmapPage();
   if(pId==='members') renderMembersTable();
   if(pId==='inbox') renderInboxPage();
-  if(pId==='schedule'){ renderSchedulePage(); renderConfirmedSchedule(); }
+  if(pId==='schedule'){ renderSchedulePage(); renderConfirmedSchedule(); renderScheduleConditionList(); }
 }
 
 // 키보드

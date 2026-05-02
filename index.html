@@ -1067,7 +1067,7 @@ body::before {
       <div class="status-header">
         <div class="date-block">
           <div class="day-count">DAY <span id="current-day">1</span></div>
-          <div class="real-date" id="current-date">2025-12-25</div>
+          <div class="real-date" id="current-date">2025-09-05</div>
         </div>
         <div style="text-align:right;">
           <div class="tier-badge-small tier-rookie" id="tier-badge-small">루키</div>
@@ -1679,7 +1679,7 @@ function createMember(name, birth, stats, img=null){
 }
 
 let gameState = {
-  day:0, startDate:new Date('2025-12-25'),
+  day:1, startDate:new Date('2025-09-05'),
   finance:200000000, fandom:110000, youtube:20000, sns:1000,
   fandomCasual:77000, fandomHardcore:27500, fandomWhale:5500,
   accumulatedSales:0,
@@ -1807,7 +1807,7 @@ function loadGame(){
 
 function getCurrentDateString(day=gameState.day){
   const d=new Date(gameState.startDate);
-  d.setDate(d.getDate()+day);
+  d.setDate(d.getDate()+(day-1));
   return d.toISOString().split('T')[0];
 }
 function dateToUtcDays(dateStr){
@@ -3648,7 +3648,7 @@ function runConcert(){
 //  이벤트 체크
 // ═══════════════════════════════════════════
 function checkBirthday(){
-  let d=new Date(gameState.startDate); d.setDate(d.getDate()+gameState.day);
+  let d=new Date(gameState.startDate); d.setDate(d.getDate()+(gameState.day-1));
   const today=`${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
   gameState.members.forEach(m=>{
     if(m.birth===today) gameState.popupQueue.push({type:'birthday',event:{
@@ -3985,7 +3985,7 @@ function nextDay(){
   if(gameState.community.length>60) gameState.community.shift();
 
   // 날짜 이벤트
-  let d=new Date(gameState.startDate); d.setDate(d.getDate()+gameState.day);
+  let d=new Date(gameState.startDate); d.setDate(d.getDate()+(gameState.day-1));
   checkDateEvents(d);
   checkActivityCosts();
   checkScheduledEvents();
@@ -4216,7 +4216,7 @@ function renderRecordSections(){
 // ═══════════════════════════════════════════
 function updateDisplay(){
   document.getElementById('current-day').innerText=gameState.day;
-  let d=new Date(gameState.startDate); d.setDate(d.getDate()+gameState.day);
+  let d=new Date(gameState.startDate); d.setDate(d.getDate()+(gameState.day-1));
   document.getElementById('current-date').innerText=d.toISOString().split('T')[0];
   document.getElementById('p-finance').innerText=gameState.finance.toLocaleString()+'원';
   document.getElementById('p-fandom').innerText=gameState.fandom.toLocaleString()+'명';

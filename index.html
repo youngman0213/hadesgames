@@ -977,9 +977,11 @@ body::before {
 html[data-theme="light"] { --bg:#f4f5f9; --bg2:#fff; --card:#fff; --card2:#f7f8fc; --card3:#eef1f7; --text:#171724; --text2:#5f6478; --text3:#9197aa; --border:#d9deea; --border2:#e8ebf3; --point-glow:rgba(232,64,122,0.12); }
 .ops-topbar{display:none;background:rgba(8,8,16,0.94);border-bottom:1px solid var(--border);backdrop-filter:blur(16px) saturate(180%);position:sticky;top:0;z-index:210}.ops-topbar-inner{display:flex;align-items:center;gap:10px;max-width:1100px;margin:0 auto;padding:10px 16px;overflow-x:auto;scrollbar-width:none}.ops-pill{flex-shrink:0;display:flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid var(--border2);border-radius:8px;background:var(--card2);font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text2)}.ops-pill strong{color:var(--text);font-family:'Noto Sans KR',sans-serif}.ops-next-btn,.theme-toggle{flex-shrink:0;border:none;cursor:pointer;border-radius:8px;font-family:'Syne',sans-serif;font-weight:800;letter-spacing:.05em}.ops-next-btn{padding:9px 14px;background:linear-gradient(135deg,#0a6640,#2ecc8e);color:#fff;margin-left:auto}.theme-toggle{padding:9px 12px;color:var(--text);background:var(--card2);border:1px solid var(--border)}.nav-brand,.nav-section-label{display:none}
 .dashboard-grid{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:16px}@media(min-width:780px){.dashboard-grid{grid-template-columns:repeat(2,1fr)}}@media(min-width:1100px){.dashboard-grid{grid-template-columns:repeat(3,1fr)}}.ops-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;min-height:130px;box-shadow:0 6px 24px rgba(0,0,0,.12)}.ops-card.wide{grid-column:1/-1}.ops-card-title{display:flex;align-items:center;justify-content:space-between;gap:8px;font-family:'Syne',sans-serif;font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--text2);margin-bottom:12px}.ops-list{display:grid;gap:7px}.ops-line{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 10px;border-radius:8px;background:var(--card2);border:1px solid var(--border2);font-size:12px}.ops-line strong{color:var(--text)}.ops-line small{color:var(--text2);font-family:'JetBrains Mono',monospace;text-align:right}.ops-line.warning{border-color:rgba(255,77,109,.25);background:rgba(255,77,109,.07)}.ops-line.success{border-color:rgba(46,204,142,.24);background:rgba(46,204,142,.07)}.ops-line.point{border-color:rgba(232,64,122,.28);background:rgba(232,64,122,.07)}
+.ops-briefing{grid-column:1/-1;min-height:0;padding:22px;border-color:rgba(232,64,122,.32);background:linear-gradient(135deg,rgba(232,64,122,.18),rgba(19,19,31,.98) 42%,rgba(77,159,255,.08));box-shadow:0 16px 48px rgba(0,0,0,.22),0 0 34px rgba(232,64,122,.12);overflow:hidden;position:relative}.ops-briefing::before{content:'';position:absolute;inset:0;border-left:4px solid var(--point);pointer-events:none}.ops-briefing.warning::before{border-left-color:var(--warn)}.ops-briefing.danger::before{border-left-color:var(--danger)}.briefing-grid{display:grid;grid-template-columns:1fr;gap:16px;position:relative;z-index:1}.briefing-kicker{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text2);letter-spacing:.08em}.briefing-title{font-family:'Syne',sans-serif;font-size:clamp(24px,3vw,38px);font-weight:800;letter-spacing:0;margin:4px 0 8px}.briefing-sub{color:var(--text2);font-size:13px;line-height:1.6}.briefing-comment{margin-top:12px;padding:10px 12px;border:1px solid rgba(232,64,122,.2);border-radius:8px;background:rgba(8,8,16,.28);font-size:13px;color:var(--text)}.briefing-metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.briefing-metric{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:11px}.briefing-metric small{display:block;color:var(--text2);font-size:10px;margin-bottom:5px}.briefing-metric strong{font-family:'JetBrains Mono',monospace;font-size:14px}.briefing-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 8px;border-radius:999px;background:rgba(232,64,122,.13);border:1px solid rgba(232,64,122,.22);color:var(--point);font-size:10px;font-weight:800;font-family:'JetBrains Mono',monospace}.briefing-badge.warning{color:var(--warn);background:rgba(244,162,45,.13);border-color:rgba(244,162,45,.24)}.briefing-badge.danger{color:var(--danger);background:rgba(255,77,109,.13);border-color:rgba(255,77,109,.24)}@media(min-width:900px){.briefing-grid{grid-template-columns:minmax(0,1.4fr) minmax(320px,.8fr);align-items:end}.briefing-metrics{grid-template-columns:repeat(2,1fr)}}
 .prep-mini-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}.prep-mini{background:var(--card2);border:1px solid var(--border2);border-radius:8px;padding:8px 6px;text-align:center}.prep-mini small{display:block;color:var(--text2);font-size:9px;margin-bottom:3px}.prep-mini strong{font-family:'JetBrains Mono',monospace}.ops-table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:10px;background:var(--card)}.ops-table{width:100%;border-collapse:collapse;min-width:720px;font-size:12px}.ops-table th,.ops-table td{padding:10px 9px;border-bottom:1px solid var(--border2);text-align:left;white-space:nowrap}.ops-table th{color:var(--text2);background:var(--card2);font-family:'Syne',sans-serif;font-size:10px;letter-spacing:.08em;text-transform:uppercase}.ops-table tr.my-song td{background:rgba(232,64,122,.08);border-top:1px solid rgba(232,64,122,.22);border-bottom:1px solid rgba(232,64,122,.22)}.ops-table tr.my-song td:first-child{border-left:4px solid var(--point)}
 .member-ops-layout{display:grid;gap:14px}@media(min-width:960px){.member-ops-layout{grid-template-columns:minmax(0,1.5fr) minmax(300px,.8fr);align-items:start}}.member-table-row{cursor:pointer}.member-table-row.active td{background:rgba(232,64,122,.1)}.member-detail-panel{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px;position:sticky;top:88px}.detail-profile{display:flex;align-items:center;gap:14px;margin-bottom:14px}.detail-profile img{width:62px;height:62px;border-radius:50%;object-fit:cover;border:2px solid var(--border)}.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.detail-item{background:var(--card2);border:1px solid var(--border2);border-radius:8px;padding:9px;font-size:12px}.detail-item small{display:block;color:var(--text2);font-size:10px;margin-bottom:3px}.inbox-item{border-left:3px solid var(--border)}.inbox-item.warning{border-left-color:var(--danger)}.inbox-item.finance{border-left-color:var(--money)}.inbox-item.chart{border-left-color:var(--point)}.inbox-item.event{border-left-color:var(--info)}.inbox-item.unread .record-title::after{content:' NEW';color:var(--point);font-size:10px;margin-left:6px}.finance-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}@media(min-width:900px){.finance-grid{grid-template-columns:repeat(4,1fr)}}.finance-metric{background:var(--card2);border:1px solid var(--border2);border-radius:10px;padding:14px}.finance-metric small{display:block;color:var(--text2);font-size:10px;margin-bottom:6px;font-family:'JetBrains Mono',monospace}.finance-metric strong{font-size:16px}
 @media(min-width:980px){.ops-topbar{display:block;position:fixed;left:220px;right:0;top:0}.ops-topbar-inner{max-width:none}.nav-bar{display:none;position:fixed;left:0;top:0;bottom:0;width:220px;border-right:1px solid var(--border);border-bottom:none;overflow-y:auto}.nav-inner{display:flex;flex-direction:column;max-width:none;padding:14px 12px;gap:4px;overflow:visible}.nav-brand{display:block;padding:10px 8px 18px;font-family:'Syne',sans-serif;font-size:24px;font-weight:800;letter-spacing:.12em;color:var(--point)}.nav-section-label{display:block;margin:12px 8px 5px;font-size:9px;font-family:'JetBrains Mono',monospace;color:var(--text3);letter-spacing:.12em}.nav-btn{width:100%;text-align:left;border-bottom:none;border-radius:8px;padding:10px 11px;font-size:12px}.nav-btn::after{display:none}.nav-btn.active,.nav-btn:hover{background:rgba(232,64,122,.1);color:var(--text)}.container{max-width:none;margin-left:220px;padding:82px 24px 60px}.next-day-bar{display:none!important}}
+@media(max-width:767px){body,body *{font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif!important}.ops-briefing{padding:18px}.briefing-metrics{grid-template-columns:1fr 1fr}.briefing-metric strong{font-size:13px}#home-dashboard .ops-card:nth-of-type(n+8){display:none}}
 
 /* 홈탭 한눈 보기 정리 */
 #home > .card.card-glow,
@@ -992,10 +994,10 @@ html[data-theme="light"] { --bg:#f4f5f9; --bg2:#fff; --card:#fff; --card2:#f7f8f
 #home .ticker-container { margin-bottom: 12px; }
 #home-dashboard { grid-template-columns: 1fr; }
 #home-dashboard .ops-card { min-height: 118px; }
-#home-dashboard .ops-card:nth-child(1) { border-left: 3px solid var(--danger); }
-#home-dashboard .ops-card:nth-child(2) { border-left: 3px solid var(--point); }
-#home-dashboard .ops-card:nth-child(4) { border-left: 3px solid var(--warn); }
-#home-dashboard .ops-card:nth-child(5) { border-left: 3px solid var(--info); }
+#home-dashboard .ops-card:nth-child(2) { border-left: 3px solid var(--danger); }
+#home-dashboard .ops-card:nth-child(3) { border-left: 3px solid var(--point); }
+#home-dashboard .ops-card:nth-child(5) { border-left: 3px solid var(--warn); }
+#home-dashboard .ops-card:nth-child(6) { border-left: 3px solid var(--info); }
 #home-dashboard .ops-card.wide { min-height: auto; }
 @media (min-width: 780px) {
   #home-dashboard { grid-template-columns: repeat(2, minmax(0,1fr)); }
@@ -1004,7 +1006,7 @@ html[data-theme="light"] { --bg:#f4f5f9; --bg2:#fff; --card:#fff; --card2:#f7f8f
 }
 @media (min-width: 1180px) {
   #home-dashboard { grid-template-columns: repeat(4, minmax(0,1fr)); }
-  #home-dashboard .ops-card:first-child { grid-column: span 2; }
+  #home-dashboard .ops-card:first-child { grid-column: 1 / -1; }
   #home-dashboard .ops-card.wide { grid-column: span 2; }
 }
 
@@ -1032,6 +1034,9 @@ html[data-theme="light"] { --bg:#f4f5f9; --bg2:#fff; --card:#fff; --card2:#f7f8f
 .coach-severity.info { color:var(--info); background:rgba(77,159,255,0.12); }
 .coach-severity.warning { color:var(--warn); background:rgba(244,162,45,0.12); }
 .coach-severity.critical { color:var(--danger); background:rgba(255,77,109,0.12); }
+.page-hero{margin-bottom:16px;padding:18px 20px;border-radius:14px;border:1px solid rgba(232,64,122,.24);background:linear-gradient(135deg,rgba(232,64,122,.12),rgba(26,26,40,.92));box-shadow:0 10px 34px rgba(0,0,0,.16)}.page-hero-kicker{font-family:'JetBrains Mono',monospace;color:var(--text2);font-size:10px;letter-spacing:.12em;text-transform:uppercase}.page-hero-title{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;margin:5px 0}.page-hero-meta{display:flex;gap:8px;flex-wrap:wrap;color:var(--text2);font-size:12px}.page-hero-chip{padding:5px 9px;border-radius:999px;background:rgba(255,255,255,.055);border:1px solid var(--border2);font-family:'JetBrains Mono',monospace}.empty-state{display:grid;place-items:center;text-align:center;gap:8px;min-height:120px;padding:22px;border:1px dashed var(--border);border-radius:12px;background:rgba(255,255,255,.025);color:var(--text2)}.empty-state .empty-icon{font-size:30px}.chart-summary-card{margin-bottom:14px;border-left:4px solid var(--point)}.inbox-card{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:start;border-left-width:4px}.inbox-type-badge,.inbox-action-tag{display:inline-block;padding:3px 7px;border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:800;background:rgba(255,255,255,.06);color:var(--text2)}.inbox-action-tag{color:var(--point);background:rgba(232,64,122,.12)}.inbox-item.critical,.inbox-item.coach-critical{border-color:var(--danger);box-shadow:0 0 18px rgba(255,77,109,.08)}.nav-badge{float:right;min-width:18px;text-align:center;padding:1px 5px;border-radius:999px;background:rgba(232,64,122,.16);color:var(--point);font-family:'JetBrains Mono',monospace;font-size:10px}.nav-badge.danger{background:rgba(255,77,109,.16);color:var(--danger)}.goods-metric-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:10px 0}.goods-metric{background:var(--card3);border:1px solid var(--border2);border-radius:8px;padding:8px}.goods-metric small{display:block;color:var(--text2);font-size:10px}.goods-metric strong{font-family:'JetBrains Mono',monospace}.goods-icon{font-size:34px;line-height:1}.modal-content{transition:border-color .2s,box-shadow .2s}.modal-release .modal-content,.modal-chart_entry .modal-content,.modal-chart_no1 .modal-content{border-color:rgba(232,64,122,.45);box-shadow:0 30px 90px rgba(0,0,0,.66),0 0 64px rgba(232,64,122,.22)}.modal-chart_no1 .modal-content{border-color:rgba(255,204,68,.55);box-shadow:0 30px 90px rgba(0,0,0,.7),0 0 72px rgba(255,204,68,.24)}.modal-crisis .modal-content{border-color:rgba(255,77,109,.55);box-shadow:0 30px 90px rgba(0,0,0,.7),0 0 60px rgba(255,77,109,.18)}.modal-settlement .modal-content,.modal-activity_settlement .modal-content{border-color:rgba(46,204,142,.38);box-shadow:0 30px 90px rgba(0,0,0,.68),0 0 60px rgba(46,204,142,.14)}.modal-birthday .modal-content{border-color:rgba(255,209,102,.4);box-shadow:0 30px 90px rgba(0,0,0,.68),0 0 54px rgba(255,209,102,.14)}
+.event-card{border-radius:12px;border:1px solid var(--border);background:var(--card2);padding:16px;text-align:center}.event-card-icon{font-size:42px;margin-bottom:8px}.event-card-title{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--text);margin-bottom:8px}.event-card-meta{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:12px;text-align:left}.event-card-meta div{background:var(--card3);border:1px solid var(--border2);border-radius:8px;padding:9px;font-size:12px}.event-card-meta small{display:block;color:var(--text2);font-size:10px;margin-bottom:3px}.mobile-more-btn{display:none;width:100%;margin:0 0 16px;padding:11px;border-radius:10px;border:1px solid var(--border);background:var(--card2);color:var(--text);font-weight:700}.home-mobile-expanded #home-dashboard .ops-card{display:block!important}@media(max-width:767px){.mobile-more-btn{display:block}.event-card-meta{grid-template-columns:1fr}}
+.primary-btn,.content-btn,.save-btn,.hire-btn,.fire-btn,.gacha-btn,.choice-btn{min-height:38px}.primary-btn:disabled,.content-btn:disabled,.save-btn:disabled,.hire-btn:disabled,.fire-btn:disabled,.gacha-btn:disabled,.choice-btn:disabled{opacity:.42;cursor:not-allowed;filter:saturate(.45)}.btn-secondary{background:var(--card2)!important;color:var(--text2)!important;border:1px solid var(--border)!important;box-shadow:none!important}.btn-danger{background:rgba(255,77,109,.12)!important;color:var(--danger)!important;border:1px solid rgba(255,77,109,.3)!important}
 /* PC 가독성 보정 */
 @media (min-width: 900px) {
   body { font-size: 15px; }
@@ -1101,8 +1106,8 @@ html[data-theme="light"] { --bg:#f4f5f9; --bg2:#fff; --card:#fff; --card2:#f7f8f
 </div>
 
 <!-- 네비 -->
-<div class="nav-bar" id="main-nav"><div class="nav-inner"><div class="nav-brand">HADES</div><div class="nav-section-label">MANAGEMENT</div><button class="nav-btn active" onclick="openPage('home',this)">📊 홈</button><button class="nav-btn" onclick="openPage('roadmap',this)">📅 예정 활동</button><button class="nav-btn" onclick="openPage('schedule',this)">🗓️ 스케줄</button><button class="nav-btn" onclick="openPage('members',this)">👥 멤버</button><button class="nav-btn" onclick="openPage('contents',this)">🎬 컴백</button><button class="nav-btn" onclick="openPage('charts',this)">🏆 차트</button><button class="nav-btn" onclick="openPage('finance',this)">💸 수익/정산</button><button class="nav-btn" onclick="openPage('staff',this)">🧑‍💼 스태프</button><button class="nav-btn" onclick="openPage('history',this)">📚 히스토리</button><button class="nav-btn" onclick="openPage('awards',this)">🏅 시상식</button><button class="nav-btn" onclick="openPage('settings',this)">⚙️ 설정</button><div class="nav-section-label">OPERATIONS</div><button class="nav-btn" onclick="openPage('goods',this)">🛍️ 굿즈</button><button class="nav-btn" onclick="openPage('gacha',this)">✨ 장비뽑기</button><button class="nav-btn" onclick="openPage('tour',this)">🌍 투어</button><button class="nav-btn" onclick="openPage('inbox',this)">📨 인박스 <span id="nav-inbox-count"></span></button></div></div>
-<div class="ops-topbar" id="top-status-bar"><div class="ops-topbar-inner"><div class="ops-pill"><span>DATE</span><strong id="top-current-date">2025-12-25</strong></div><div class="ops-pill"><span>DAY</span><strong id="top-current-day">1</strong></div><div class="ops-pill"><span>자금</span><strong id="top-finance">0원</strong></div><div class="ops-pill"><span>팬덤</span><strong id="top-fandom">0명</strong></div><div class="ops-pill"><span>티어</span><strong id="top-tier">루키</strong></div><button class="ops-next-btn" onclick="nextDay()">다음날 진행</button><button class="theme-toggle" onclick="toggleTheme()" id="theme-toggle-btn">다크</button></div></div>
+<div class="nav-bar" id="main-nav"><div class="nav-inner"><div class="nav-brand">HADES</div><div class="nav-section-label">MANAGEMENT</div><button class="nav-btn active" onclick="openPage('home',this)">📊 홈</button><button class="nav-btn" onclick="openPage('roadmap',this)">📅 예정 활동</button><button class="nav-btn" onclick="openPage('schedule',this)">🗓️ 스케줄</button><button class="nav-btn" onclick="openPage('members',this)">👥 멤버</button><button class="nav-btn" onclick="openPage('contents',this)">🎬 컴백</button><div class="nav-section-label">RESULTS</div><button class="nav-btn" onclick="openPage('charts',this)">🏆 차트</button><button class="nav-btn" onclick="openPage('finance',this)">💸 수익/정산</button><button class="nav-btn" onclick="openPage('history',this)">📚 히스토리</button><button class="nav-btn" onclick="openPage('awards',this)">🏅 시상식</button><div class="nav-section-label">OPERATIONS</div><button class="nav-btn" onclick="openPage('staff',this)">🧑‍💼 스태프</button><button class="nav-btn" onclick="openPage('goods',this)">🛍️ 굿즈</button><button class="nav-btn" onclick="openPage('gacha',this)">✨ 장비뽑기</button><button class="nav-btn" onclick="openPage('tour',this)">🌍 투어</button><div class="nav-section-label">SYSTEM</div><button class="nav-btn" onclick="openPage('inbox',this)">📨 인박스 <span id="nav-inbox-count"></span></button><button class="nav-btn" onclick="openPage('settings',this)">⚙️ 설정</button></div></div>
+<div class="ops-topbar" id="top-status-bar"><div class="ops-topbar-inner"><div class="ops-pill"><span>DATE</span><strong id="top-current-date">2025-09-05</strong></div><div class="ops-pill"><span>DAY</span><strong id="top-current-day">1</strong></div><div class="ops-pill"><span>시즌</span><strong id="top-season">—</strong></div><div class="ops-pill"><span>자금</span><strong id="top-finance">0원</strong></div><div class="ops-pill"><span>팬덤</span><strong id="top-fandom">0명</strong></div><div class="ops-pill"><span>티어</span><strong id="top-tier">루키</strong></div><button class="ops-next-btn" onclick="nextDay()">다음날 진행</button><button class="theme-toggle" onclick="toggleTheme()" id="theme-toggle-btn">다크</button></div></div>
 <div class="container" id="main-container"><!-- 홈 -->
   <div id="home" class="page active">
     <div class="warning-banner" id="warning-banner">⚠️ 자금 위기! 파산까지 얼마 남지 않았습니다.</div>
@@ -1115,13 +1120,13 @@ html[data-theme="light"] { --bg:#f4f5f9; --bg2:#fff; --card:#fff; --card2:#f7f8f
       </div>
     </div>
 
-    <div class="dashboard-grid" id="home-dashboard"><div class="ops-card"><div class="ops-card-title"><span>오늘의 핵심 알림</span></div><div id="dashboard-alerts" class="ops-list"></div></div><div class="ops-card"><div class="ops-card-title"><span>예정 활동</span></div><div id="dashboard-roadmap" class="ops-list"></div></div><div class="ops-card"><div class="ops-card-title"><span>첫 활동 목표</span></div><div id="dashboard-objectives" class="ops-list"></div></div><div class="ops-card"><div class="ops-card-title"><span>컴백 준비도</span><strong id="dashboard-prep-status"></strong></div><div id="dashboard-prep" class="ops-list"></div></div><div class="ops-card"><div class="ops-card-title"><span>멤버 컨디션</span></div><div id="dashboard-members" class="ops-list"></div></div><div class="ops-card"><div class="ops-card-title"><span>차트 요약</span></div><div id="dashboard-chart" class="ops-list"></div></div><div class="ops-card"><div class="ops-card-title"><span>오늘 할 일</span></div><div id="dashboard-todos" class="ops-list"></div></div><div class="ops-card"><div class="ops-card-title"><span>HADES 곡 미니 차트</span></div><div id="dashboard-hades-chart" class="ops-list"></div></div><div class="ops-card"><div class="ops-card-title"><span>팬덤 계층</span></div><div id="dashboard-fandom" class="ops-list"></div></div><div class="ops-card"><div class="ops-card-title"><span>소속사 성장</span></div><div id="dashboard-agency" class="ops-list"></div></div><div class="ops-card"><div class="ops-card-title"><span>디렉터 리포트</span></div><div id="dashboard-coach" class="ops-list"></div></div><div class="ops-card wide"><div class="ops-card-title"><span>재무 요약</span></div><div id="dashboard-finance" class="finance-grid"></div></div></div>
+    <div class="dashboard-grid" id="home-dashboard"><div class="ops-card ops-briefing" id="dashboard-briefing-card"><div id="dashboard-briefing"></div></div><div class="ops-card"><div class="ops-card-title"><span>오늘의 핵심 알림</span></div><div id="dashboard-alerts" class="ops-list"></div></div><div class="ops-card"><div class="ops-card-title"><span>예정 활동</span></div><div id="dashboard-roadmap" class="ops-list"></div></div><div class="ops-card"><div class="ops-card-title"><span>첫 활동 목표</span></div><div id="dashboard-objectives" class="ops-list"></div></div><div class="ops-card"><div class="ops-card-title"><span>컴백 준비도</span><strong id="dashboard-prep-status"></strong></div><div id="dashboard-prep" class="ops-list"></div></div><div class="ops-card"><div class="ops-card-title"><span>멤버 컨디션</span></div><div id="dashboard-members" class="ops-list"></div></div><div class="ops-card"><div class="ops-card-title"><span>차트 요약</span></div><div id="dashboard-chart" class="ops-list"></div></div><div class="ops-card"><div class="ops-card-title"><span>오늘 할 일</span></div><div id="dashboard-todos" class="ops-list"></div></div><div class="ops-card"><div class="ops-card-title"><span>HADES 곡 미니 차트</span></div><div id="dashboard-hades-chart" class="ops-list"></div></div><div class="ops-card"><div class="ops-card-title"><span>팬덤 계층</span></div><div id="dashboard-fandom" class="ops-list"></div></div><div class="ops-card"><div class="ops-card-title"><span>소속사 성장</span></div><div id="dashboard-agency" class="ops-list"></div></div><div class="ops-card"><div class="ops-card-title"><span>디렉터 리포트</span></div><div id="dashboard-coach" class="ops-list"></div></div><div class="ops-card wide"><div class="ops-card-title"><span>재무 요약</span></div><div id="dashboard-finance" class="finance-grid"></div></div></div><button class="mobile-more-btn" id="home-mobile-more" onclick="toggleHomeMobileMore()">홈 정보 더 보기</button>
 
     <div class="card card-glow">
       <div class="status-header">
         <div class="date-block">
           <div class="day-count">DAY <span id="current-day">1</span></div>
-          <div class="real-date" id="current-date">2025-12-25</div>
+          <div class="real-date" id="current-date">2025-09-05</div>
         </div>
         <div style="text-align:right;">
           <div class="tier-badge-small tier-rookie" id="tier-badge-small">루키</div>
@@ -1345,7 +1350,7 @@ html[data-theme="light"] { --bg:#f4f5f9; --bg2:#fff; --card:#fff; --card2:#f7f8f
   <!-- 예정 활동 -->
   <div id="roadmap" class="page"><div class="card"><div class="section-title">📅 예정 활동 로드맵</div><div id="roadmap-page-list" class="record-list"></div></div><div class="card"><div class="section-title">🎯 첫 활동 목표</div><div id="roadmap-objective-card" class="record-list"></div></div></div>
   <!-- 차트 -->
-  <div id="charts" class="page"><div class="card" id="chart-section-page"><div class="section-title">🏆 음원 차트</div><div class="chart-tabs"><button class="chart-tab-btn active" onclick="switchChartPlatform('subak',this)">🍈 수박</button><button class="chart-tab-btn" onclick="switchChartPlatform('musicside',this)">💿 뮤직사이드</button><button class="chart-tab-btn" onclick="switchChartPlatform('tube',this)">📺 너튜브</button></div><div class="sub-chart-tabs"><button class="sub-tab-btn active" onclick="switchChartPeriod('weekly',this)">📅 주간 TOP20</button><button class="sub-tab-btn" onclick="switchChartPeriod('monthly',this)">🌔 월간 TOP30</button><button class="sub-tab-btn" onclick="switchChartPeriod('yearly',this)">👑 연간 TOP50</button></div><div id="chart-list-container-page"></div></div></div>
+  <div id="charts" class="page"><div class="card chart-summary-card"><div class="section-title">🔥 이번 주 HADES 차트 성과</div><div id="chart-summary-card" class="ops-list"></div></div><div class="card" id="chart-section-page"><div class="section-title">🏆 음원 차트</div><div class="chart-tabs"><button class="chart-tab-btn active" onclick="switchChartPlatform('subak',this)">🍈 수박</button><button class="chart-tab-btn" onclick="switchChartPlatform('musicside',this)">💿 뮤직사이드</button><button class="chart-tab-btn" onclick="switchChartPlatform('tube',this)">📺 너튜브</button></div><div class="sub-chart-tabs"><button class="sub-tab-btn active" onclick="switchChartPeriod('weekly',this)">📅 주간 TOP20</button><button class="sub-tab-btn" onclick="switchChartPeriod('monthly',this)">🌔 월간 TOP30</button><button class="sub-tab-btn" onclick="switchChartPeriod('yearly',this)">👑 연간 TOP50</button></div><div id="chart-list-container-page"></div></div></div>
   <!-- 수익/정산 -->
   <div id="finance" class="page"><div class="card"><div class="section-title">💸 수익/정산 요약</div><div id="finance-summary-page" class="finance-grid"></div></div><div class="card"><div class="section-title">💸 첫 활동 패키지 비용</div><div id="finance-cost-card" class="record-list"></div></div><div class="card"><div class="section-title">📊 첫 활동 정산 결과</div><div id="finance-settlement-card" class="record-list"></div></div><div class="card"><div class="section-title">📋 정산 리포트</div><div id="finance-report-list" class="record-list"></div></div></div>
   <!-- 히스토리 -->
@@ -1516,7 +1521,7 @@ const rivalArtists = [
 const koreanSongTitles = makeKoreanTitlePool(560);
 const englishSongTitles = makeEnglishTitlePool(240);
 const kpopSongTitles = [...koreanSongTitles, ...englishSongTitles];
-const INITIAL_GAME_DATE = '2025-12-25';
+const INITIAL_GAME_DATE = '2025-09-05';
 const FIRST_ACTIVITY_SETTLEMENT_DATE = '2026-01-11';
 const SEASON_REPORT_DATES = ['2026-06-30','2026-12-31','2027-06-30','2027-12-31'];
 
@@ -1586,7 +1591,7 @@ const memberTraits = [
   { id:'genius', name:'천재형', emoji:'⚡', desc:'훈련 시 2단계 상승 가능', color:'#ffd166' },
   { id:'anxiety', name:'불안형', emoji:'🌧️', desc:'멘탈 회복 느림, 팬덤 이탈 낮음', color:'#5bb8ff' },
   { id:'leader', name:'리더형', emoji:'👑', desc:'팀 피로 회복 +10%', color:'#ff8c55' },
-  { id:'sociable', name:'사교형', emoji:'🎉', desc:'예능 콘텐츠 효과 +15%', color:'#b06eff' },
+  { id:'sociable', name:'사교형', emoji:'🎉', desc:'예능/방송 시 팬덤 추가 유입, 매력 훈련 시 SNS 성장', color:'#b06eff' },
   { id:'perfectionist', name:'완벽주의형', emoji:'🎯', desc:'비주얼 케어 2배, 피로 누적 빠름', color:'#ff7eb3' },
 ];
 
@@ -1726,6 +1731,54 @@ const crisisEvents = [
     { text:'팀 전체 휴식 (1주일)', effect:(gs)=>{ gs.members.forEach(m=>{ m.fatigue=Math.max(0,m.fatigue-50); m.mental=Math.min(100,m.mental+20); }); } },
     { text:'무리하게 계속한다', effect:(gs)=>{ gs.members.forEach(m=>m.mental=Math.max(10,m.mental-10)); updateFandom(-20000); } },
   ]},
+  { id:'equipment_trouble', title:'🔧 장비 트러블', desc:'방송 또는 콘텐츠 진행 중 주요 장비에 문제가 생겼습니다.\n즉시 대응하지 않으면 팬들의 실망이 커질 수 있습니다.', choices:[
+    { text:'긴급 수리 (-150만원)', effect:(gs)=>{ gs.finance-=1500000; gs.community.push({site:'SNS',content:'기술 트러블 대처 빠른 건 좋았음'}); } },
+    { text:'방송 중단', effect:(gs)=>{ updateFandom(-8000); gs.members.forEach(m=>m.mental=Math.max(5,m.mental-5)); } },
+  ]},
+  { id:'copycat_controversy', title:'👥 유사 컨셉 논란', desc:'다른 그룹이 하데스와 매우 유사한 컨셉으로 주목받고 있습니다.\n팬들이 동요하고 있습니다.', choices:[
+    { text:'차별점 강조 콘텐츠 제작 (-200만원)', effect:(gs)=>{ gs.finance-=2000000; addComebackPrep('concept',10); } },
+    { text:'무시하고 우리 길을 간다', effect:()=>{ updateFandom(-5000); } },
+    { text:'협업 제안', effect:(gs)=>{ gs.finance-=1000000; updateFandom(8000); } },
+  ]},
+  { id:'sasaeng_incident', title:'😨 사생팬 사건', desc:'과도한 팬의 행동이 멤버들을 위협하고 있습니다.\n멤버들의 정신적 피해가 우려됩니다.', choices:[
+    { text:'법적 조치 (-300만원)', effect:(gs)=>{ gs.finance-=3000000; gs.members.forEach(m=>m.mental=Math.min(100,m.mental+10)); } },
+    { text:'경호원 고용 (-500만원)', effect:(gs)=>{ gs.finance-=5000000; gs.members.forEach(m=>m.mental=Math.min(100,m.mental+20)); gs.flags.securityTeam=true; } },
+    { text:'자체 해결 시도', effect:(gs)=>{ gs.members.forEach(m=>m.mental=Math.max(5,m.mental-8)); } },
+  ]},
+  { id:'platform_issue', title:'📉 플랫폼 알고리즘 변경', desc:'주요 음원 플랫폼이 알고리즘을 변경했습니다.\n스트리밍 수치에 영향이 생길 수 있습니다.', choices:[
+    { text:'홍보 강화 (-300만원)', effect:(gs)=>{ gs.finance-=3000000; gs.activeCharts.forEach(song=>song.viralBonus=(song.viralBonus||0)+15); } },
+    { text:'팬 스트리밍 캠페인', effect:(gs)=>{ updateFandom(-2000); gs.activeCharts.forEach(song=>song.viralBonus=(song.viralBonus||0)+8); } },
+    { text:'지켜본다', effect:(gs)=>{ gs.activeCharts.forEach(song=>{ song.viralBonus=Math.max(0,(song.viralBonus||0)-8); song.chartPenalty=true; }); } },
+  ]},
+  { id:'member_conflict', title:'💬 멤버 간 갈등', desc:'멤버들 사이에 긴장감이 감지되고 있습니다.\n방치하면 팀 분위기가 나빠질 수 있습니다.', choices:[
+    { text:'팀 워크숍 진행 (-200만원)', effect:(gs)=>{ gs.finance-=2000000; gs.members.forEach(m=>m.mental=Math.min(100,m.mental+15)); } },
+    { text:'개인 면담 진행', effect:(gs)=>{ gs.members.forEach(m=>m.mental=Math.min(100,m.mental+8)); } },
+    { text:'자연스럽게 해결되길 기다린다', effect:(gs)=>{ gs.members.forEach(m=>m.mental=Math.max(5,m.mental-5)); if(Math.random()<0.5) updateFandom(-10000); } },
+  ]},
+  { id:'broadcast_controversy', title:'📺 방송 발언 논란', desc:'예능 프로그램에서 한 발언이 논란이 되고 있습니다.', choices:[
+    { text:'즉시 공식 사과문 발표', effect:(gs)=>{ updateFandom(-5000); gs.community.push({site:'SNS',content:'빠른 사과 대처는 괜찮았음'}); } },
+    { text:'오해라고 해명', effect:()=>{ updateFandom(-12000); } },
+    { text:'침묵한다', effect:(gs)=>{ updateFandom(-25000); gs.members.forEach(m=>m.mental=Math.max(5,m.mental-10)); } },
+  ]},
+  { id:'health_scare', title:'🏥 건강 이상 신호', desc:'멤버 한 명이 무리한 스케줄로 건강 이상 신호를 보이고 있습니다.', choices:[
+    { text:'즉시 정밀 검사 (-200만원)', effect:(gs)=>{ const m=getHighestFatigueMember(); if(!m) return; gs.finance-=2000000; m.fatigue=Math.max(0,m.fatigue-45); m.mental=Math.min(100,m.mental+8); m.injuredUntil=Math.max(m.injuredUntil||0,gs.day+5); } },
+    { text:'스케줄 일부 조정', effect:(gs)=>{ gs.members.forEach(m=>m.fatigue=Math.max(0,m.fatigue-25)); } },
+    { text:'무시하고 진행', effect:(gs)=>{ if(Math.random()<0.4) injureMember(gs,21); gs.members.forEach(m=>m.mental=Math.max(5,m.mental-8)); } },
+  ]},
+  { id:'fan_petition', title:'📋 팬 청원 발생', desc:'일부 팬들이 소속사 운영 방식에 불만을 품고 청원을 올렸습니다.', choices:[
+    { text:'공식 입장 발표 + 개선 약속 (-100만원)', effect:(gs)=>{ updateFandom(-3000); gs.finance-=1000000; } },
+    { text:'팬 간담회 개최 (-300만원)', effect:(gs)=>{ gs.finance-=3000000; updateFandom(5000); } },
+    { text:'묵묵부답', effect:()=>{ updateFandom(-30000); } },
+  ]},
+  { id:'collab_gone_wrong', title:'🤝 콜라보 결렬', desc:'진행 중이던 콜라보가 상대측 사정으로 갑자기 결렬되었습니다.', choices:[
+    { text:'대체 콘텐츠 긴급 제작 (-300만원)', effect:(gs)=>{ gs.finance-=3000000; addComebackPrep('promotion',8); } },
+    { text:'팬들에게 솔직하게 공지', effect:()=>{ updateFandom(-3000); } },
+  ]},
+  { id:'music_show_ban', title:'🚫 음악방송 출연 제한', desc:'특정 음악방송에서 하데스의 출연을 일시 제한했습니다.', choices:[
+    { text:'이의 제기 (-200만원)', effect:(gs)=>{ gs.finance-=2000000; if(Math.random()>=0.6) gs.members.forEach(m=>m.mental=Math.max(5,m.mental-3)); } },
+    { text:'다른 방송에 집중', effect:()=>{ addComebackPrep('promotion',5); } },
+    { text:'원인 파악 후 개선', effect:(gs)=>{ gs.members.forEach(m=>m.mental=Math.max(5,m.mental-5)); gs.flags.musicShowBanResolved=true; } },
+  ]},
 ];
 
 // ═══════════════════════════════════════════
@@ -1735,11 +1788,13 @@ function pickTrait(){ return memberTraits[Math.floor(Math.random()*memberTraits.
 
 function createMember(name, birth, stats, img=null){
   const trait = pickTrait();
+  const storyState={ storyId:null, stage:0, choice:null, completed:false, ending:null, highlight:null, lastEventDate:null };
   return { name, birth,
     image: img || `https://api.dicebear.com/7.x/avataaars/svg?seed=${name}`,
     vocal:stats.vocal, dance:stats.dance, visual:stats.visual, variety:stats.variety, charm:stats.charm,
     fatigue:0, mental:Math.floor(Math.random()*50)+50,
     trait:trait.id, equipment:[], contractEnd:365, renewalRequested:false,
+    storyState,
     weekSchedule:[null,null,null,null,null,null,null],
     injuredUntil:0, soloUntil:0, soloStat:null,
   };
@@ -1770,6 +1825,8 @@ let gameState = {
   inbox:[],
   coachReports:[],
   coachReportCooldowns:{},
+  birthdayHistory:[],
+  lastMemberStoryDay:-999,
   ui:{ theme:'dark', selectedMemberIndex:0 },
   currentTier:'루키',
   activeCharts:[], rivalCharts:[], usedSongTitles:[], rivalReleasePlan:{}, musicSimVersion:3,
@@ -1883,6 +1940,8 @@ function loadGame(){
   if(!loaded.inbox) loaded.inbox=[];
   if(!loaded.coachReports) loaded.coachReports=[];
   if(!loaded.coachReportCooldowns) loaded.coachReportCooldowns={};
+  if(!loaded.birthdayHistory) loaded.birthdayHistory=[];
+  if(loaded.lastMemberStoryDay===undefined) loaded.lastMemberStoryDay=-999;
   if(!loaded.ui) loaded.ui={theme:localStorage.getItem('hades_theme')||'dark', selectedMemberIndex:0};
   gameState=loaded;
   normalizeGameState();
@@ -1919,6 +1978,35 @@ function advanceCurrentDate(days=1){
   d.setDate(d.getDate()+days);
   setCurrentDate(d.toISOString().split('T')[0]);
   return gameState.currentDate;
+}
+function daysBetween(startDate,endDate){
+  return dateToUtcDays(normalizeDateString(endDate))-dateToUtcDays(normalizeDateString(startDate));
+}
+function getCurrentMonth(){
+  const d=new Date(getCurrentDateString()+'T00:00:00');
+  return d.getMonth()+1;
+}
+function getPrevDayMonth(){
+  const d=new Date(getCurrentDateString()+'T00:00:00');
+  d.setDate(d.getDate()-1);
+  return d.getMonth()+1;
+}
+function getSeasonBonus(){
+  const month=getCurrentMonth();
+  if([3,4].includes(month)) return {type:'spring',label:'🌸 봄',contentMult:1.08,businessChanceMult:1.0,awardBonus:1.0,desc:'새로운 팬 유입이 늘어나는 시즌입니다.'};
+  if([7,8].includes(month)) return {type:'summer',label:'☀️ 여름',contentMult:1.12,businessChanceMult:1.5,awardBonus:1.0,desc:'콘텐츠와 이벤트 반응이 좋아지는 시즌입니다.'};
+  if([9,10].includes(month)) return {type:'fall',label:'🍂 가을',contentMult:1.05,businessChanceMult:1.1,awardBonus:1.0,desc:'감성/콘셉트형 활동이 주목받기 좋은 시즌입니다.'};
+  if([11,12].includes(month)) return {type:'winter',label:'❄️ 연말',contentMult:1.05,businessChanceMult:1.5,awardBonus:1.2,desc:'시상식과 결산 분위기가 강해지는 시즌입니다.'};
+  return {type:'normal',label:'',contentMult:1.0,businessChanceMult:1.0,awardBonus:1.0,desc:''};
+}
+function checkSeasonChange(){
+  const prevMonth=getPrevDayMonth();
+  const curMonth=getCurrentMonth();
+  if(prevMonth===curMonth) return;
+  const season=getSeasonBonus();
+  if(!season.label) return;
+  gameState.community.push({site:'속보',content:`${season.label} 시즌 시작! ${season.desc}`});
+  if(gameState.community.length>60) gameState.community.shift();
 }
 function formatKoreanDate(dateStr){
   const [y,m,d]=normalizeDateString(dateStr).split('-');
@@ -1981,10 +2069,16 @@ function normalizeGameState(){
   if(!Array.isArray(gameState.inbox)) gameState.inbox=[];
   if(!Array.isArray(gameState.coachReports)) gameState.coachReports=[];
   if(!gameState.coachReportCooldowns) gameState.coachReportCooldowns={};
+  if(!Array.isArray(gameState.birthdayHistory)) gameState.birthdayHistory=[];
+  if(gameState.lastMemberStoryDay===undefined) gameState.lastMemberStoryDay=-999;
   if(!gameState.ui) gameState.ui={theme:localStorage.getItem('hades_theme')||'dark', selectedMemberIndex:0};
   if(typeof gameState.ui.selectedMemberIndex!=='number') gameState.ui.selectedMemberIndex=0;
   if(!Array.isArray(gameState.activeCharts)) gameState.activeCharts=Array.isArray(gameState.playerSongs)?gameState.playerSongs:[];
   normalizeFandomTiers();
+  gameState.members.forEach(m=>{
+    if(!m.storyState) m.storyState={ storyId:null, stage:0, choice:null, completed:false, ending:null, highlight:null, lastEventDate:null };
+    if(!m.storyState.storyId) m.storyState.storyId=getMemberStoryConfig(m).id;
+  });
   gameState.playerSongs=gameState.activeCharts;
   gameState.activeCharts.forEach(song=>{
     if(!song.title) song.title=song.name;
@@ -2361,11 +2455,25 @@ function renderSchedulePage(){
   const legend=document.getElementById('schedule-legend');
   legend.innerHTML=scheduleActions.map(a=>`<span style="font-size:10px; padding:3px 8px; border-radius:3px;" class="${a.class}">${a.emoji} ${a.label}</span>`).join('');
 }
+function getScheduleActionFeedback(actId,member=null){
+  const map={
+    vocal:['+ 보컬 준비도 상승','+ 보컬 성장 가능','- 피로도 증가','- 멘탈 소폭 감소'],
+    dance:['+ 댄스 준비도 상승','+ 콘서트/퍼포먼스 보정','- 피로도 크게 증가','- 컨디션 소폭 감소'],
+    visual:['+ 콘셉트 준비도 상승','+ SNS 반응 소폭 증가','- 비용 발생','- 피로도 증가'],
+    variety:['+ 콘텐츠 반응 가능','+ 예능 성장 가능','- 피로도 증가','- 멘탈 부담 가능'],
+    charm:['+ 팬덤 준비도 상승','+ 열혈팬 전환','+ 멘탈 회복 가능','- 피로도 증가'],
+    stream:['+ 홍보 준비도 상승','+ 일반팬 유입','- 비용/피로 발생','- 멘탈 소폭 감소'],
+    rest:['+ 피로 회복','+ 컨디션/멘탈 회복','- 준비도 상승 없음']
+  };
+  const risk=member&&((member.fatigue||0)>=75||(member.mental||0)<=40)?['⚠ 과부하 위험: 휴식 또는 가벼운 활동 권장']:[];
+  return [...(map[actId]||[]),...risk];
+}
 
 function openSchedCell(mi,di){
   editingCell={mi,di};
+  const member=gameState.members[mi];
   document.getElementById('sched-choices').innerHTML=scheduleActions.map(a=>
-    `<button class="choice-btn ${a.class}" onclick="setSchedCell('${a.id}')" style="margin-bottom:6px;"><span>${a.emoji} ${a.label}</span></button>`
+    `<button class="choice-btn ${a.class}" onclick="setSchedCell('${a.id}')" style="margin-bottom:6px;align-items:flex-start;"><span><strong>${a.emoji} ${a.label}</strong><br><small style="color:var(--text2);line-height:1.6;">${getScheduleActionFeedback(a.id,member).join('<br>')}</small></span></button>`
   ).join('')+`<button class="choice-btn" onclick="setSchedCell(null)"><span>— 비우기</span></button>`;
   document.getElementById('schedModal').style.display='block';
 }
@@ -2831,17 +2939,17 @@ function renderHomeCharts(){
   document.querySelectorAll('#tab-yearly').forEach(el=>el.disabled=!yearlyOpen);
   const setAll=html=>containers.forEach(container=>container.innerHTML=html);
   if(!hasHadesSongs()){
-    setAll('<div class="chart-not-enough">아직 발매한 곡이 없습니다. 첫 싱글 발매 후 차트가 열립니다.</div>');
+    setAll(emptyState('🎧','아직 발매한 곡이 없습니다. 첫 싱글 발매 후 차트가 열립니다.'));
     return;
   }
   if(!isChartPeriodOpen(period)){
     const msg=period==='monthly'?'발매 후 30일이 지난 HADES 곡이 있을 때 월간 차트가 열립니다.':'발매 후 365일이 지난 HADES 곡이 있을 때 연간 차트가 열립니다.';
-    setAll(`<div class="chart-not-enough">${msg}</div>`);
+    setAll(emptyState('📈',msg));
     return;
   }
   const displayLimit=period==='weekly'?20:period==='monthly'?30:50;
   const chartRows=getChartRows(period,platform,displayLimit);
-  if(chartRows.length===0){ setAll('<div class="chart-not-enough">아직 차트 데이터가 없습니다.</div>'); return; }
+  if(chartRows.length===0){ setAll(emptyState('📊','아직 차트 데이터가 없습니다.')); return; }
   const rows=chartRows.map((song,idx)=>{
     const rank=idx+1;
     const prevRank=song.prevPeriodRanks?.[period]?.[platform]||song.prevRanks?.[platform]||0;
@@ -2854,6 +2962,68 @@ function renderHomeCharts(){
     return `<tr class="${song.isPlayer?'my-song':''}"><td><strong>${rank}위</strong></td><td>${changeHtml}</td><td>${song.isPlayer?'🔥 ':''}${song.title||song.name}</td><td>${song.artist}</td><td>${weeks}주차</td><td>${peak}</td><td>${hadesBadges||'—'}</td></tr>`;
   }).join('');
   setAll(`<div class="ops-table-wrap"><table class="ops-table chart-table"><thead><tr><th>순위</th><th>변동</th><th>곡명</th><th>아티스트</th><th>진입 주차</th><th>최고 순위</th><th>상태</th></tr></thead><tbody>${rows}</tbody></table></div>`);
+  renderChartSummaryCard();
+}
+function renderChartSummaryCard(){
+  const el=document.getElementById('chart-summary-card');
+  if(!el) return;
+  const songs=gameState.activeCharts||[];
+  if(!songs.length){ el.innerHTML=emptyState('🎧','첫 곡 발매 후 차트 성과가 표시됩니다.'); return; }
+  const ranked=songs.map(song=>({song,rank:song.rank||999,history:ensureSongHistory(song)})).sort((a,b)=>a.rank-b.rank);
+  const best=ranked[0];
+  const newest=songs.filter(s=>s.hasShownChartEntry).slice(-1)[0];
+  const no1=songs.find(s=>s.hasShownNo1);
+  const mood=best&&best.rank<=10?'상승세':best&&best.rank<=20?'경쟁권':'경쟁 심화';
+  el.innerHTML=`<div class="ops-line point"><strong>최고 순위</strong><small>${best&&best.rank<999?`${best.song.title||best.song.name} ${best.rank}위`:'진입 대기'}</small></div>
+  <div class="ops-line"><strong>신규 진입</strong><small>${newest?newest.title||newest.name:'없음'}</small></div>
+  <div class="ops-line ${no1?'success':''}"><strong>1위 달성</strong><small>${no1?no1.title||no1.name:'아직 없음'}</small></div>
+  <div class="ops-line"><strong>차트 분위기</strong><small>${mood}</small></div>`;
+}
+function renderPageHero(pageId){
+  if(pageId==='home') return;
+  const page=document.getElementById(pageId);
+  if(!page) return;
+  const data=getPageHeroData(pageId);
+  if(!data) return;
+  let hero=page.querySelector(':scope > .page-hero');
+  if(!hero){
+    hero=document.createElement('div');
+    hero.className='page-hero';
+    page.insertBefore(hero,page.firstChild);
+  }
+  hero.innerHTML=`<div class="page-hero-kicker">${data.kicker}</div><div class="page-hero-title">${data.title}</div><div class="page-hero-meta">${data.meta.map(m=>`<span class="page-hero-chip">${m}</span>`).join('')}</div>`;
+}
+function getPageHeroData(pageId){
+  const avgCondition=getMemberConditionScore();
+  const avgFatigue=Math.round(gameState.members.reduce((s,m)=>s+(m.fatigue||0),0)/Math.max(1,gameState.members.length));
+  const next=getUpcomingRoadmap(1)[0];
+  const prep=getComebackPrepScore();
+  const unread=(gameState.inbox||[]).filter(i=>!i.read).length;
+  const critical=(gameState.inbox||[]).filter(i=>!i.read&&(/critical/.test(i.type||'')||i.severity==='critical')).length;
+  const bestSong=(gameState.activeCharts||[]).map(s=>({s,rank:s.rank||999})).sort((a,b)=>a.rank-b.rank)[0];
+  const cost=getFirstActivityCost();
+  const map={
+    roadmap:{kicker:'ACTIVITY ROADMAP',title:'HADES 활동 로드맵',meta:[next?`${formatKoreanDate(next.date)} ${next.title}`:'예정 활동 없음',next?describeDateDiff(next.date):'일정 대기']},
+    schedule:{kicker:'WEEKLY PLAN',title:'이번 주 운영 계획',meta:[`평균 컨디션 ${avgCondition}`,`평균 피로도 ${avgFatigue}%`,`${gameState.members.filter(m=>m.fatigue>=80||m.mental<=30).length}명 위험`]},
+    members:{kicker:'TEAM REPORT',title:'팀 컨디션 리포트',meta:[`평균 컨디션 ${avgCondition}`,`평균 피로도 ${avgFatigue}%`,`평균 멘탈 ${Math.round(gameState.members.reduce((s,m)=>s+(m.mental||0),0)/Math.max(1,gameState.members.length))}`]},
+    contents:{kicker:'COMEBACK PROJECT',title:'현재 컴백 프로젝트',meta:[`총 준비도 ${prep}/100`,getPrepStatus(prep).label,`부족 항목 ${getLowestPrepKey()}`]},
+    charts:{kicker:'CHART RESULTS',title:'이번 주 HADES 차트 성과',meta:[bestSong&&bestSong.rank<999?`${bestSong.s.title||bestSong.s.name} ${bestSong.rank}위`:'차트 진입 대기',hasHadesSongs()?'발매곡 보유':'첫 발매 전']},
+    finance:{kicker:'FINANCE REPORT',title:'재무 리포트',meta:[`보유 자금 ${gameState.finance.toLocaleString()}원`,`예정 비용 ${(!cost.paid&&!cost.failed)?cost.amount.toLocaleString():'0'}원`,`월급 ${calcMonthlySalaryCost().toLocaleString()}원`]},
+    history:{kicker:'TIMELINE',title:'HADES 타임라인',meta:[`기록 ${gameState.eventHistory.length}개`,`발매곡 ${(gameState.activeCharts||[]).length}곡`]},
+    awards:{kicker:'SEASON AWARDS',title:'시즌 어워즈',meta:[`수상 ${gameState.awardHistory.length}개`,getCurrentYear()+' 시즌']},
+    goods:{kicker:'MD OPERATION',title:'MD 운영 현황',meta:[`굿즈 구매율 ${calcGoodsBuyRate()}%`,`재고 ${Object.values(gameState.goodsStock||{}).reduce((a,b)=>a+b,0).toLocaleString()}개`]},
+    inbox:{kicker:'MANAGEMENT ALERTS',title:'인박스 / 디렉터 리포트',meta:[`읽지 않음 ${unread}개`,`긴급 ${critical}개`]},
+    staff:{kicker:'STAFF ROOM',title:'운영 스태프',meta:[`월급 ${calcMonthlySalaryCost().toLocaleString()}원`,`고용 ${gameState.hiredStaff.length}명`]},
+    gacha:{kicker:'EQUIPMENT STORAGE',title:'장비 뽑기 / 창고',meta:[`천장 ${gameState.pityCount}/200`,`창고 ${gameState.inventory.length}개`]},
+    tour:{kicker:'LIVE & SOLO',title:'투어 / 솔로 활동',meta:[`팬덤 ${gameState.fandom.toLocaleString()}명`,gameState.currentTier]},
+    settings:{kicker:'SYSTEM',title:'설정',meta:['저장 / 불러오기','테마 전환']}
+  };
+  return map[pageId];
+}
+function getLowestPrepKey(){
+  const labels={vocal:'보컬',dance:'댄스',concept:'콘셉트',promotion:'홍보',fandom:'팬덤'};
+  const entry=Object.entries(gameState.comebackPrep||{}).sort((a,b)=>(a[1]||0)-(b[1]||0))[0];
+  return entry?labels[entry[0]]:'—';
 }
 function processCharts(){
   let totalStat=0;
@@ -3039,6 +3209,33 @@ function calcGoodsBuyRate(){
   const tiers=getFandomTierStats();
   return ((tiers.core*0.75+tiers.hardcore*0.32+tiers.casual*0.025)/(gameState.fandom||1)*100).toFixed(1);
 }
+function getGoodsUnlockRequirement(id){
+  const reqs={ lightstick:15000, fanbook:20000, hoodie:30000 };
+  return reqs[id]||0;
+}
+function getTotalFandom(){
+  return gameState.fandom||0;
+}
+function canProduceGoods(id){
+  return getTotalFandom()>=getGoodsUnlockRequirement(id);
+}
+function calcGoodsProductionCost(goods,qty){
+  const base=goods.cost*qty/100;
+  const discount=qty>=1000?0.25:qty>=500?0.15:0;
+  return Math.floor(base*(1-discount));
+}
+function renderGoodsProductionButtons(g){
+  const req=getGoodsUnlockRequirement(g.id);
+  const canProduce=canProduceGoods(g.id);
+  if(!canProduce){
+    return `<button class="content-btn btn-cooldown" style="flex:1; min-width:160px;" disabled>팬덤 ${req.toLocaleString()}명 이상 필요</button>`;
+  }
+  return [100,500,1000].map(qty=>{
+    const cost=calcGoodsProductionCost(g,qty);
+    const unit=Math.floor(cost/qty);
+    return `<button class="content-btn btn-available" style="flex:1; min-width:120px;" onclick="produceGoods('${g.id}',${qty})">${qty}개 · ${(cost/10000).toFixed(0)}만원<br><span style="font-size:10px;color:var(--text2);">개당 ${unit.toLocaleString()}원</span></button>`;
+  }).join('');
+}
 
 // ═══════════════════════════════════════════
 //  굿즈 샵
@@ -3046,21 +3243,31 @@ function calcGoodsBuyRate(){
 function renderGoodsPage(){
   const listEl=document.getElementById('goods-list');
   const stockEl=document.getElementById('goods-stock');
+  const tiers=getFandomTierStats();
   listEl.innerHTML=goodsItems.map(g=>{
     const stock=gameState.goodsStock[g.id]||0;
+    const expectedBuyers=Math.floor((tiers.hardcore*0.32)+(tiers.core*0.75)+(tiers.casual*0.025));
+    const req=getGoodsUnlockRequirement(g.id);
+    const canProduce=canProduceGoods(g.id);
+    const unlockText=req?`팬덤 ${req.toLocaleString()}명 이상 제작 가능`:'초반 제작 가능';
     return `<div class="goods-card">
       <div class="goods-item-header">
-        <div>
-          <span style="font-size:22px;">${g.emoji}</span>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span class="goods-icon">${g.emoji}</span><div>
           <strong style="font-size:14px; font-family:'Syne',sans-serif; margin-left:8px;">${g.name}</strong>
-          <div style="font-size:11px; color:var(--text2); margin-top:3px;">${g.desc} · 원가 ${g.cost.toLocaleString()}원 · 판매가 ${g.sellPrice.toLocaleString()}원</div>
+          <div style="font-size:11px; color:var(--text2); margin-top:3px;">${g.desc}</div></div>
         </div>
       </div>
-      <div style="font-size:12px; color:var(--text2); margin:8px 0;">재고: <strong style="color:${stock>0?'var(--success)':'var(--text2)'};">${stock.toLocaleString()}개</strong></div>
+      <div class="goods-metric-grid">
+        <div class="goods-metric"><small>현재 재고</small><strong style="color:${stock>0?'var(--success)':'var(--text2)'};">${stock.toLocaleString()}개</strong></div>
+        <div class="goods-metric"><small>판매가</small><strong>${g.sellPrice.toLocaleString()}원</strong></div>
+        <div class="goods-metric"><small>100개 제작비</small><strong>${g.cost.toLocaleString()}원</strong></div>
+        <div class="goods-metric"><small>예상 구매층</small><strong>${expectedBuyers.toLocaleString()}명</strong></div>
+        <div class="goods-metric"><small>제작 조건</small><strong style="color:${canProduce?'var(--success)':'var(--warn)'};">${unlockText}</strong></div>
+        <div class="goods-metric"><small>현재 상태</small><strong>${canProduce?'제작 가능':'제작 제한'}</strong></div>
+      </div>
       <div style="display:flex; gap:8px; flex-wrap:wrap;">
-        <button class="content-btn btn-available" style="flex:1; min-width:120px;" onclick="produceGoods('${g.id}',100)">100개 제작 (${(g.cost/10000).toFixed(0)}만원)</button>
-        <button class="content-btn btn-available" style="flex:1; min-width:120px;" onclick="produceGoods('${g.id}',500)">500개 제작 (${(g.cost*5/10000).toFixed(0)}만원)</button>
-        <button class="content-btn btn-available" style="flex:1; min-width:120px;" onclick="produceGoods('${g.id}',1000)">1000개 제작 (${(g.cost*10/10000).toFixed(0)}만원)</button>
+        ${renderGoodsProductionButtons(g)}
         ${stock>0?`<button class="content-btn" style="flex:1; min-width:100px; background:var(--card3); color:var(--success); border:1px solid rgba(46,204,142,0.3);" onclick="sellGoods('${g.id}')">판매 개시</button>`:''}
       </div>
     </div>`;
@@ -3076,12 +3283,18 @@ function renderGoodsPage(){
       <span style="font-family:'JetBrains Mono',monospace;">${qty.toLocaleString()}개 재고</span>
     </div>`;
   });
-  stockEl.innerHTML=stockHtml||'<div style="font-size:13px; color:var(--text2);">재고 없음</div>';
+  stockEl.innerHTML=stockHtml||emptyState('📦','아직 제작한 굿즈가 없습니다.');
 }
 
 function produceGoods(id,qty){
   const g=goodsItems.find(x=>x.id===id);
-  const cost=g.cost*qty/100; // qty는 단위 기준
+  if(!g) return;
+  if(!canProduceGoods(id)){
+    const req=getGoodsUnlockRequirement(id);
+    alert(`팬덤 ${req.toLocaleString()}명 이상부터 제작할 수 있습니다.`);
+    return;
+  }
+  const cost=calcGoodsProductionCost(g,qty); // 수량별 제작 할인 반영
   if(gameState.finance<cost) return alert(`자금 부족! 필요: ${cost.toLocaleString()}원`);
   gameState.finance-=cost;
   if(!gameState.goodsStock[id]) gameState.goodsStock[id]=0;
@@ -3096,20 +3309,30 @@ function sellGoods(id){
   if(stock<=0) return alert('재고가 없습니다.');
   // 팬덤 구매율 계산
   const buyRate=parseFloat(calcGoodsBuyRate())/100;
-  const buyers=Math.floor(gameState.fandom*buyRate*0.3);
+  const tiers=getFandomTierStats();
+  const casualBuyers=Math.floor(tiers.casual*0.025);
+  const hardcoreBuyers=Math.floor(tiers.hardcore*0.32);
+  const coreBuyers=Math.floor(tiers.core*0.75);
+  const buyers=Math.max(Math.floor(gameState.fandom*buyRate*0.3),casualBuyers+hardcoreBuyers+coreBuyers);
   const sold=Math.min(stock,buyers);
   const revenue=Math.floor(sold*g.sellPrice*getAgencyMultiplier('goods'));
   gameState.goodsStock[id]-=sold;
   gameState.finance+=revenue; gameState.accumulatedSales+=revenue;
   updateFandom(Math.floor(sold*0.05));
   convertFandom('hardcore','core',Math.floor(sold*0.01));
+  const soldOut=gameState.goodsStock[id]<=0;
+  if(soldOut) updateFandom(Math.floor(sold*0.08));
   gameState.community.push({site:'속보',content:`<b>[속보] ${g.name} ${sold.toLocaleString()}개 완판! 🎉</b>`});
+  setModalType(soldOut?'goods_soldout':'goods');
   document.getElementById('modal-title').innerText=`🛍️ ${g.name} 판매 결과`;
-  document.getElementById('modal-body').innerHTML=`<div style="font-size:13px; line-height:2; text-align:left;">
-    판매량: ${sold.toLocaleString()}개 / ${stock.toLocaleString()}개<br>
-    수익: +${revenue.toLocaleString()}원<br>
-    ${gameState.goodsStock[id]>0?`잔여 재고: ${gameState.goodsStock[id].toLocaleString()}개`:``}
-  </div>`;
+  document.getElementById('modal-body').innerHTML=`<div class="event-card"><div class="event-card-icon">${soldOut?'🎉':'🛍️'}</div><div class="event-card-title">${soldOut?'완판 달성':'판매 완료'}</div><div style="color:var(--text2);">${g.name} 판매 결과입니다.</div><div class="event-card-meta">
+    <div><small>판매량 / 기존 재고</small><strong>${sold.toLocaleString()}개 / ${stock.toLocaleString()}개</strong></div>
+    <div><small>수익</small><strong style="color:var(--money);">+${revenue.toLocaleString()}원</strong></div>
+    <div><small>일반팬 구매층</small><strong>${casualBuyers.toLocaleString()}명</strong></div>
+    <div><small>열혈팬 구매층</small><strong>${hardcoreBuyers.toLocaleString()}명</strong></div>
+    <div><small>고인물팬 구매층</small><strong>${coreBuyers.toLocaleString()}명</strong></div>
+    <div><small>잔여 재고</small><strong>${(gameState.goodsStock[id]||0).toLocaleString()}개</strong></div>
+  </div>${soldOut?'<div class="briefing-comment">완판 보너스로 팬덤 반응이 추가 상승했습니다.</div>':''}</div>`;
   document.getElementById('modal-choices').innerHTML=`<button class="primary-btn" onclick="closeModal()">확인</button>`;
   document.getElementById('eventModal').style.display='block';
   updateDisplay(); renderGoodsPage();
@@ -3544,9 +3767,10 @@ function renderCollabList(){
   el.innerHTML=collabs.map(c=>{
     const locked=tierIdx<c.minTier;
     const cooldown=gameState.collabCooldown>gameState.day;
+    const scaled=scaleBusinessReward(c.revenue,c.fanGain);
     return `<div class="content-card">
       <div class="content-header"><strong>${c.name}</strong><span class="content-badge badge-collab">콜라보</span></div>
-      <div style="font-size:11px; color:var(--text2); margin-bottom:8px; font-family:'JetBrains Mono',monospace;">${c.desc}<br>팬 +${c.fanGain.toLocaleString()}명 · 수익 +${(c.revenue/10000).toFixed(0)}만원${c.cost>0?` · 비용 ${(c.cost/10000).toFixed(0)}만원`:''}</div>
+      <div style="font-size:11px; color:var(--text2); margin-bottom:8px; font-family:'JetBrains Mono',monospace;">${c.desc}<br>팬 +${scaled.fanGain.toLocaleString()}명 · 예상 수익 +${(scaled.revenue/10000).toFixed(0)}만원${c.cost>0?` · 비용 ${(c.cost/10000).toFixed(0)}만원`:''}</div>
       <button class="content-btn ${locked||cooldown?'btn-cooldown':'btn-available'}" ${locked||cooldown?'disabled':''} onclick="doCollab('${c.id}',${c.fanGain},${c.revenue},${c.cost},'${c.name}')">
         ${locked?`🔒 ${tierOrder[c.minTier]} 이상 필요`:cooldown?'쿨다운 중':'진행하기'}
       </button>
@@ -3554,11 +3778,25 @@ function renderCollabList(){
   }).join('');
 }
 
+function getBusinessFandomMultiplier(){
+  const totalFandom=typeof getTotalFandom==='function'?getTotalFandom():(gameState.fandom||0);
+  return Math.min(3,1+totalFandom/500000);
+}
+function scaleBusinessReward(baseRevenue,baseFanGain){
+  const mult=getBusinessFandomMultiplier();
+  return {
+    revenue:Math.floor(baseRevenue*mult),
+    fanGain:Math.floor(baseFanGain*Math.min(2.2,0.9+(mult*0.35)))
+  };
+}
 function doCollab(id,fanGain,revenue,cost,name){
   if(gameState.finance<cost) return alert('자금 부족');
   const successRate=0.7+(gameState.staffBonus.contentSuccess||0);
   gameState.finance-=cost;
   gameState.collabCooldown=gameState.day+30;
+  const scaled=scaleBusinessReward(revenue,fanGain);
+  revenue=scaled.revenue;
+  fanGain=scaled.fanGain;
   if(Math.random()<successRate){
     gameState.finance+=revenue; gameState.accumulatedSales+=revenue;
     updateFandom(fanGain);
@@ -3573,6 +3811,7 @@ function doCollab(id,fanGain,revenue,cost,name){
 
 function executeContent(typeId){
   const c=contentTypes[typeId];
+  const season=getSeasonBonus();
   gameState.finance-=c.cost; gameState.lastContents[typeId]=gameState.day;
   gameState.members.forEach(m=>m.fatigue=Math.min(100,m.fatigue+(typeId==='short'?10:25)));
   const successBonus=gameState.staffBonus.contentSuccess||0;
@@ -3583,15 +3822,17 @@ function executeContent(typeId){
     revenue=Math.floor(c.cost*0.2);
     title='😱 폭망...'; text=`반응이 싸늘합니다. (팬덤 -${loss.toLocaleString()}명)`;
   } else if(roll>0.9){
-    const bonus=Math.floor((c.rewardMax+Math.random()*c.rewardMax*0.5)*0.5);
+    let bonus=Math.floor((c.rewardMax+Math.random()*c.rewardMax*0.5)*0.5);
+    bonus=Math.floor(bonus*season.contentMult);
     updateFandom(bonus);
     revenue=typeId==='long'?50000000+Math.floor(Math.random()*50000000):Math.floor(c.cost*1.5);
-    title='🔥 초대박!'; text=`트렌드 장악! (팬덤 +${bonus.toLocaleString()}명)`;
+    title='🔥 초대박!'; text=`트렌드 장악! (팬덤 +${bonus.toLocaleString()}명${season.label?` · ${season.label} 보정`:''})`;
   } else {
-    const gain=Math.floor((Math.random()*(c.rewardMax-c.rewardMin)+c.rewardMin)*0.5);
+    let gain=Math.floor((Math.random()*(c.rewardMax-c.rewardMin)+c.rewardMin)*0.5);
+    gain=Math.floor(gain*season.contentMult);
     updateFandom(gain);
     revenue=Math.floor(c.cost*0.8);
-    title='✅ 완료'; text=`무난한 반응. (팬덤 +${gain.toLocaleString()}명)`;
+    title='✅ 완료'; text=`무난한 반응. (팬덤 +${gain.toLocaleString()}명${season.label?` · ${season.label} 보정`:''})`;
   }
   gameState.finance+=revenue; if(revenue>0) gameState.accumulatedSales+=revenue;
   document.getElementById('modal-title').innerText=title;
@@ -3811,32 +4052,160 @@ function payTotalCost(){
 // ═══════════════════════════════════════════
 //  이벤트 체크
 // ═══════════════════════════════════════════
+function getBirthdaySeasonYear(){
+  const year=new Date(getCurrentDateString()+'T00:00:00').getFullYear();
+  if(year<=2026) return 1;
+  if(year===2027) return 2;
+  return 3;
+}
+
 function checkBirthday(){
-  const [,month,day]=getCurrentDateString().split('-');
-  const today=`${month}-${day}`;
+  const d=new Date(getCurrentDateString()+'T00:00:00');
+  const today=`${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  const seasonYear=getBirthdaySeasonYear();
+  if(!Array.isArray(gameState.birthdayHistory)) gameState.birthdayHistory=[];
   gameState.members.forEach(m=>{
-    if(m.birth===today) gameState.popupQueue.push({type:'birthday',event:{
-      id:'bday_'+m.name, title:`🎂 ${m.name} 생일`,
-      desc:`오늘은 ${m.name}의 생일입니다!`,
-      choices:[{text:'생일 파티! (팬덤+10,000)', effect:()=>{ updateFandom(10000); m.mental=Math.min(100,m.mental+20); }}]
-    }});
+    if(m.birth!==today) return;
+    const birthdayId=`birthday_${m.id||m.name}_${seasonYear}`;
+    if(gameState.birthdayHistory.includes(birthdayId)) return;
+    let title,desc,choices;
+    if(seasonYear===1){
+      title=`🎂 ${m.name}의 데뷔 후 첫 생일`;
+      desc=`데뷔 후 처음 맞이하는 ${m.name}의 생일입니다.\n팬들이 생일 축하 메시지를 올리고 있습니다.`;
+      choices=[
+        {text:'소박한 생일 파티',desc:'팬덤 +8,000 / 멘탈 회복',effect:()=>{
+          updateFandom(8000);
+          m.mental=Math.min(100,m.mental+15);
+          gameState.community.push({site:'팬카페',content:`${m.name} 생일 축하 분위기 너무 따뜻했어요 🎂`});
+        }},
+        {text:'팬들과 생방송으로 축하',desc:'팬덤 +15,000 / 피로도 +10 / SNS +300',effect:()=>{
+          updateFandom(15000);
+          m.fatigue=Math.min(100,m.fatigue+10);
+          gameState.sns=(gameState.sns||0)+300;
+        }}
+      ];
+    } else if(seasonYear===2){
+      title=`🎉 ${m.name} 생일 — 2년차`;
+      desc=`${m.name}의 생일을 맞아 팬들이 축하 메시지를 올리고 있습니다.\n작년보다 훨씬 많은 팬들이 함께하고 있습니다.`;
+      choices=[
+        {text:'팬 감사 이벤트 개최 (-100만원)',desc:'팬덤 +25,000 / 멘탈 +20',cost:1000000,effect:()=>{
+          gameState.finance-=1000000;
+          updateFandom(25000);
+          m.mental=Math.min(100,m.mental+20);
+        }},
+        {text:'SNS 생일 라이브',desc:'팬덤 +18,000 / SNS +500 / 멘탈 +15',effect:()=>{
+          updateFandom(18000);
+          gameState.sns=(gameState.sns||0)+500;
+          m.mental=Math.min(100,m.mental+15);
+        }},
+        {text:'조용히 보낸다',desc:'팬덤 +5,000 / 멘탈 +10',effect:()=>{
+          updateFandom(5000);
+          m.mental=Math.min(100,m.mental+10);
+        }}
+      ];
+    } else {
+      title=`👑 ${m.name} 생일 — 3년차 기념`;
+      desc=`하데스와 함께한 시간이 쌓이며, ${m.name}의 생일은 팬들에게 특별한 기념일이 되었습니다.\n팬들이 특별한 응원을 보내고 있습니다.`;
+      choices=[
+        {text:'대규모 팬 이벤트 (-300만원)',desc:'팬덤 +50,000 / 멘탈 +25 / 커뮤니티 반응 증가',cost:3000000,effect:()=>{
+          gameState.finance-=3000000;
+          updateFandom(50000);
+          m.mental=Math.min(100,m.mental+25);
+          gameState.community.push({site:'팬카페',content:`${m.name} 생일 이벤트 너무 감동적이었어요 💖`});
+        }},
+        {text:'미니 팬미팅 (-100만원)',desc:'팬덤 +30,000 / 멘탈 +20',cost:1000000,effect:()=>{
+          gameState.finance-=1000000;
+          updateFandom(30000);
+          m.mental=Math.min(100,m.mental+20);
+        }},
+        {text:'감사 편지 공개',desc:'팬덤 +20,000 / 멘탈 +15',effect:()=>{
+          updateFandom(20000);
+          m.mental=Math.min(100,m.mental+15);
+        }}
+      ];
+    }
+    gameState.popupQueue.push({type:'birthday',event:{id:birthdayId,title,desc,choices}});
+    gameState.birthdayHistory.push(birthdayId);
+    addEventHistory('birthday',`${m.name} 생일 이벤트`,`${seasonYear}년차 생일`,{member:m.name,year:seasonYear});
   });
 }
 
 function checkBusinessProposal(){
-  if(gameState.day>30&&Math.random()<0.015){
-    const types=["굿즈 팝업스토어","팬미팅","타 게임 콜라보","음료 광고","브랜드 앰배서더"];
-    const type=types[Math.floor(Math.random()*types.length)];
-    const profit=Math.floor(Math.random()*20000001)+30000000;
-    gameState.popupQueue.push({type:'business',event:{
-      id:'biz_'+gameState.day, title:`💼 [제안] ${type}`,
-      desc:`${type} 제안! 성공 시 ${profit.toLocaleString()}원`,
-      choices:[
-        {text:'수락', effect:()=>executeBusiness(profit,type)},
-        {text:'거절', effect:()=>{}},
-      ]
-    }});
+  const season=getSeasonBonus();
+  const chance=0.015*(season.businessChanceMult||1.0);
+  const daysPlayed=daysBetween(gameState.startDate,gameState.currentDate);
+  if(daysPlayed<=30) return;
+  if(Math.random()>=chance) return;
+  const rawTierIdx=tierOrder.indexOf(gameState.currentTier||'루키');
+  const tierIdx=Math.max(0,rawTierIdx);
+  const proposalsByTier=[
+    [
+      { name:'소규모 팬미팅', baseCost:0, baseRevenue:5000000, fanGain:3000 },
+      { name:'인디 브랜드 광고', baseCost:0, baseRevenue:8000000, fanGain:1000 },
+      { name:'온라인 굿즈 팝업', baseCost:1000000, baseRevenue:12000000, fanGain:2000 }
+    ],
+    [
+      { name:'팬미팅 투어', baseCost:2000000, baseRevenue:25000000, fanGain:8000 },
+      { name:'음료 광고', baseCost:0, baseRevenue:30000000, fanGain:3000 },
+      { name:'웹드라마 OST', baseCost:0, baseRevenue:20000000, fanGain:10000 }
+    ],
+    [
+      { name:'TV 광고', baseCost:0, baseRevenue:60000000, fanGain:8000 },
+      { name:'대형 팬미팅', baseCost:5000000, baseRevenue:80000000, fanGain:20000 },
+      { name:'게임 콜라보', baseCost:3000000, baseRevenue:50000000, fanGain:15000 }
+    ],
+    [
+      { name:'글로벌 브랜드 광고', baseCost:0, baseRevenue:150000000, fanGain:30000 },
+      { name:'아시아 팬미팅 투어', baseCost:20000000, baseRevenue:200000000, fanGain:50000 },
+      { name:'인터내셔널 페스티벌', baseCost:10000000, baseRevenue:120000000, fanGain:40000 }
+    ],
+    [
+      { name:'글로벌 앰배서더 계약', baseCost:0, baseRevenue:400000000, fanGain:80000 },
+      { name:'빌보드 광고 캠페인', baseCost:30000000, baseRevenue:500000000, fanGain:100000 },
+      { name:'할리우드 프로젝트 참여', baseCost:50000000, baseRevenue:600000000, fanGain:120000 }
+    ]
+  ];
+  const idx=Math.min(tierIdx,proposalsByTier.length-1);
+  const pool=proposalsByTier[idx];
+  const proposal=pool[Math.floor(Math.random()*pool.length)];
+  const fandomMult=getBusinessFandomMultiplier();
+  const revenue=Math.floor(proposal.baseRevenue*fandomMult*(0.8+Math.random()*0.4));
+  const eventId=`biz_${getCurrentDateString()}_${proposal.name}`;
+  gameState.popupQueue.push({type:'business',event:{
+    id:eventId,
+    title:`💼 [제안] ${proposal.name}`,
+    desc:`${proposal.name} 제안이 왔습니다!\n${proposal.baseCost>0?`비용: ${proposal.baseCost.toLocaleString()}원\n`:''}예상 수익: ${revenue.toLocaleString()}원\n팬덤 유입 예상: +${proposal.fanGain.toLocaleString()}명`,
+    choices:[
+      {text:'수락', effect:()=>executeBusinessNew(revenue,proposal)},
+      {text:'거절', effect:()=>{}},
+    ]
+  }});
+}
+
+function executeBusinessNew(revenue,proposal){
+  if(proposal.baseCost>0&&gameState.finance<proposal.baseCost){
+    alert('자금이 부족해 진행할 수 없습니다.');
+    return;
   }
+  if(proposal.baseCost>0) gameState.finance-=proposal.baseCost;
+  const staffBonus=gameState.staffBonus?.contentSuccess||0;
+  const successRate=Math.min(0.9,Math.max(0.35,0.65+staffBonus));
+  if(Math.random()<successRate){
+    gameState.finance+=revenue;
+    gameState.accumulatedSales+=revenue;
+    updateFandom(proposal.fanGain);
+    gameState.community.push({site:'속보',content:`<b>[속보] HADES ${proposal.name} 성공! 🎉</b>`});
+    addEventHistory('business',`${proposal.name} 성공`,`수익 +${revenue.toLocaleString()}원 · 팬덤 +${proposal.fanGain.toLocaleString()}명`,{revenue,fanGain:proposal.fanGain});
+    alert(`🎉 ${proposal.name} 성공!\n수익 +${revenue.toLocaleString()}원\n팬덤 +${proposal.fanGain.toLocaleString()}명`);
+  } else {
+    const loss=proposal.baseCost>0?0:Math.floor(revenue*0.1);
+    if(loss>0) gameState.finance-=loss;
+    const fanLoss=Math.floor(proposal.fanGain*0.2);
+    updateFandom(-fanLoss);
+    addEventHistory('business',`${proposal.name} 기대 이하`,`팬덤 -${fanLoss.toLocaleString()}명${loss>0?` · 손실 ${loss.toLocaleString()}원`:''}`,{loss,fanLoss});
+    alert(`😭 ${proposal.name} 기대 이하...\n팬덤 -${fanLoss.toLocaleString()}명`);
+  }
+  updateDisplay();
 }
 
 function executeBusiness(amount,type){
@@ -3851,13 +4220,84 @@ function executeBusiness(amount,type){
   updateDisplay();
 }
 
+function getAverageMemberFatigue(){
+  return Math.round(gameState.members.reduce((sum,m)=>sum+(m.fatigue||0),0)/Math.max(1,gameState.members.length));
+}
+function hasLowMentalMember(limit=45){
+  return gameState.members.some(m=>(m.mental||0)<=limit);
+}
+function getHighestFatigueMember(){
+  return [...gameState.members].sort((a,b)=>(b.fatigue||0)-(a.fatigue||0))[0]||null;
+}
+function hasRecentEventType(types,days=30){
+  const typeList=Array.isArray(types)?types:[types];
+  const today=dateToUtcDays(getCurrentDateString());
+  return (gameState.eventHistory||[]).some(e=>typeList.includes(e.type)&&e.date&&(today-dateToUtcDays(e.date)<=days));
+}
+function hasRecentScheduleAction(actions,days=30){
+  const actionList=Array.isArray(actions)?actions:[actions];
+  return gameState.members.some(m=>(m.weekSchedule||[]).some(a=>actionList.includes(a)));
+}
+function isDomesticOrHigher(){
+  return tierOrder.indexOf(gameState.currentTier||'루키')>=tierOrder.indexOf('국내에서 알려짐');
+}
+function isCrisisTierAllowed(id){
+  if(['sasaeng_incident','music_show_ban'].includes(id)&&!isDomesticOrHigher()) return false;
+  return true;
+}
+function isCrisisEligible(crisis){
+  if(!isCrisisTierAllowed(crisis.id)) return false;
+  const hasSongs=hasHadesSongs();
+  const avgFatigue=getAverageMemberFatigue();
+  switch(crisis.id){
+    case 'rumor': return gameState.fandom>=80000||hasSongs||tierOrder.indexOf(gameState.currentTier||'루키')>=1;
+    case 'antis': return gameState.fandom>=100000||tierOrder.indexOf(gameState.currentTier||'루키')>=1;
+    case 'injury': return avgFatigue>=55||gameState.members.some(m=>(m.fatigue||0)>=70);
+    case 'plagiarism': return hasSongs;
+    case 'mental_crisis': return hasLowMentalMember(45)||avgFatigue>=65;
+    case 'equipment_trouble': return hasRecentEventType(['concert','release','business'],14)||hasRecentScheduleAction(['stream','variety'],14);
+    case 'copycat_controversy': return hasSongs&&((gameState.comebackPrep?.concept||0)>=20||hasRecentEventType('release',60));
+    case 'sasaeng_incident': return isDomesticOrHigher()||gameState.fandom>=200000;
+    case 'platform_issue': return hasSongs;
+    case 'member_conflict': return avgFatigue>=65||hasLowMentalMember(45);
+    case 'broadcast_controversy': return hasRecentScheduleAction(['variety','stream'],30)||hasRecentEventType('business',30);
+    case 'health_scare': return gameState.members.some(m=>(m.fatigue||0)>=80);
+    case 'fan_petition': return hasLowMentalMember(40)||avgFatigue>=70||hasRecentEventType(['crisis','business'],45);
+    case 'collab_gone_wrong': return isDomesticOrHigher()||hasRecentEventType(['business','award'],60);
+    case 'music_show_ban': return isDomesticOrHigher()&&(Object.values(gameState.broadcastWins||{}).some(v=>v>0)||hasSongs);
+    default: return true;
+  }
+}
+function getCrisisWeight(crisis){
+  let weight=1;
+  if(['equipment_trouble','broadcast_controversy'].includes(crisis.id)&&(hasRecentScheduleAction(['stream','variety'],30)||hasRecentEventType(['business','concert'],30))) weight+=2;
+  if(crisis.id==='health_scare'&&gameState.members.some(m=>(m.fatigue||0)>=85)) weight+=3;
+  if(crisis.id==='member_conflict'&&(getAverageMemberFatigue()>=70||hasLowMentalMember(40))) weight+=2;
+  if(crisis.id==='fan_petition'&&(getAverageMemberFatigue()>=75||hasLowMentalMember(35))) weight+=2;
+  if(crisis.id==='platform_issue'&&hasHadesSongs()) weight+=1;
+  if(crisis.id==='sasaeng_incident'&&gameState.fandom>=250000) weight+=2;
+  if(['equipment_trouble','copycat_controversy','broadcast_controversy','collab_gone_wrong'].includes(crisis.id)&&!isCrisisEligible(crisis)) weight=0;
+  return Math.max(0,weight);
+}
+function pickWeightedCrisis(list){
+  const weighted=list.map(item=>({item,weight:getCrisisWeight(item)})).filter(x=>x.weight>0);
+  if(weighted.length===0) return null;
+  const total=weighted.reduce((sum,x)=>sum+x.weight,0);
+  let roll=Math.random()*total;
+  for(const entry of weighted){ roll-=entry.weight; if(roll<=0) return entry.item; }
+  return weighted[0].item;
+}
+
 function checkCrisisEvent(){
   // 크리시스 이벤트 발생 (14일마다 최대 1회)
   if(gameState.day>14&&gameState.day%14===0&&Math.random()<0.3){
-    const available=crisisEvents.filter(e=>!gameState.crisisUsed.includes(e.id));
-    if(available.length===0) return;
-    const crisis=available[Math.floor(Math.random()*available.length)];
+    const unused=crisisEvents.filter(e=>!gameState.crisisUsed.includes(e.id));
+    const available=unused.filter(isCrisisEligible);
+    const fallback=unused.filter(isCrisisTierAllowed);
+    const crisis=pickWeightedCrisis(available)||pickWeightedCrisis(fallback);
+    if(!crisis) return;
     gameState.crisisUsed.push(crisis.id);
+    addEventHistory('crisis',crisis.title,'위기 이벤트 발생',{crisisId:crisis.id});
     gameState.popupQueue.push({type:'crisis',event:{
       id:crisis.id+'_'+gameState.day,
       title:crisis.title,
@@ -3927,11 +4367,13 @@ function calcAwardCandidateScore(candidate, focus){
     ? Math.min(100,gameState.eventHistory.filter(e=>e.type==='concert').length*25+Object.values(gameState.broadcastWins||{}).reduce((a,b)=>a+b,0)*4)
     : randomRange(25,85);
   const random=randomRange(-8,12);
-  if(focus==='digital') return rankScore*1.8+weeksScore*0.6+random;
-  if(focus==='fandom') return fandomScore*1.8+rankScore*0.5+random;
-  if(focus==='quality') return qualityScore*1.7+weeksScore*0.5+random;
-  if(focus==='performance') return performanceScore*1.6+rankScore*0.6+random;
-  return rankScore+weeksScore+fandomScore*0.8+qualityScore*0.6+performanceScore*0.5+random;
+  let score;
+  if(focus==='digital') score=rankScore*1.8+weeksScore*0.6+random;
+  else if(focus==='fandom') score=fandomScore*1.8+rankScore*0.5+random;
+  else if(focus==='quality') score=qualityScore*1.7+weeksScore*0.5+random;
+  else if(focus==='performance') score=performanceScore*1.6+rankScore*0.6+random;
+  else score=rankScore+weeksScore+fandomScore*0.8+qualityScore*0.6+performanceScore*0.5+random;
+  return candidate.artist==='HADES'?score*(getSeasonBonus().awardBonus||1):score;
 }
 function pickAwardWinner(focus='overall', period='yearly'){
   const candidates=getAwardCandidates(period);
@@ -4242,6 +4684,100 @@ function checkSeasonReport(){
   }});
 }
 
+// ═══════════════════════════════════════════
+//  멤버 개인 스토리
+// ═══════════════════════════════════════════
+function getMemberStoryConfig(member){
+  const map={
+    '키마':{id:'kima_vocal_strain',type:'vocal',stat:'vocal',title:'고음 집착과 성대 관리',act1:'고음 파트를 완벽하게 소화하려고 연습실에 오래 남는 일이 늘었습니다.',act2:'목 상태 이상을 숨기고 있었습니다. 성대에 무리가 온 것으로 보입니다.',goodTrait:'단련된 성대',goodHighlight:'단련된 성대 특성 획득',badHighlight:'성대 부담으로 후반 활동 제한'},
+    '띵귤':{id:'dding_leader_pressure',type:'leader',stat:'vocal',title:'책임감과 팀 분위기',act1:'팀 분위기를 잡기 위해 멤버들을 챙기는 일이 늘었습니다.',act2:'팀을 책임져야 한다는 부담을 혼자 떠안고 있습니다.',goodTrait:'믿음직한 리더',goodHighlight:'팀 분위기 회복을 이끈 리더십',badHighlight:'책임감 부담으로 멘탈 저하'},
+    '챈나':{id:'chaenna_image_pressure',type:'visual',stat:'visual',title:'이미지 소비와 악플 대응',act1:'비주얼이 SNS에서 화제가 되고 있습니다.',act2:'이미지 소비와 악성 댓글에 부담을 느끼고 있습니다.',goodTrait:'단단한 이미지',goodHighlight:'이미지 압박을 극복',badHighlight:'이미지 소비 부담으로 멘탈 흔들림'},
+    '솜주먹':{id:'som_variety_burden',type:'variety',stat:'variety',title:'방송감과 부담감',act1:'예능감이 팬들 사이에서 좋은 반응을 얻고 있습니다.',act2:'웃겨야 한다는 부담감을 느끼고 있습니다.',goodTrait:'자연스러운 예능감',goodHighlight:'자연스러운 예능감 특성 획득',badHighlight:'방송 부담으로 콘텐츠 효율 저하'},
+    '연초록':{id:'green_fan_communication',type:'fan',stat:'charm',title:'가까운 거리와 과부하',act1:'팬들과의 소통에서 좋은 반응을 얻고 있습니다.',act2:'팬들에게 항상 좋은 모습을 보여야 한다는 압박을 느끼고 있습니다.',goodTrait:'팬들과의 신뢰',goodHighlight:'팬들과의 신뢰 특성 획득',badHighlight:'팬소통 과부하로 멘탈 저하'}
+  };
+  return map[member.name]||{id:`${member.name}_growth`,type:'growth',stat:'charm',title:'성장과 부담',act1:'개인 활동에서 새로운 가능성이 보입니다.',act2:'성장 압박을 느끼고 있습니다.',goodTrait:'성장 서사',goodHighlight:'개인 성장 서사 완성',badHighlight:'성장 부담으로 재정비 필요'};
+}
+function isMajorActivityDate(){
+  return (gameState.activityRoadmap||[]).some(ev=>ev.date===getCurrentDateString());
+}
+function canRunMemberStoryToday(){
+  if(dateToUtcDays(getCurrentDateString())<dateToUtcDays('2026-02-23')) return false;
+  if(isMajorActivityDate()) return false;
+  return gameState.day-(gameState.lastMemberStoryDay||-999)>=21;
+}
+function getMemberStoryPressure(member, config){
+  const condition=getMemberConditionValue(member);
+  const stat=member[config.stat]||0;
+  return stat*1.4+(member.fatigue||0)*0.45+(100-condition)*0.35;
+}
+function pushMemberStoryEvent(member, config, stage){
+  gameState.lastMemberStoryDay=gameState.day;
+  member.storyState.lastEventDate=getCurrentDateString();
+  addEventHistory('member_story',`${member.name} 개인 스토리`,`${config.title} ${stage}막`,{member:member.name,storyId:config.id,stage});
+  if(stage===1){
+    member.storyState.stage=1;
+    pushInbox('event',`${member.name} 개인 스토리`,`${config.title}이 시작되었습니다.`);
+    gameState.popupQueue.push({type:'member_story',event:{
+      id:`story_${config.id}_1`,
+      title:`${member.name} · ${config.title}`,
+      desc:`${member.name} 멤버가 ${config.act1}\n\n디렉터는 당분간 피로도와 멘탈 변화를 주의 깊게 보려 합니다.`,
+      choices:[{text:'확인',effect:()=>{}}]
+    }});
+    return;
+  }
+  member.storyState.stage=2;
+  gameState.popupQueue.push({type:'member_story',event:{
+    id:`story_${config.id}_2`,
+    title:`${member.name} · ${config.title}`,
+    desc:`${member.name} 멤버가 ${config.act2}\n\n어떤 방향으로 케어할까요?`,
+    choices:[
+      {text:'일정 조정과 휴식',effect:()=>resolveMemberStory(member.name,'rest')},
+      {text:'전문 케어 투입 (-400만원)',effect:()=>resolveMemberStory(member.name,'care')},
+      {text:'현재 흐름을 강행',effect:()=>resolveMemberStory(member.name,'push')}
+    ]
+  }});
+}
+function resolveMemberStory(memberName,choice){
+  const member=gameState.members.find(m=>m.name===memberName);
+  if(!member||member.storyState.completed) return;
+  const config=getMemberStoryConfig(member);
+  member.storyState.choice=choice;
+  let good=choice!=='push';
+  if(choice==='care') gameState.finance-=4000000;
+  if(choice==='push') good=Math.random()>0.45&&(member.fatigue||0)<75&&(member.mental||50)>45;
+  if(good){
+    member.storyState.completed=true;
+    member.storyState.ending='good';
+    member.storyState.highlight=config.goodHighlight;
+    member.trait2=config.goodTrait;
+    member[config.stat]=Math.min(60,(member[config.stat]||0)+3);
+    member.mental=clamp((member.mental||50)+12,5,100);
+    member.fatigue=Math.max(0,(member.fatigue||0)-20);
+    updateFandom(5000);
+    addEventHistory('member_story',`${member.name} 개인 스토리 완료`,config.goodHighlight,{member:member.name,storyId:config.id,ending:'good'});
+    pushInbox('event',`${member.name} 성장`,config.goodHighlight);
+  } else {
+    member.storyState.completed=true;
+    member.storyState.ending='bad';
+    member.storyState.highlight=config.badHighlight;
+    member[config.stat]=Math.max(1,(member[config.stat]||0)-2);
+    member.mental=clamp((member.mental||50)-18,5,100);
+    member.fatigue=Math.min(100,(member.fatigue||0)+15);
+    updateFandom(-6000);
+    addEventHistory('member_story',`${member.name} 개인 스토리 완료`,config.badHighlight,{member:member.name,storyId:config.id,ending:'bad'});
+    pushInbox('warning',`${member.name} 재정비 필요`,config.badHighlight);
+  }
+}
+function checkMemberStories(){
+  normalizeGameState();
+  if(!canRunMemberStoryToday()) return;
+  const candidates=gameState.members.filter(m=>!m.storyState.completed).map(m=>({member:m,config:getMemberStoryConfig(m)}));
+  const stage1=candidates.find(({member,config})=>member.storyState.stage===0&&(member[config.stat]||0)>=12&&getMemberStoryPressure(member,config)>=35);
+  if(stage1){ pushMemberStoryEvent(stage1.member,stage1.config,1); return; }
+  const stage2=candidates.find(({member,config})=>member.storyState.stage===1&&(dateToUtcDays(getCurrentDateString())>=dateToUtcDays('2026-04-01'))&&(getMemberStoryPressure(member,config)>=55||member.fatigue>=70||member.mental<=55));
+  if(stage2) pushMemberStoryEvent(stage2.member,stage2.config,2);
+}
+
 function calculateTierScore(){ return gameState.fandom+Math.floor(gameState.youtube*0.5)+Math.floor(gameState.sns*0.2)+Math.floor(gameState.accumulatedSales/10000); }
 function getTierInfo(score){
   if(score>=15000000) return {name:'전세계에서 알려짐',class:'tier-world'};
@@ -4322,6 +4858,18 @@ function nextDay(){
       const prepResult=applyComebackPrepAction(action,m)||{fatigue:20};
       m.fatigue=Math.min(100,m.fatigue+Math.floor((prepResult.fatigue||20)*mentalFactor)+(dirFatigueMod>0?Math.floor(dirFatigueMod/7):0));
       m.mental=Math.max(5,m.mental-(trait.id==='perfectionist'?3:1));
+      if(trait.id==='sociable'){
+        if(action==='variety'||action==='stream'){
+          if(Math.random()<0.4){
+            const bonus=Math.floor(randomRange(30,120));
+            updateFandom(bonus);
+          }
+          if(Math.random()<0.3) addComebackPrep('fandom',1);
+        }
+        if(action==='charm'){
+          gameState.sns+=Math.floor(randomRange(10,50));
+        }
+      }
     }
     if(trait.id==='leader'&&Math.random()<0.5){
       gameState.members.forEach(other=>{ if(other!==m) other.fatigue=Math.max(0,other.fatigue-5); });
@@ -4353,6 +4901,7 @@ function nextDay(){
   checkContracts();
   checkCrisisEvent();
   checkMentalCrisis();
+  checkMemberStories();
   checkTierUp();
   checkAgencyLevelUp();
   checkSeasonReport();
@@ -4375,6 +4924,7 @@ function nextDay(){
   `;
 
   advanceCurrentDate(1);
+  checkSeasonChange();
   normalizeGameState();
   checkActivityCosts();
   checkScheduledEvents();
@@ -4395,30 +4945,57 @@ function nextDay(){
 //  모달
 // ═══════════════════════════════════════════
 let currentEvent=null;
+function renderChoiceButton(choice,index,isPrimary=false){
+  const cost=choice?.cost||0;
+  const disabled=cost>0&&gameState.finance<cost;
+  const desc=choice?.desc?`<br><small style="display:block;margin-top:4px;color:var(--text2);font-weight:500;line-height:1.4;">${choice.desc}</small>`:'';
+  const label=disabled?`${choice.text} (자금 부족)`:choice.text;
+  return `<button class="${isPrimary?'primary-btn':'choice-btn'}" onclick="handleChoice(${index})" style="margin-bottom:6px;" ${disabled?'disabled':''}>${label}${desc}</button>`;
+}
 function processNextPopup(){
   if(document.getElementById('eventModal').style.display==='block'||gameState.popupQueue.length===0) return;
   const item=gameState.popupQueue.shift();
   if(item.type==='training_report'){ showTrainingReport(item.data); return; }
   if(item.type==='tier_up'||item.type==='season'){
     currentEvent=item.event;
+    setModalType(item.type);
     document.getElementById('modal-title').innerText=item.event.title;
     document.getElementById('modal-body').innerHTML=item.event.customHtml||item.event.desc;
     const choices=item.event.choices&&item.event.choices.length?item.event.choices:[{text:'확인',effect:()=>{}}];
-    document.getElementById('modal-choices').innerHTML=choices.map((c,i)=>`<button class="${i===0?'primary-btn':'choice-btn'}" onclick="handleChoice(${i})" style="margin-bottom:6px;">${c.text}</button>`).join('');
+    document.getElementById('modal-choices').innerHTML=choices.map((c,i)=>renderChoiceButton(c,i,i===0)).join('');
     document.getElementById('eventModal').style.display='block'; return;
   }
+  if(item.event) item.event.type=item.type;
   renderEventPopup(item.event,item.type==='birthday');
 }
 function renderEventPopup(ev,isSpecial){
   currentEvent=ev;
+  setModalType(ev.type||ev.id||'event');
   document.getElementById('modal-title').innerText=ev.title;
-  document.getElementById('modal-body').innerHTML=`<div style="white-space:pre-line;">${ev.desc}</div>`;
+  document.getElementById('modal-body').innerHTML=formatEventBody(ev);
   document.getElementById('modal-choices').innerHTML=ev.choices.map((c,i)=>
-    `<button class="${isSpecial&&i===0?'primary-btn':'choice-btn'}" onclick="handleChoice(${i})" style="margin-bottom:6px;">${c.text}</button>`
+    renderChoiceButton(c,i,isSpecial&&i===0)
   ).join('');
   document.getElementById('eventModal').style.display='block';
 }
-window.handleChoice=(idx)=>{ if(currentEvent?.choices[idx]) currentEvent.choices[idx].effect(); closeModal(); };
+function formatEventBody(ev){
+  const type=ev.type||ev.id||'event';
+  const icon=type.includes('chart_no1')?'👑':type.includes('chart_entry')?'📈':type.includes('release')?'💿':type.includes('birthday')?'🎂':type.includes('crisis')?'⚠️':type.includes('business')?'💼':type.includes('settlement')?'📊':'✨';
+  const label=type.includes('chart_no1')?'차트 1위 달성':type.includes('chart_entry')?'NEW 차트 진입':type.includes('release')?'Released':type.includes('birthday')?'Fan Event':type.includes('crisis')?'Warning':type.includes('business')?'Proposal':type.includes('settlement')?'Report':'Event';
+  return `<div class="event-card"><div class="event-card-icon">${icon}</div><div class="event-card-title">${label}</div><div style="white-space:pre-line;color:var(--text2);line-height:1.7;text-align:left;">${ev.customHtml||ev.desc||''}</div></div>`;
+}
+function setModalType(type){
+  const modal=document.getElementById('eventModal');
+  if(!modal) return;
+  modal.className='modal-overlay modal-'+String(type||'event').replace(/[^a-zA-Z0-9_-]/g,'_');
+}
+window.handleChoice=(idx)=>{
+  const choice=currentEvent?.choices[idx];
+  if(!choice) return;
+  if(choice.cost&&gameState.finance<choice.cost){ alert('자금이 부족합니다.'); return; }
+  choice.effect();
+  closeModal();
+};
 function showTrainingReport(logs){
   document.getElementById('modal-title').innerText='🗓️ 주간 훈련 결산';
   const grouped=logs.reduce((acc,l)=>{ if(!acc[l.name]) acc[l.name]=[]; acc[l.name].push({vocal:'보컬',dance:'댄스',visual:'비주얼',variety:'예능',charm:'매력'}[l.stat]+'↑'); return acc; },{});
@@ -4427,7 +5004,7 @@ function showTrainingReport(logs){
   document.getElementById('modal-choices').innerHTML=`<button class="primary-btn" onclick="closeModal()">확인 (Space)</button>`;
   document.getElementById('eventModal').style.display='block';
 }
-function closeModal(){ document.getElementById('eventModal').style.display='none'; setTimeout(processNextPopup,100); }
+function closeModal(){ const modal=document.getElementById('eventModal'); modal.style.display='none'; modal.className='modal-overlay'; setTimeout(processNextPopup,100); }
 
 // ═══════════════════════════════════════════
 //  기록 UI
@@ -4662,15 +5239,95 @@ function renderInboxPage(limit=null,targetId='inbox-list'){
   const el=document.getElementById(targetId); if(!el) return;
   normalizeGameState();
   const list=limit?gameState.inbox.slice(0,limit):gameState.inbox;
-  if(list.length===0){ el.innerHTML='<div class="chart-not-enough">아직 알림이 없습니다.</div>'; return; }
-  el.innerHTML=list.map((item,idx)=>`<div class="record-row inbox-item ${item.type||'info'} ${item.read?'':'unread'}" onclick="markInboxRead(${idx})"><div class="record-title">${item.title}</div><div class="record-meta">${item.date||getCurrentDateString(item.day||gameState.day)}</div><div class="record-meta" style="font-family:'Noto Sans KR',sans-serif;line-height:1.5;">${item.body||''}</div></div>`).join('');
+  if(list.length===0){ el.innerHTML=emptyState('📭','현재 확인할 알림이 없습니다.'); return; }
+  el.innerHTML=list.map((item,idx)=>{
+    const rawType=item.type||'info';
+    const severity=item.severity||(/critical/.test(rawType)?'critical':/warning/.test(rawType)?'warning':'info');
+    const action=item.actionType?String(item.actionType).replaceAll('_',' '):rawType.startsWith('coach')?'운영 점검':'확인';
+    return `<div class="record-row inbox-item inbox-card ${rawType} ${severity} ${item.read?'':'unread'}" onclick="markInboxRead(${idx})">
+      <div><span class="inbox-type-badge">${rawType.replace('coach-','coach')}</span></div>
+      <div><div class="record-title">${item.title}</div><div class="record-meta">${item.date||getCurrentDateString(item.day||gameState.day)}</div><div class="record-meta" style="font-family:'Noto Sans KR',sans-serif;line-height:1.5;">${item.body||''}</div></div>
+      <div><span class="inbox-action-tag">${action}</span></div>
+    </div>`;
+  }).join('');
 }
 function markInboxRead(idx){ if(gameState.inbox[idx]) gameState.inbox[idx].read=true; renderInboxPage(); updateInboxBadge(); }
-function updateInboxBadge(){ const badge=document.getElementById('nav-inbox-count'); if(!badge) return; const unread=(gameState.inbox||[]).filter(item=>!item.read).length; badge.innerText=unread?`(${unread})`:''; }
+function updateInboxBadge(){ const badge=document.getElementById('nav-inbox-count'); if(!badge) return; const unread=(gameState.inbox||[]).filter(item=>!item.read).length; const critical=(gameState.inbox||[]).some(item=>!item.read&&(/critical/.test(item.type||'')||item.severity==='critical')); badge.className=unread?`nav-badge ${critical?'danger':''}`:''; badge.innerText=unread?unread:''; }
+function emptyState(icon,text){ return `<div class="empty-state"><div class="empty-icon">${icon}</div><div>${text}</div></div>`; }
+function toggleHomeMobileMore(){ document.body.classList.toggle('home-mobile-expanded'); const btn=document.getElementById('home-mobile-more'); if(btn) btn.innerText=document.body.classList.contains('home-mobile-expanded')?'홈 정보 접기':'홈 정보 더 보기'; }
 function getUpcomingRoadmap(limit=5){ normalizeGameState(); return [...gameState.activityRoadmap].sort((a,b)=>dateToUtcDays(a.date)-dateToUtcDays(b.date)).filter(ev=>!ev.triggered||getDateDiffFromCurrent(ev.date)>=-7).slice(0,limit); }
 function getNextSettlementDiff(){ const cost=getFirstActivityCost(); if(cost.paid||cost.failed) return null; return getDateDiffFromCurrent(cost.dueDate); }
+function getSeasonMood(){
+  const date=getCurrentDateString();
+  if(date<'2025-12-25') return '데뷔 전 준비 기간';
+  if(date<='2026-01-11') return '첫 활동 패키지';
+  if(date<='2026-06-30') return '데뷔 시즌';
+  if(date<='2026-12-31') return '첫 연말 경쟁';
+  if(date<='2027-06-30') return '성장 시즌';
+  if(date<='2027-12-31') return '대표 시즌';
+  return '확장 시즌';
+}
+function getBriefingStatus(){
+  const cost=getFirstActivityCost();
+  const prep=getComebackPrepScore();
+  const avgCondition=getMemberConditionScore();
+  const risky=gameState.members.filter(m=>(m.fatigue||0)>=85||(m.mental||0)<=30);
+  const todayEvent=(gameState.activityRoadmap||[]).find(ev=>!ev.triggered&&ev.date===getCurrentDateString());
+  if(getCurrentDateString()===cost.dueDate&&!cost.paid&&!cost.failed) return {level:gameState.finance>=cost.amount?'warning':'danger',title:'첫 활동 패키지 정산일입니다.',detail:`필요 금액 ${cost.amount.toLocaleString()}원`};
+  if(todayEvent) return {level:'point',title:`오늘 예정 활동: ${todayEvent.title}`,detail:todayEvent.hint||'예정 활동 당일입니다.'};
+  if(gameState.finance<20000000) return {level:'danger',title:'자금 운용 경고',detail:'보유 자금이 2천만 원 미만입니다.'};
+  if(risky.length) return {level:'warning',title:'멤버 컨디션 관리 필요',detail:`${risky.map(m=>m.name).join(', ')} 상태를 확인하세요.`};
+  if(prep<40) return {level:'danger',title:'컴백 준비도 위험',detail:`현재 준비도 ${prep}/100`};
+  if(prep<60) return {level:'warning',title:'컴백 준비 보강 필요',detail:`현재 준비도 ${prep}/100`};
+  if(avgCondition<50) return {level:'warning',title:'팀 컨디션 저하',detail:`평균 컨디션 ${avgCondition}`};
+  return {level:'point',title:'운영 안정권입니다.',detail:'오늘은 스케줄과 예정 활동을 점검하세요.'};
+}
+function getDirectorBriefComment(status){
+  const prep=getComebackPrepScore();
+  const next=getUpcomingRoadmap(1)[0];
+  const nextText=next?`${next.title}까지 ${describeDateDiff(next.date)}`:'새 활동을 준비할 시간';
+  if(status.level==='danger') return '지금은 무리한 확장보다 리스크를 먼저 줄이는 편이 좋습니다.';
+  if(status.level==='warning') return `큰 흐름은 유지되고 있지만, ${prep<60?'컴백 준비도':'컨디션/자금'}를 보강하면 안정성이 올라갑니다.`;
+  return `${nextText}입니다. 오늘은 준비도와 멤버 피로도를 같이 확인하세요.`;
+}
+function getSeasonDisplayText(){
+  const season=getSeasonBonus();
+  if(!season.label) return '일반';
+  const contentPct=Math.round((season.contentMult-1)*100);
+  const businessUp=season.businessChanceMult>1?`, 비즈니스 제안 증가`:'';
+  const awardUp=season.awardBonus>1?`, 시상식 분위기 강화`:'';
+  return `${season.label} · 콘텐츠 반응 +${contentPct}%${businessUp}${awardUp}`;
+}
 function renderDashboard(){
   normalizeGameState();
+  const briefingEl=document.getElementById('dashboard-briefing');
+  if(briefingEl){
+    const card=document.getElementById('dashboard-briefing-card');
+    const status=getBriefingStatus();
+    const next=getUpcomingRoadmap(1)[0];
+    const avgCondition=getMemberConditionScore();
+    const nextLine=next?`${formatKoreanDate(next.date)} ${next.title}`:'예정 활동 없음';
+    const remain=next&&!next.triggered?describeDateDiff(next.date):'일정 대기';
+    const badgeClass=status.level==='danger'?'danger':status.level==='warning'?'warning':'';
+    if(card) card.className=`ops-card ops-briefing ${badgeClass}`;
+    briefingEl.innerHTML=`<div class="briefing-grid">
+      <div>
+        <div class="briefing-kicker">${formatKoreanDate(getCurrentDateString())} · ${getSeasonMood()}</div>
+        <div class="briefing-title">${status.title}</div>
+        <div class="briefing-sub">${status.detail}<br>다음 일정: ${nextLine} (${remain})</div>
+        <div class="briefing-comment">디렉터 코멘트: “${getDirectorBriefComment(status)}”</div>
+      </div>
+      <div>
+        <span class="briefing-badge ${badgeClass}">${status.level==='danger'?'CRITICAL':status.level==='warning'?'WARNING':'BRIEFING'}</span>
+        <div class="briefing-metrics" style="margin-top:10px;">
+          <div class="briefing-metric"><small>현재 자금</small><strong style="color:var(--money);">${gameState.finance.toLocaleString()}원</strong></div>
+          <div class="briefing-metric"><small>팬덤</small><strong>${gameState.fandom.toLocaleString()}명</strong></div>
+          <div class="briefing-metric"><small>평균 컨디션</small><strong>${avgCondition}</strong></div>
+          <div class="briefing-metric"><small>현재 시즌</small><strong>${getSeasonDisplayText()}</strong></div>
+        </div>
+      </div>
+    </div>`;
+  }
   const alertEl=document.getElementById('dashboard-alerts');
   if(alertEl){
     const todayAlerts=[]; const cost=getFirstActivityCost();
@@ -4718,7 +5375,7 @@ function renderDashboard(){
     if(hasUnsetSchedule) todos.push({type:'warning',title:'스케줄 점검',body:'미배정 일정이 있습니다.'});
     if(prepTotal<60) todos.push({type:'warning',title:'컴백 준비 보강',body:`현재 준비도 ${prepTotal}/100`});
     if(!cost.paid&&!cost.failed){ const diff=getDateDiffFromCurrent(cost.dueDate); if(diff>=0) todos.push({type:diff<=7?'warning':'info',title:'선투자 비용 대비',body:diff===0?'오늘 정산':`${diff}일 남음`}); }
-    if(nextEvent){ const diff=getDateDiffFromCurrent(nextEvent.date); if(diff>=0&&diff<=7) todos.push({type:'event',title:'예정 활동 확인',body:`${nextEvent.title} · D-${diff}`}); }
+    if(nextEvent){ const diff=getDateDiffFromCurrent(nextEvent.date); if(diff>=0&&diff<=7) todos.push({type:'event',title:'예정 활동 확인',body:`${nextEvent.title} · ${diff===0?'오늘':`${diff}일 남음`}`}); }
     if(risky.length) todos.push({type:'warning',title:'휴식 필요 멤버',body:risky.join(', ')});
     todoEl.innerHTML=todos.slice(0,5).map(t=>`<div class="ops-line ${t.type||'info'}"><strong>${t.title}</strong><small>${t.body}</small></div>`).join('')||'<div class="ops-line success"><strong>오늘 할 일 없음</strong><small>운영 안정</small></div>';
   }
@@ -4743,18 +5400,18 @@ function renderFinanceSummary(targetId='finance-summary-page'){
   const scheduledCost=(!cost.paid&&!cost.failed)?cost.amount:0;
   el.innerHTML=`<div class="finance-metric"><small>보유 자금</small><strong style="color:var(--money);">${gameState.finance.toLocaleString()}원</strong></div><div class="finance-metric"><small>예정 비용</small><strong>${scheduledCost.toLocaleString()}원</strong></div><div class="finance-metric"><small>콘서트 수익</small><strong>${concertRevenue.toLocaleString()}원</strong></div><div class="finance-metric"><small>스태프 월급</small><strong style="color:var(--danger);">${calcMonthlySalaryCost().toLocaleString()}원</strong></div><div class="finance-metric"><small>굿즈 재고 가치</small><strong>${goodsStockValue.toLocaleString()}원</strong></div><div class="finance-metric"><small>음원/활동 누적</small><strong>${gameState.accumulatedSales.toLocaleString()}원</strong></div>`;
 }
-function renderFinancePage(){ renderFinanceSummary('finance-summary-page'); const costEl=document.getElementById('finance-cost-card'); if(costEl){ const old=document.getElementById('activity-cost-card'); renderActivityCostCard(); costEl.innerHTML=(old&&old.innerHTML)||''; } const settleEl=document.getElementById('finance-settlement-card'); if(settleEl){ const old=document.getElementById('first-settlement-list'); renderFirstSettlementList(); settleEl.innerHTML=(old&&old.innerHTML)||'<div class="chart-not-enough">첫 활동 정산 결과가 아직 없습니다.</div>'; } const reportEl=document.getElementById('finance-report-list'); if(reportEl){ const rows=(gameState.eventHistory||[]).filter(e=>['cost_settlement','concert','release','activity_settlement'].includes(e.type)).slice(-12).reverse(); reportEl.innerHTML=rows.length?rows.map(e=>`<div class="record-row"><div class="record-title">${e.title}</div><div class="record-meta">${e.date||''} · ${e.result||''}${e.amount?` · ${e.amount.toLocaleString()}원`:''}</div></div>`).join(''):'<div class="chart-not-enough">정산 리포트가 없습니다.</div>'; } }
-function renderHistoryPage(){ renderCareerSummary('history-career-summary'); const songTarget=document.getElementById('history-song-list'); if(songTarget){ const old=document.getElementById('song-history-list'); renderSongHistory(); songTarget.innerHTML=(old&&old.innerHTML)||''; } const eventEl=document.getElementById('history-event-list'); if(eventEl){ const rows=[...(gameState.eventHistory||[])].slice(-50).reverse(); eventEl.innerHTML=rows.length?rows.map(e=>`<div class="record-row"><div class="record-title">${formatKoreanDate(e.date||getCurrentDateString(e.day||gameState.day))} · ${e.title}</div><div class="record-meta">${e.type} · ${e.result||''}</div></div>`).join(''):'<div class="chart-not-enough">이벤트 기록이 없습니다.</div>'; } }
+function renderFinancePage(){ renderFinanceSummary('finance-summary-page'); const costEl=document.getElementById('finance-cost-card'); if(costEl){ const old=document.getElementById('activity-cost-card'); renderActivityCostCard(); costEl.innerHTML=(old&&old.innerHTML)||''; } const settleEl=document.getElementById('finance-settlement-card'); if(settleEl){ const old=document.getElementById('first-settlement-list'); renderFirstSettlementList(); settleEl.innerHTML=(old&&old.innerHTML)||emptyState('📊','첫 활동 정산 결과가 아직 없습니다.'); } const reportEl=document.getElementById('finance-report-list'); if(reportEl){ const rows=(gameState.eventHistory||[]).filter(e=>['cost_settlement','concert','release','activity_settlement'].includes(e.type)).slice(-12).reverse(); reportEl.innerHTML=rows.length?rows.map(e=>`<div class="record-row"><div class="record-title">${e.title}</div><div class="record-meta">${e.date||''} · ${e.result||''}${e.amount?` · ${e.amount.toLocaleString()}원`:''}</div></div>`).join(''):emptyState('💸','정산 리포트가 없습니다.'); } }
+function renderHistoryPage(){ renderCareerSummary('history-career-summary'); const songTarget=document.getElementById('history-song-list'); if(songTarget){ const old=document.getElementById('song-history-list'); renderSongHistory(); songTarget.innerHTML=(old&&old.innerHTML)||emptyState('🎶','발매곡 기록이 쌓이면 이곳에 표시됩니다.'); } const eventEl=document.getElementById('history-event-list'); if(eventEl){ const rows=[...(gameState.eventHistory||[])].slice(-50).reverse(); eventEl.innerHTML=rows.length?rows.map(e=>`<div class="record-row"><div class="record-title">${formatKoreanDate(e.date||getCurrentDateString(e.day||gameState.day))} · ${e.title}</div><div class="record-meta">${e.type} · ${e.result||''}</div></div>`).join(''):emptyState('🗞️','활동 기록이 쌓이면 이곳에 표시됩니다.'); } }
 function renderRoadmapPage(){ renderActivityRoadmap('roadmap-page-list',30); const target=document.getElementById('roadmap-objective-card'); if(target){ const old=document.getElementById('first-objective-card'); renderFirstObjectiveCard(); target.innerHTML=(old&&old.innerHTML)||''; } }
 function renderMembersTable(){
   const tableEl=document.getElementById('member-table-container'); const detailEl=document.getElementById('member-detail-container'); if(!tableEl||!detailEl) return;
   normalizeGameState(); const selected=Math.min(gameState.ui.selectedMemberIndex||0,gameState.members.length-1);
-  const rows=gameState.members.map((m,idx)=>{ const injured=m.injuredUntil>gameState.day; const onSolo=m.soloUntil>gameState.day; const status=injured?`부상 D-${m.injuredUntil-gameState.day}`:onSolo?`솔로 D-${m.soloUntil-gameState.day}`:m.fatigue>=80?'피로 위험':m.mental<=30?'멘탈 위험':'정상'; const condition=Math.max(0,Math.min(100,Math.round((m.mental||0)-((m.fatigue||0)*0.45)))); return `<tr class="member-table-row ${idx===selected?'active':''}" onclick="selectMember(${idx})"><td><strong>${m.name}</strong></td><td>${getMemberRole(m)}</td><td>${condition}</td><td>${m.fatigue}%</td><td>${m.mental}%</td><td>${m.vocal}</td><td>${m.dance}</td><td>${m.visual}</td><td>${m.variety}</td><td>${status}</td></tr>`; }).join('');
+  const rows=gameState.members.map((m,idx)=>{ const injured=m.injuredUntil>gameState.day; const onSolo=m.soloUntil>gameState.day; const status=injured?`부상 ${m.injuredUntil-gameState.day}일 남음`:onSolo?`솔로 ${m.soloUntil-gameState.day}일 남음`:m.fatigue>=80?'피로 위험':m.mental<=30?'멘탈 위험':'정상'; const condition=Math.max(0,Math.min(100,Math.round((m.mental||0)-((m.fatigue||0)*0.45)))); return `<tr class="member-table-row ${idx===selected?'active':''}" onclick="selectMember(${idx})"><td><strong>${m.name}</strong></td><td>${getMemberRole(m)}</td><td>${condition}</td><td>${m.fatigue}%</td><td>${m.mental}%</td><td>${m.vocal}</td><td>${m.dance}</td><td>${m.visual}</td><td>${m.variety}</td><td>${status}</td></tr>`; }).join('');
   tableEl.innerHTML=`<div class="ops-table-wrap"><table class="ops-table"><thead><tr><th>이름</th><th>역할</th><th>컨디션</th><th>피로도</th><th>멘탈</th><th>보컬</th><th>댄스</th><th>비주얼</th><th>예능</th><th>상태</th></tr></thead><tbody>${rows}</tbody></table></div>`; renderMemberDetail(selected);
 }
 function getMemberRole(m){ const stats=[['보컬',m.vocal],['댄스',m.dance],['비주얼',m.visual],['예능',m.variety],['매력',m.charm]].sort((a,b)=>b[1]-a[1]); return stats[0][0]; }
 function selectMember(idx){ gameState.ui.selectedMemberIndex=idx; renderMembersTable(); }
-function renderMemberDetail(idx){ const el=document.getElementById('member-detail-container'); const m=gameState.members[idx]; if(!el||!m) return; const trait=memberTraits.find(t=>t.id===m.trait)||memberTraits[0]; const sched=(m.weekSchedule||[]).map(a=>scheduleActions.find(x=>x.id===a)?.label||'휴식').join(' · '); const eq=m.equipment.length?m.equipment.map(e=>`${e.rarity} ${e.name}`).join('<br>'):'장비 없음'; const daysLeft=m.contractEnd-gameState.day; el.innerHTML=`<div class="detail-profile"><img src="${m.image}" onerror="this.src='https://api.dicebear.com/7.x/avataaars/svg?seed=${m.name}'"><div><div class="profile-name">${m.name}</div><div class="profile-birth">${trait.emoji} ${trait.name} · ${getMemberRole(m)}</div></div></div><div class="detail-grid"><div class="detail-item"><small>보컬</small>${m.vocal}</div><div class="detail-item"><small>댄스</small>${m.dance}</div><div class="detail-item"><small>비주얼</small>${m.visual}</div><div class="detail-item"><small>예능</small>${m.variety}</div><div class="detail-item"><small>피로도</small>${m.fatigue}%</div><div class="detail-item"><small>멘탈</small>${m.mental}%</div></div><div class="detail-item" style="margin-top:10px;"><small>최근 스케줄</small>${sched}</div><div class="detail-item" style="margin-top:8px;"><small>장착 장비</small>${eq}</div><div class="detail-item" style="margin-top:8px;"><small>계약 정보</small>${daysLeft>0?`D-${daysLeft}`:'만료'} <button class="upgrade-btn" onclick="openEquipModal(${idx})">장비 관리</button></div>`; }function renderRecordSections(){
+function renderMemberDetail(idx){ const el=document.getElementById('member-detail-container'); const m=gameState.members[idx]; if(!el||!m) return; const trait=memberTraits.find(t=>t.id===m.trait)||memberTraits[0]; const sched=(m.weekSchedule||[]).map(a=>scheduleActions.find(x=>x.id===a)?.label||'휴식').join(' · '); const eq=m.equipment.length?m.equipment.map(e=>`${e.rarity} ${e.name}`).join('<br>'):'장비 없음'; const daysLeft=m.contractEnd-gameState.day; const story=getMemberStoryConfig(m); const storyText=m.storyState?.completed?`${m.storyState.ending==='good'?'✅':'⚠️'} ${m.storyState.highlight}`:m.storyState?.stage?`${story.title} ${m.storyState.stage}막 진행 중`:`${story.title} 대기`; const traitText=m.trait2?` · ${m.trait2}`:''; const condition=Math.max(0,Math.min(100,Math.round((m.mental||0)-((m.fatigue||0)*0.45)))); const statusLine=m.injuredUntil>gameState.day?'부상 회복이 우선입니다.':m.fatigue>=80?'성과보다 휴식이 필요한 상태입니다.':m.mental<=35?'멘탈 케어가 필요한 상태입니다.':condition>=70?'운영 안정권입니다.': '가벼운 관리가 필요한 상태입니다.'; el.innerHTML=`<div class="detail-profile"><img src="${m.image}" onerror="this.src='https://api.dicebear.com/7.x/avataaars/svg?seed=${m.name}'"><div><div class="profile-name">${m.name}</div><div class="profile-birth">${trait.emoji} ${trait.name}${traitText} · ${getMemberRole(m)}</div></div></div><div class="detail-item" style="margin-bottom:10px;"><small>최근 상태</small>${statusLine}</div><div class="detail-grid"><div class="detail-item"><small>보컬</small>${m.vocal}</div><div class="detail-item"><small>댄스</small>${m.dance}</div><div class="detail-item"><small>비주얼</small>${m.visual}</div><div class="detail-item"><small>예능</small>${m.variety}</div><div class="detail-item"><small>피로도</small>${m.fatigue}%</div><div class="detail-item"><small>멘탈</small>${m.mental}%</div></div><div class="detail-item" style="margin-top:10px;"><small>최근 스케줄</small>${sched}</div><div class="detail-item" style="margin-top:8px;"><small>개인 스토리</small>${storyText}</div><div class="detail-item" style="margin-top:8px;"><small>장착 장비</small>${eq}</div><div class="detail-item" style="margin-top:8px;"><small>계약 정보</small>${daysLeft>0?`${daysLeft}일 남음`:'만료'} <button class="upgrade-btn" onclick="openEquipModal(${idx})">장비 관리</button></div>`; }function renderRecordSections(){
   renderActivityRoadmap('future-event-list',5);
   renderActivityRoadmap('future-event-page-list',20);
   renderActivityRoadmap('roadmap-page-list',30);
@@ -4770,6 +5427,7 @@ function renderMemberDetail(idx){ const el=document.getElementById('member-detai
   renderFinancePage();
   renderHistoryPage();
   renderInboxPage();
+  document.querySelectorAll('.page').forEach(p=>{ if(p.classList.contains('active')) renderPageHero(p.id); });
   updateInboxBadge();
 }
 
@@ -4808,6 +5466,7 @@ function updateDisplay(){
   document.getElementById('tier-score-display').innerText=`${score.toLocaleString()}pt`;
   const topDate=document.getElementById('top-current-date'); if(topDate) topDate.innerText=currentDate;
   const topDay=document.getElementById('top-current-day'); if(topDay) topDay.innerText=gameState.day;
+  const topSeason=document.getElementById('top-season'); if(topSeason) topSeason.innerText=getSeasonBonus().label||'일반';
   const topFinance=document.getElementById('top-finance'); if(topFinance) topFinance.innerText=gameState.finance.toLocaleString()+'원';
   const topFandom=document.getElementById('top-fandom'); if(topFandom) topFandom.innerText=gameState.fandom.toLocaleString()+'명';
   const topTier=document.getElementById('top-tier'); if(topTier) topTier.innerText=tierInfo.name;
@@ -4829,6 +5488,7 @@ function updateDisplay(){
   renderFinancePage();
   renderHistoryPage();
   renderInboxPage();
+  document.querySelectorAll('.page').forEach(p=>{ if(p.classList.contains('active')) renderPageHero(p.id); });
   updateInboxBadge();
 
   renderHomeCharts();
@@ -4866,6 +5526,7 @@ function openPage(pId,btn){
   if(pId==='members') renderMembersTable();
   if(pId==='inbox') renderInboxPage();
   if(pId==='schedule'){ renderSchedulePage(); renderConfirmedSchedule(); renderScheduleConditionList(); }
+  renderPageHero(pId);
 }
 
 // 키보드

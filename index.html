@@ -2064,11 +2064,14 @@ function getCurrentDateString(day=null){
 }
 function setCurrentDate(dateStr){
   gameState.currentDate=normalizeDateString(dateStr);
+  const computedDay=dateToUtcDays(gameState.currentDate)-dateToUtcDays(normalizeDateString(gameState.startDate||INITIAL_GAME_DATE))+1;
+  if(Number.isFinite(computedDay)&&computedDay>0) gameState.day=computedDay;
 }
 function advanceCurrentDate(days=1){
-  const d=new Date(getCurrentDateString()+'T00:00:00');
-  d.setDate(d.getDate()+days);
-  setCurrentDate(d.toISOString().split('T')[0]);
+  const baseDate=normalizeDateString(gameState.currentDate||getDateStringForDay(gameState.day||1));
+  const nextUtcDays=dateToUtcDays(baseDate)+days;
+  const nextDate=new Date(nextUtcDays*86400000).toISOString().split('T')[0];
+  setCurrentDate(nextDate);
   return gameState.currentDate;
 }
 function daysBetween(startDate,endDate){
@@ -4990,6 +4993,7 @@ function nextDay(){
   if(document.getElementById('schedModal').style.display==='block') return;
   if(gameState.finance<-50000000){ alert(`🚫 파산!\n최종 팬덤: ${gameState.fandom.toLocaleString()}명`); location.reload(); return; }
   const keepScrollY=window.scrollY||window.pageYOffset||0;
+  const beforeDate=getCurrentDateString();
   advanceCurrentDate(1);
   normalizeGameState();
   updateTopDateFast();
@@ -5128,6 +5132,11 @@ function nextDay(){
   checkComebackPrepWarnings();
   evaluateObjectivesIfNeeded();
   generateCoachReports();
+  if(getCurrentDateString()===beforeDate){
+    advanceCurrentDate(1);
+    normalizeGameState();
+    updateTopDateFast();
+  }
   updateDisplay();
   requestAnimationFrame(()=>{
     if(document.getElementById('eventModal').style.display!=='block'){

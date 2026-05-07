@@ -4990,6 +4990,9 @@ function nextDay(){
   if(document.getElementById('schedModal').style.display==='block') return;
   if(gameState.finance<-50000000){ alert(`🚫 파산!\n최종 팬덤: ${gameState.fandom.toLocaleString()}명`); location.reload(); return; }
   const keepScrollY=window.scrollY||window.pageYOffset||0;
+  advanceCurrentDate(1);
+  normalizeGameState();
+  updateTopDateFast();
 
   // SNS 스태프 효과
   gameState.sns+=(gameState.staffBonus.dailySns||0);
@@ -5119,9 +5122,7 @@ function nextDay(){
     <div>🏠 유지비: <strong style="color:var(--danger);">-500,000원</strong></div>${salaryNote}
   `;
 
-  advanceCurrentDate(1);
   checkSeasonChange();
-  normalizeGameState();
   checkActivityCosts();
   checkScheduledEvents();
   checkComebackPrepWarnings();
@@ -5503,6 +5504,17 @@ function getDirectorBriefComment(status){
   if(status.level==='danger') return '지금은 무리한 확장보다 리스크를 먼저 줄이는 편이 좋습니다.';
   if(status.level==='warning') return `큰 흐름은 유지되고 있지만, ${prep<60?'컴백 준비도':'컨디션/자금'}를 보강하면 안정성이 올라갑니다.`;
   return `${nextText}입니다. 오늘은 준비도와 멤버 피로도를 같이 확인하세요.`;
+}
+function updateTopDateFast(){
+  const currentDate=getCurrentDateString();
+  const topDate=document.getElementById('top-current-date');
+  const topDay=document.getElementById('top-current-day');
+  const oldDate=document.getElementById('current-date');
+  const oldDay=document.getElementById('current-day');
+  if(topDate) topDate.innerText=currentDate;
+  if(topDay) topDay.innerText=gameState.day;
+  if(oldDate) oldDate.innerText=currentDate;
+  if(oldDay) oldDay.innerText=gameState.day;
 }
 function getSeasonDisplayText(){
   const season=getSeasonBonus();

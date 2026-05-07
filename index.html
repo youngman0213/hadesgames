@@ -1388,6 +1388,16 @@ html[data-theme="light"] { --bg:#f4f5f9; --bg2:#fff; --card:#fff; --card2:#f7f8f
 
 <script>
 // ═══════════════════════════════════════════
+//  SCRIPT MAP
+//  1. 데이터 상수: 날짜, 활동 로드맵, 스태프, 굿즈, 가챠, 메시지 풀
+//  2. 상태/저장: gameState, save/load, normalizeGameState
+//  3. 공통 유틸: 날짜, 시즌, 커뮤니티, 히스토리, 알림
+//  4. 핵심 시스템: 스케줄, 차트, 팬덤, 컴백, 정산, 시상식, 스토리
+//  5. UI 렌더링: 대시보드, 페이지별 화면, 모달, 테이블
+//  6. 입력 처리: 페이지 네비게이션, 키보드, 다음날 진행
+// ═══════════════════════════════════════════
+
+// ═══════════════════════════════════════════
 //  상수
 // ═══════════════════════════════════════════
 function pushSongTitle(titles, seen, title, limit){
@@ -1700,6 +1710,11 @@ const tourRegions = [
 
 const tierOrder = ["루키","라이징스타","국내에서 알려짐","아시아에서 알려짐","북미에서 알려짐","전세계에서 알려짐"];
 
+// ───────────────────────────────────────────
+// 커뮤니티/티커 메시지 데이터
+// 기존 기본 풀은 유지하고, 버추얼 아이돌 상황별 extra 풀을 합쳐 사용합니다.
+// 실제 출력은 pushCommunity(), pushContextReaction()에서 중복 방지와 placeholder 치환을 거칩니다.
+// ───────────────────────────────────────────
 const ebemMsgs = ["하데스 모델링 볼 때마다 감탄이 나온다.","키마 고음 뚫리는 거 목 상태 최상인 듯","띵귤 방송 감각은 진짜 타고났다","연초록 아바타 텍스처 수정한 거임? 광택이 달라졌는데","이 퀄리티면 메이저랑 비벼도 안 꿀림","챈나 춤선 억까하던 놈들 어디 갔냐? 리깅 자연스러운 거 봐라","솜주먹 예능감 미쳤다 오늘 클립 각 나왔음","하데스 연습량 진짜 장난 아님 성장 속도 보여","방금 리액션 타이밍 지렸다 이게 버추얼의 맛","하데스 유입인데 입덕 가이드 어디서 봄?","오늘 방송 보고 구독 눌렀다","얘네는 멤버들끼리 티키타카가 잘 돼서 보기 편함"];
 const cafeMsgs = ["하데스 멤버들 오늘도 고생 많았어요!","키마님 목소리는 지친 일상의 유일한 비타민이에요","챈나님 미모가 매일 경신되는데 제 심장 책임지세요!","연초록님 따뜻한 위로 방송 덕분에 힐링하고 갑니다","솜주먹님 매력에 한 번 빠지면 출구가 없다는 게 학계 정설","하데스 굿즈 기다리고 있어요 통장은 준비됐습니다","오늘 무대 보는데 눈물 날 뻔했어요 우리 애들 다 컸네","항상 노력하는 모습이 너무 예쁜 하데스 오래오래 가자"];
 const yzMsgs = ["와 노래 퀄리티 미쳤네","버추얼 판 커지긴 했다","이번 앨범 대박 조짐 보이는데?","솔직히 얘네가 기술력은 원탑인 듯","라이브 안정적인 거 보소","오늘 방송 레전드 찍었네","하데스 붐은 온다","구독 눌렀음 기대해봄"];
@@ -1777,6 +1792,10 @@ const crisisReactionMsgs_virtual = {
   fandom:["팬덤 분위기 흔들리는 거 보임","이럴 때 운영 공지가 중요함","커뮤니티 분위기 안 좋을 때는 대응 빨라야 함","팬들이 불안해하는 이유는 이해됨","소통 한 번만 제대로 해도 진정될 것 같은데"]
 };
 
+// ───────────────────────────────────────────
+// 위기 이벤트 데이터
+// 발생 조건 필터링은 isCrisisEligible(), getCrisisWeight(), checkCrisisEvent()에서 처리합니다.
+// ───────────────────────────────────────────
 // 악성 이벤트
 const crisisEvents = [
   { id:'rumor', title:'🔥 루머 발생', desc:'멤버 관련 루머가 커뮤니티에 퍼지고 있습니다.\n빠르게 대응할수록 피해가 줄어듭니다.', choices:[
@@ -2655,7 +2674,9 @@ function renderScheduleConditionList(){
     const statusClass=danger?'danger':'ok';
     return `<div class="condition-mini-row ${danger?'warning':''}"><strong>${m.name}</strong><div class="condition-mini-meta">컨디션 ${condition} · 피로 ${m.fatigue}% · 멘탈 ${m.mental}%</div><div class="condition-mini-status ${statusClass}">${status}</div></div>`;
   }).join('');
-}function renderConfirmedSchedule(){
+}
+
+function renderConfirmedSchedule(){
   const days=['월','화','수','목','금','토','일'];
   const el=document.getElementById('confirmed-schedule');
   let html='';
@@ -5394,7 +5415,9 @@ function renderCoachReports(targetId='dashboard-coach',limit=5){
   const list=(gameState.coachReports||[]).slice(0,limit);
   if(list.length===0){ el.innerHTML='<div class="ops-line success"><strong>디렉터 리포트 없음</strong><small>운영 안정</small></div>'; return; }
   el.innerHTML=list.map(r=>`<div class="ops-line coach-${r.severity}" onclick="openPage('${r.page||'home'}', document.querySelector('.nav-btn[onclick*=\\'${r.page||'home'}\\']'))"><strong><span class="coach-severity ${r.severity}">${r.severity.toUpperCase()}</span>${r.title}</strong><small>${r.body}</small></div>`).join('');
-}function applyTheme(theme){
+}
+
+function applyTheme(theme){
   const safe=theme==='light'?'light':'dark';
   document.documentElement.dataset.theme=safe;
   localStorage.setItem('hades_theme',safe);
@@ -5591,9 +5614,55 @@ function renderFinanceSummary(targetId='finance-summary-page'){
   const scheduledCost=(!cost.paid&&!cost.failed)?cost.amount:0;
   el.innerHTML=`<div class="finance-metric"><small>보유 자금</small><strong style="color:var(--money);">${gameState.finance.toLocaleString()}원</strong></div><div class="finance-metric"><small>예정 비용</small><strong>${scheduledCost.toLocaleString()}원</strong></div><div class="finance-metric"><small>콘서트 수익</small><strong>${concertRevenue.toLocaleString()}원</strong></div><div class="finance-metric"><small>스태프 월급</small><strong style="color:var(--danger);">${calcMonthlySalaryCost().toLocaleString()}원</strong></div><div class="finance-metric"><small>굿즈 재고 가치</small><strong>${goodsStockValue.toLocaleString()}원</strong></div><div class="finance-metric"><small>음원/활동 누적</small><strong>${gameState.accumulatedSales.toLocaleString()}원</strong></div>`;
 }
-function renderFinancePage(){ renderFinanceSummary('finance-summary-page'); const costEl=document.getElementById('finance-cost-card'); if(costEl){ const old=document.getElementById('activity-cost-card'); renderActivityCostCard(); costEl.innerHTML=(old&&old.innerHTML)||''; } const settleEl=document.getElementById('finance-settlement-card'); if(settleEl){ const old=document.getElementById('first-settlement-list'); renderFirstSettlementList(); settleEl.innerHTML=(old&&old.innerHTML)||emptyState('📊','첫 활동 정산 결과가 아직 없습니다.'); } const reportEl=document.getElementById('finance-report-list'); if(reportEl){ const rows=(gameState.eventHistory||[]).filter(e=>['cost_settlement','concert','release','activity_settlement'].includes(e.type)).slice(-12).reverse(); reportEl.innerHTML=rows.length?rows.map(e=>`<div class="record-row"><div class="record-title">${e.title}</div><div class="record-meta">${e.date||''} · ${e.result||''}${e.amount?` · ${e.amount.toLocaleString()}원`:''}</div></div>`).join(''):emptyState('💸','정산 리포트가 없습니다.'); } }
-function renderHistoryPage(){ renderCareerSummary('history-career-summary'); const songTarget=document.getElementById('history-song-list'); if(songTarget){ const old=document.getElementById('song-history-list'); renderSongHistory(); songTarget.innerHTML=(old&&old.innerHTML)||emptyState('🎶','발매곡 기록이 쌓이면 이곳에 표시됩니다.'); } const eventEl=document.getElementById('history-event-list'); if(eventEl){ const rows=[...(gameState.eventHistory||[])].slice(-50).reverse(); eventEl.innerHTML=rows.length?rows.map(e=>`<div class="record-row"><div class="record-title">${formatKoreanDate(e.date||getCurrentDateString(e.day||gameState.day))} · ${e.title}</div><div class="record-meta">${e.type} · ${e.result||''}</div></div>`).join(''):emptyState('🗞️','활동 기록이 쌓이면 이곳에 표시됩니다.'); } }
-function renderRoadmapPage(){ renderActivityRoadmap('roadmap-page-list',30); const target=document.getElementById('roadmap-objective-card'); if(target){ const old=document.getElementById('first-objective-card'); renderFirstObjectiveCard(); target.innerHTML=(old&&old.innerHTML)||''; } }
+function renderFinancePage(){
+  renderFinanceSummary('finance-summary-page');
+  const costEl=document.getElementById('finance-cost-card');
+  if(costEl){
+    const old=document.getElementById('activity-cost-card');
+    renderActivityCostCard();
+    costEl.innerHTML=(old&&old.innerHTML)||'';
+  }
+  const settleEl=document.getElementById('finance-settlement-card');
+  if(settleEl){
+    const old=document.getElementById('first-settlement-list');
+    renderFirstSettlementList();
+    settleEl.innerHTML=(old&&old.innerHTML)||emptyState('📊','첫 활동 정산 결과가 아직 없습니다.');
+  }
+  const reportEl=document.getElementById('finance-report-list');
+  if(reportEl){
+    const rows=(gameState.eventHistory||[]).filter(e=>['cost_settlement','concert','release','activity_settlement'].includes(e.type)).slice(-12).reverse();
+    reportEl.innerHTML=rows.length
+      ? rows.map(e=>`<div class="record-row"><div class="record-title">${e.title}</div><div class="record-meta">${e.date||''} · ${e.result||''}${e.amount?` · ${e.amount.toLocaleString()}원`:''}</div></div>`).join('')
+      : emptyState('💸','정산 리포트가 없습니다.');
+  }
+}
+
+function renderHistoryPage(){
+  renderCareerSummary('history-career-summary');
+  const songTarget=document.getElementById('history-song-list');
+  if(songTarget){
+    const old=document.getElementById('song-history-list');
+    renderSongHistory();
+    songTarget.innerHTML=(old&&old.innerHTML)||emptyState('🎶','발매곡 기록이 쌓이면 이곳에 표시됩니다.');
+  }
+  const eventEl=document.getElementById('history-event-list');
+  if(eventEl){
+    const rows=[...(gameState.eventHistory||[])].slice(-50).reverse();
+    eventEl.innerHTML=rows.length
+      ? rows.map(e=>`<div class="record-row"><div class="record-title">${formatKoreanDate(e.date||getCurrentDateString(e.day||gameState.day))} · ${e.title}</div><div class="record-meta">${e.type} · ${e.result||''}</div></div>`).join('')
+      : emptyState('🗞️','활동 기록이 쌓이면 이곳에 표시됩니다.');
+  }
+}
+
+function renderRoadmapPage(){
+  renderActivityRoadmap('roadmap-page-list',30);
+  const target=document.getElementById('roadmap-objective-card');
+  if(target){
+    const old=document.getElementById('first-objective-card');
+    renderFirstObjectiveCard();
+    target.innerHTML=(old&&old.innerHTML)||'';
+  }
+}
 function renderMembersTable(){
   const tableEl=document.getElementById('member-table-container'); const detailEl=document.getElementById('member-detail-container'); if(!tableEl||!detailEl) return;
   normalizeGameState(); const selected=Math.min(gameState.ui.selectedMemberIndex||0,gameState.members.length-1);
@@ -5602,7 +5671,9 @@ function renderMembersTable(){
 }
 function getMemberRole(m){ const stats=[['보컬',m.vocal],['댄스',m.dance],['비주얼',m.visual],['예능',m.variety],['매력',m.charm]].sort((a,b)=>b[1]-a[1]); return stats[0][0]; }
 function selectMember(idx){ gameState.ui.selectedMemberIndex=idx; renderMembersTable(); }
-function renderMemberDetail(idx){ const el=document.getElementById('member-detail-container'); const m=gameState.members[idx]; if(!el||!m) return; const trait=memberTraits.find(t=>t.id===m.trait)||memberTraits[0]; const sched=(m.weekSchedule||[]).map(a=>scheduleActions.find(x=>x.id===a)?.label||'휴식').join(' · '); const eq=m.equipment.length?m.equipment.map(e=>`${e.rarity} ${e.name}`).join('<br>'):'장비 없음'; const daysLeft=m.contractEnd-gameState.day; const story=getMemberStoryConfig(m); const storyText=m.storyState?.completed?`${m.storyState.ending==='good'?'✅':'⚠️'} ${m.storyState.highlight}`:m.storyState?.stage?`${story.title} ${m.storyState.stage}막 진행 중`:`${story.title} 대기`; const traitText=m.trait2?` · ${m.trait2}`:''; const condition=Math.max(0,Math.min(100,Math.round((m.mental||0)-((m.fatigue||0)*0.45)))); const statusLine=m.injuredUntil>gameState.day?'부상 회복이 우선입니다.':m.fatigue>=80?'성과보다 휴식이 필요한 상태입니다.':m.mental<=35?'멘탈 케어가 필요한 상태입니다.':condition>=70?'운영 안정권입니다.': '가벼운 관리가 필요한 상태입니다.'; el.innerHTML=`<div class="detail-profile"><img src="${m.image}" onerror="this.src='https://api.dicebear.com/7.x/avataaars/svg?seed=${m.name}'"><div><div class="profile-name">${m.name}</div><div class="profile-birth">${trait.emoji} ${trait.name}${traitText} · ${getMemberRole(m)}</div></div></div><div class="detail-item" style="margin-bottom:10px;"><small>최근 상태</small>${statusLine}</div><div class="detail-grid"><div class="detail-item"><small>보컬</small>${m.vocal}</div><div class="detail-item"><small>댄스</small>${m.dance}</div><div class="detail-item"><small>비주얼</small>${m.visual}</div><div class="detail-item"><small>예능</small>${m.variety}</div><div class="detail-item"><small>피로도</small>${m.fatigue}%</div><div class="detail-item"><small>멘탈</small>${m.mental}%</div></div><div class="detail-item" style="margin-top:10px;"><small>최근 스케줄</small>${sched}</div><div class="detail-item" style="margin-top:8px;"><small>개인 스토리</small>${storyText}</div><div class="detail-item" style="margin-top:8px;"><small>장착 장비</small>${eq}</div><div class="detail-item" style="margin-top:8px;"><small>계약 정보</small>${daysLeft>0?`${daysLeft}일 남음`:'만료'} <button class="upgrade-btn" onclick="openEquipModal(${idx})">장비 관리</button></div>`; }function renderRecordSections(){
+function renderMemberDetail(idx){ const el=document.getElementById('member-detail-container'); const m=gameState.members[idx]; if(!el||!m) return; const trait=memberTraits.find(t=>t.id===m.trait)||memberTraits[0]; const sched=(m.weekSchedule||[]).map(a=>scheduleActions.find(x=>x.id===a)?.label||'휴식').join(' · '); const eq=m.equipment.length?m.equipment.map(e=>`${e.rarity} ${e.name}`).join('<br>'):'장비 없음'; const daysLeft=m.contractEnd-gameState.day; const story=getMemberStoryConfig(m); const storyText=m.storyState?.completed?`${m.storyState.ending==='good'?'✅':'⚠️'} ${m.storyState.highlight}`:m.storyState?.stage?`${story.title} ${m.storyState.stage}막 진행 중`:`${story.title} 대기`; const traitText=m.trait2?` · ${m.trait2}`:''; const condition=Math.max(0,Math.min(100,Math.round((m.mental||0)-((m.fatigue||0)*0.45)))); const statusLine=m.injuredUntil>gameState.day?'부상 회복이 우선입니다.':m.fatigue>=80?'성과보다 휴식이 필요한 상태입니다.':m.mental<=35?'멘탈 케어가 필요한 상태입니다.':condition>=70?'운영 안정권입니다.': '가벼운 관리가 필요한 상태입니다.'; el.innerHTML=`<div class="detail-profile"><img src="${m.image}" onerror="this.src='https://api.dicebear.com/7.x/avataaars/svg?seed=${m.name}'"><div><div class="profile-name">${m.name}</div><div class="profile-birth">${trait.emoji} ${trait.name}${traitText} · ${getMemberRole(m)}</div></div></div><div class="detail-item" style="margin-bottom:10px;"><small>최근 상태</small>${statusLine}</div><div class="detail-grid"><div class="detail-item"><small>보컬</small>${m.vocal}</div><div class="detail-item"><small>댄스</small>${m.dance}</div><div class="detail-item"><small>비주얼</small>${m.visual}</div><div class="detail-item"><small>예능</small>${m.variety}</div><div class="detail-item"><small>피로도</small>${m.fatigue}%</div><div class="detail-item"><small>멘탈</small>${m.mental}%</div></div><div class="detail-item" style="margin-top:10px;"><small>최근 스케줄</small>${sched}</div><div class="detail-item" style="margin-top:8px;"><small>개인 스토리</small>${storyText}</div><div class="detail-item" style="margin-top:8px;"><small>장착 장비</small>${eq}</div><div class="detail-item" style="margin-top:8px;"><small>계약 정보</small>${daysLeft>0?`${daysLeft}일 남음`:'만료'} <button class="upgrade-btn" onclick="openEquipModal(${idx})">장비 관리</button></div>`; }
+
+function renderRecordSections(){
   renderActivityRoadmap('future-event-list',5);
   renderActivityRoadmap('future-event-page-list',20);
   renderActivityRoadmap('roadmap-page-list',30);

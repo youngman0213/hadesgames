@@ -1038,6 +1038,9 @@ html[data-theme="light"] { --bg:#f4f5f9; --bg2:#fff; --card:#fff; --card2:#f7f8f
 .event-card{border-radius:12px;border:1px solid var(--border);background:var(--card2);padding:16px;text-align:center}.event-card-icon{font-size:42px;margin-bottom:8px}.event-card-title{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--text);margin-bottom:8px}.event-card-meta{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:12px;text-align:left}.event-card-meta div{background:var(--card3);border:1px solid var(--border2);border-radius:8px;padding:9px;font-size:12px}.event-card-meta small{display:block;color:var(--text2);font-size:10px;margin-bottom:3px}.mobile-more-btn{display:none;width:100%;margin:0 0 16px;padding:11px;border-radius:10px;border:1px solid var(--border);background:var(--card2);color:var(--text);font-weight:700}.home-mobile-expanded #home-dashboard .ops-card{display:block!important}@media(max-width:767px){.mobile-more-btn{display:block}.event-card-meta{grid-template-columns:1fr}}
 .primary-btn,.content-btn,.save-btn,.hire-btn,.fire-btn,.gacha-btn,.choice-btn{min-height:38px}.primary-btn:disabled,.content-btn:disabled,.save-btn:disabled,.hire-btn:disabled,.fire-btn:disabled,.gacha-btn:disabled,.choice-btn:disabled{opacity:.42;cursor:not-allowed;filter:saturate(.45)}.btn-secondary{background:var(--card2)!important;color:var(--text2)!important;border:1px solid var(--border)!important;box-shadow:none!important}.btn-danger{background:rgba(255,77,109,.12)!important;color:var(--danger)!important;border:1px solid rgba(255,77,109,.3)!important}
 .member-profile-hero{display:grid;grid-template-columns:76px 1fr;gap:14px;align-items:center;background:linear-gradient(135deg,rgba(232,64,122,.16),rgba(77,159,255,.07));border:1px solid rgba(232,64,122,.28);border-radius:14px;padding:14px;margin-bottom:12px}.member-profile-hero img{width:76px;height:76px;border-radius:16px;object-fit:cover;border:2px solid rgba(255,255,255,.16)}.member-profile-name{font-family:'Syne',sans-serif;font-size:20px;font-weight:800}.member-profile-meta{font-size:11px;color:var(--text2);margin-top:4px;line-height:1.5}.member-badge-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.member-form-badge,.member-role-chip{display:inline-flex;align-items:center;gap:4px;border-radius:4px;padding:3px 8px;font-size:10px;font-weight:800;font-family:'Syne',sans-serif;letter-spacing:.04em}.member-role-chip{background:rgba(255,255,255,.07);color:var(--text2)}.member-form-badge.success{background:rgba(46,204,142,.14);color:var(--success)}.member-form-badge.info{background:rgba(77,159,255,.14);color:var(--info)}.member-form-badge.warn{background:rgba(244,162,45,.14);color:var(--warn)}.member-form-badge.danger{background:rgba(255,77,109,.14);color:var(--danger)}.member-form-badge.muted{background:rgba(255,255,255,.06);color:var(--text2)}.member-director-comment{background:var(--card2);border-left:3px solid var(--point);border-radius:8px;padding:10px 12px;font-size:12px;color:var(--text2);line-height:1.55;margin-bottom:12px}.member-stat-groups{display:grid;gap:10px;margin-bottom:12px}.member-stat-group{background:var(--card2);border:1px solid var(--border2);border-radius:10px;padding:12px}.member-stat-group-title{font-family:'Syne',sans-serif;font-size:10px;font-weight:800;letter-spacing:.12em;color:var(--text2);margin-bottom:9px}.member-stat-line{display:grid;grid-template-columns:64px 1fr 34px;gap:8px;align-items:center;margin:7px 0;font-size:11px}.member-stat-bar{height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden}.member-stat-fill{height:100%;background:var(--point);border-radius:3px}.member-dev-select{width:100%;background:var(--card2);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:9px;font-family:'Noto Sans KR',sans-serif}.member-panel-section{background:var(--card2);border:1px solid var(--border2);border-radius:10px;padding:12px;margin-top:10px}.member-panel-title{font-family:'Syne',sans-serif;font-size:10px;font-weight:800;letter-spacing:.12em;color:var(--text2);margin-bottom:8px}.member-delta-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.member-delta{background:rgba(255,255,255,.04);border-radius:6px;padding:7px;font-size:11px}.member-growth-log{display:grid;gap:7px;max-height:210px;overflow:auto}.member-growth-item{border-left:2px solid var(--border);padding-left:9px;font-size:11px;color:var(--text2);line-height:1.45}.member-growth-item strong{color:var(--text);font-size:12px}.member-goal-progress{height:7px;background:rgba(255,255,255,.06);border-radius:4px;overflow:hidden;margin-top:8px}.member-goal-fill{height:100%;background:linear-gradient(90deg,var(--point),var(--success));border-radius:4px}@media(max-width:700px){.member-profile-hero{grid-template-columns:58px 1fr;padding:12px}.member-profile-hero img{width:58px;height:58px;border-radius:12px}.member-delta-grid{grid-template-columns:repeat(2,1fr)}.member-detail-panel{position:static}}
+/* 멤버 프로필 대시보드 */
+@media(min-width:960px){.member-ops-layout{grid-template-columns:300px minmax(0,1fr)!important;align-items:start}.member-detail-panel{position:static;top:auto}}
+.member-ops-layout>.card{padding:14px}.member-roster-list{display:grid;gap:8px}.member-roster-item{display:grid;grid-template-columns:42px 1fr;gap:10px;align-items:center;padding:10px;border:1px solid var(--border2);border-left:3px solid transparent;border-radius:10px;background:var(--card2);cursor:pointer;transition:.16s}.member-roster-item:hover{border-color:rgba(232,64,122,.22);background:rgba(232,64,122,.045)}.member-roster-item.active{border-left-color:var(--point);background:rgba(232,64,122,.1);box-shadow:0 0 18px rgba(232,64,122,.08)}.member-roster-img{width:42px;height:42px;border-radius:10px;object-fit:cover;border:1px solid var(--border)}.member-roster-name{font-family:'Syne',sans-serif;font-size:14px;font-weight:800}.member-roster-meta{font-size:10px;color:var(--text2);line-height:1.45}.member-roster-numbers{margin-top:4px;font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text2)}.member-detail-panel{background:transparent;border:none;border-radius:0;padding:0}.member-profile-hero{grid-template-columns:118px 1fr;gap:22px;align-items:center;padding:22px;border-radius:18px;min-height:168px;background:radial-gradient(circle at 85% 15%,rgba(232,64,122,.18),transparent 34%),linear-gradient(135deg,rgba(232,64,122,.2),rgba(19,19,31,.98) 46%,rgba(77,159,255,.1));box-shadow:0 18px 48px rgba(0,0,0,.22),0 0 34px rgba(232,64,122,.11)}.member-profile-hero img{width:118px;height:118px;border-radius:22px;border:2px solid rgba(232,64,122,.32);box-shadow:0 12px 34px rgba(0,0,0,.24)}.member-profile-name{font-size:clamp(30px,4vw,46px);line-height:1}.member-profile-meta{font-size:13px}.member-badge-row{margin-top:12px}.member-form-badge{font-size:12px;padding:6px 10px}.member-role-chip{font-size:11px;padding:6px 10px}.member-director-comment{font-size:14px;background:rgba(255,255,255,.045);border:1px solid var(--border2);border-left:4px solid var(--point);padding:14px 16px;margin:0}.member-profile-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:14px}.member-profile-grid .wide{grid-column:1/-1}.member-stat-groups{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:0}.member-stat-group{padding:14px}.member-stat-line{grid-template-columns:1fr 44px;gap:10px;padding:6px 0;margin:0;border-bottom:1px solid rgba(255,255,255,.045)}.member-stat-line:last-child{border-bottom:none}.member-stat-line span{color:var(--text2)}.member-stat-line strong{font-family:'JetBrains Mono',monospace;text-align:right;font-size:18px}.member-stat-bar{display:none}.member-panel-section{margin-top:0;padding:16px;border-radius:12px;background:var(--card);box-shadow:0 8px 24px rgba(0,0,0,.12)}.member-panel-title{font-size:11px;margin-bottom:10px}.member-dev-current{padding:12px;border-radius:10px;background:linear-gradient(135deg,rgba(232,64,122,.12),rgba(255,255,255,.035));border:1px solid rgba(232,64,122,.2);margin-bottom:10px}.member-dev-current strong{display:block;font-size:16px}.member-dev-current small{display:block;color:var(--text2);margin-top:4px;line-height:1.5}.member-dev-select{background:var(--card3);border-color:var(--border2)}.member-delta-list{display:grid;gap:7px}.member-delta-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.045);font-size:12px}.member-delta-row:last-child{border-bottom:none}.member-delta-value{font-family:'JetBrains Mono',monospace;font-weight:800}.member-delta-value.up{color:var(--success)}.member-delta-value.down{color:var(--danger)}.member-delta-value.warn{color:var(--warn)}.member-delta-value.muted{color:var(--text2)}.member-growth-item{border-left:3px solid var(--border);padding:8px 0 8px 10px}.member-log-badge{display:inline-block;margin-right:6px;padding:2px 6px;border-radius:999px;background:rgba(232,64,122,.12);color:var(--point);font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:800}.member-status-report{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}.member-status-tile{padding:10px;border-radius:10px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.07)}.member-status-tile small{display:block;color:var(--text2);font-size:10px;margin-bottom:4px}.member-status-tile strong{font-family:'JetBrains Mono',monospace;font-size:16px}.member-goal-progress{height:9px}.member-empty-note{color:var(--text2);font-size:12px;line-height:1.55;padding:10px;border:1px dashed var(--border);border-radius:10px;text-align:center}@media(max-width:700px){.member-ops-layout{grid-template-columns:1fr}.member-roster-list{display:flex;overflow-x:auto;padding-bottom:4px}.member-roster-item{min-width:210px}.member-profile-hero{grid-template-columns:78px 1fr;padding:16px}.member-profile-hero img{width:78px;height:78px;border-radius:16px}.member-profile-grid,.member-stat-groups{grid-template-columns:1fr}.member-status-report{grid-template-columns:1fr 1fr}.member-profile-name{font-size:28px}}
 /* PC 가독성 보정 */
 @media (min-width: 900px) {
   body { font-size: 15px; }
@@ -5784,17 +5787,18 @@ function renderMembersTable(){
   const tableEl=document.getElementById('member-table-container'); const detailEl=document.getElementById('member-detail-container'); if(!tableEl||!detailEl) return;
   normalizeGameState(); const selected=Math.min(gameState.ui.selectedMemberIndex||0,gameState.members.length-1);
   const rows=gameState.members.map((m,idx)=>{
-    const injured=m.injuredUntil>gameState.day;
-    const onSolo=m.soloUntil>gameState.day;
     const form=getMemberForm(m);
-    const role=getDevelopmentRoleInfo(m.developmentRole);
-    const deltas=getMemberRecentStatDelta(m,14);
-    const status=injured?`부상 ${m.injuredUntil-gameState.day}일`:onSolo?`솔로 ${m.soloUntil-gameState.day}일`:m.fatigue>=80?'피로 위험':m.mental<=30?'멘탈 위험':'정상';
     const condition=getMemberConditionValue(m);
-    const mainStat=Math.max(m.vocal||0,m.dance||0,m.visual||0,m.variety||0,m.charm||0);
-    return `<tr class="member-table-row ${idx===selected?'active':''}" onclick="selectMember(${idx})"><td><strong>${m.name}</strong><br><small>${getMemberRole(m)}</small></td><td><span class="member-form-badge ${form.class}">${form.icon} ${form.label}</span></td><td>${role.short}</td><td>${condition}</td><td>${m.fatigue}%</td><td>${m.mental}%</td><td>${mainStat}</td><td>+${deltas.totalStats}</td><td>${status}</td></tr>`;
+    return `<div class="member-roster-item ${idx===selected?'active':''}" onclick="selectMember(${idx})">
+      <img class="member-roster-img" src="${m.image}" onerror="this.src='https://api.dicebear.com/7.x/avataaars/svg?seed=${m.name}'">
+      <div>
+        <div class="member-roster-name">${m.name}</div>
+        <div class="member-roster-meta">${getMemberRole(m)} · <span class="member-form-badge ${form.class}">${form.icon} ${form.label}</span></div>
+        <div class="member-roster-numbers">CON ${condition} / FAT ${m.fatigue||0} / MEN ${m.mental||0}</div>
+      </div>
+    </div>`;
   }).join('');
-  tableEl.innerHTML=`<div class="ops-table-wrap"><table class="ops-table"><thead><tr><th>멤버</th><th>폼</th><th>육성</th><th>컨디션</th><th>피로</th><th>멘탈</th><th>주요</th><th>14일</th><th>상태</th></tr></thead><tbody>${rows}</tbody></table></div>`; renderMemberDetail(selected);
+  tableEl.innerHTML=`<div class="member-roster-list">${rows}</div>`; renderMemberDetail(selected);
 }
 function getMemberRole(m){ const stats=[['보컬',m.vocal],['댄스',m.dance],['비주얼',m.visual],['예능',m.variety],['매력',m.charm]].sort((a,b)=>b[1]-a[1]); return stats[0][0]; }
 function selectMember(idx){ gameState.ui.selectedMemberIndex=idx; renderMembersTable(); }
@@ -5807,54 +5811,72 @@ function renderMemberDetail(idx){
   const traitText=m.trait2?` · ${m.trait2}`:'';
   const condition=getMemberConditionValue(m);
   const daysLeft=m.contractEnd-gameState.day;
-  const story=getMemberStoryConfig(m);
-  const storyText=m.storyState?.completed?`${m.storyState.ending==='good'?'좋은 결말':'재정비 필요'} · ${m.storyState.highlight}`:m.storyState?.stage?`${story.title} · ${m.storyState.stage}막 진행 중`:`${story.title} 대기`;
   const sched=(m.weekSchedule||[]).map(a=>scheduleActions.find(x=>x.id===a)?.label||'미배정').join(' · ');
   const eq=m.equipment?.length?m.equipment.map(e=>`${e.rarity}${e.level?`+${e.level}`:''} ${e.name}`).join('<br>'):'장비 없음';
   const deltas=getMemberRecentStatDelta(m,14);
   const goal=m.personalGoal;
   const goalCurrent=goal.type==='stat'?(m[goal.stat]||0):0;
   const goalPct=Math.min(100,Math.round((goalCurrent/(goal.target||1))*100));
-  const logHtml=(m.growthLog||[]).slice(0,7).map(log=>`<div class="member-growth-item"><strong>${formatKoreanDate(log.date||getCurrentDateString())}</strong><br>${log.reason||statLabel(log.stat)||'기록'}${log.amount?` · ${statLabel(log.stat)} ${log.amount>0?'+':''}${log.amount}`:''}</div>`).join('')||'<div class="member-growth-item"><strong>기록 없음</strong><br>훈련 성과와 주요 사건이 이곳에 쌓입니다.</div>';
+  const logLimit=window.innerWidth<=700?5:8;
+  const logHtml=(m.growthLog||[]).slice(0,logLimit).map(log=>`<div class="member-growth-item"><span class="member-log-badge">${log.type||'log'}</span><strong>${formatKoreanDate(log.date||getCurrentDateString())}</strong><br>${log.reason||statLabel(log.stat)||'기록'}${log.amount?` · ${statLabel(log.stat)} ${log.amount>0?'+':''}${log.amount}`:''}</div>`).join('')||'<div class="member-empty-note">최근 성장 기록이 없습니다.<br>스케줄을 반복하면 성장 기록이 쌓입니다.</div>';
+  const deltaHtml=renderMemberDeltaList(deltas);
+  const goalDone=goal.type==='stat'&&goalCurrent>=goal.target;
   el.innerHTML=`
     <div class="member-profile-hero">
       <img src="${m.image}" onerror="this.src='https://api.dicebear.com/7.x/avataaars/svg?seed=${m.name}'">
       <div>
         <div class="member-profile-name">${m.name}</div>
         <div class="member-profile-meta">${getMemberRole(m)} · ${trait.emoji} ${trait.name}${traitText} · ${getActivityYearLabel()}</div>
-        <div class="member-badge-row"><span class="member-form-badge ${form.class}">${form.icon} ${form.label}</span><span class="member-role-chip">${role.name}</span><span class="member-role-chip">컨디션 ${condition}</span></div>
+        <div class="member-badge-row"><span class="member-form-badge ${form.class}">최근 폼: ${form.label} ${form.icon}</span><span class="member-role-chip">육성 방향: ${role.name}</span></div>
+        <div class="member-status-report">
+          <div class="member-status-tile"><small>컨디션</small><strong>${condition}</strong></div>
+          <div class="member-status-tile"><small>피로</small><strong>${m.fatigue||0}</strong></div>
+          <div class="member-status-tile"><small>멘탈</small><strong>${m.mental||0}</strong></div>
+        </div>
       </div>
     </div>
-    <div class="member-director-comment">“${getMemberDirectorComment(m)}”</div>
-    <div class="member-stat-groups">
-      ${renderMemberStatGroup('PERFORMANCE',[['vocal',m.vocal],['dance',m.dance],['visual',m.visual]])}
-      ${renderMemberStatGroup('STREAMING',[['variety',m.variety],['charm',m.charm],['liveAdapt',Math.round(((m.variety||0)+(m.charm||0))/2)]])}
-      ${renderMemberStatGroup('CONDITION',[['condition',condition],['fatigue',m.fatigue],['mental',m.mental]])}
-    </div>
-    <div class="member-panel-section"><div class="member-panel-title">육성 방향</div>
-      <select class="member-dev-select" onchange="changeMemberDevelopmentRole(${idx},this.value)">
-        ${Object.entries(developmentRoles).map(([id,info])=>`<option value="${id}" ${m.developmentRole===id?'selected':''}>${info.name} · ${info.desc}</option>`).join('')}
-      </select>
-    </div>
-    <div class="member-panel-section"><div class="member-panel-title">개인 목표</div>
-      <strong>${goal.title}</strong><div class="record-meta">현재 ${goalCurrent} / ${goal.target} · 보상: 멘탈 +5, 팬덤 소폭 증가</div>
-      <div class="member-goal-progress"><div class="member-goal-fill" style="width:${goalPct}%"></div></div>
-    </div>
-    <div class="member-panel-section"><div class="member-panel-title">최근 14일 변화</div>
-      <div class="member-delta-grid">${['vocal','dance','visual','variety','charm','fatigue','mental'].map(s=>`<div class="member-delta"><small>${statLabel(s)}</small><br><strong>${deltas[s]>0?'+':''}${deltas[s]||0}</strong></div>`).join('')}</div>
-    </div>
-    <div class="member-panel-section"><div class="member-panel-title">최근 성장 기록</div><div class="member-growth-log">${logHtml}</div></div>
-    <div class="member-panel-section"><div class="member-panel-title">개인 스토리</div>${storyText}</div>
-    <div class="member-panel-section"><div class="member-panel-title">최근 스케줄</div>${sched}</div>
-    <div class="member-panel-section"><div class="member-panel-title">장비 / 계약</div>${eq}<br><br>계약: ${daysLeft>0?`${daysLeft}일 남음`:'만료'} <button class="upgrade-btn" onclick="openEquipModal(${idx})">장비 관리</button></div>
-    <div class="member-panel-section"><div class="member-panel-title">케미</div><span class="record-meta">함께한 스케줄이 쌓이면 멤버 간 케미가 표시됩니다.</span></div>`;
+    <div class="member-profile-grid">
+      <div class="member-panel-section wide">
+        <div class="member-panel-title">능력치</div>
+        <div class="member-stat-groups">
+          ${renderMemberStatGroup('PERFORMANCE',[['vocal',m.vocal],['dance',m.dance],['visual',m.visual]])}
+          ${renderMemberStatGroup('STREAMING',[['variety',m.variety],['charm',m.charm],['liveAdapt',Math.round(((m.variety||0)+(m.charm||0))/2)]])}
+          ${renderMemberStatGroup('CONDITION',[['condition',condition],['fatigue',m.fatigue],['mental',m.mental]])}
+        </div>
+      </div>
+      <div class="member-panel-section"><div class="member-panel-title">디렉터 리포트</div><div class="member-director-comment">“${getMemberDirectorComment(m)}”</div></div>
+      <div class="member-panel-section"><div class="member-panel-title">육성 방향</div><div class="member-dev-current"><strong>${role.name}</strong><small>${role.desc}</small></div>
+        <select class="member-dev-select" onchange="changeMemberDevelopmentRole(${idx},this.value)">
+          ${Object.entries(developmentRoles).map(([id,info])=>`<option value="${id}" ${m.developmentRole===id?'selected':''}>${info.name} · ${info.desc}</option>`).join('')}
+        </select>
+      </div>
+      <div class="member-panel-section"><div class="member-panel-title">개인 목표 ${goalDone?'<span class="member-form-badge success">목표 완료</span>':''}</div>
+        ${goal?`<strong>${goal.title}</strong><div class="record-meta">현재 진행도 ${goalCurrent} / ${goal.target}<br>보상: 멘탈 +5, 팬덤 소폭 증가</div><div class="member-goal-progress"><div class="member-goal-fill" style="width:${goalPct}%"></div></div>`:'<div class="member-empty-note">현재 개인 목표가 없습니다.<br>육성 방향을 선택하면 목표가 생성됩니다.</div>'}
+      </div>
+      <div class="member-panel-section"><div class="member-panel-title">최근 14일 변화</div>${deltaHtml}</div>
+      <div class="member-panel-section"><div class="member-panel-title">성장 기록</div><div class="member-growth-log">${logHtml}</div></div>
+      <div class="member-panel-section"><div class="member-panel-title">최근 스케줄</div>${sched}</div>
+      <div class="member-panel-section"><div class="member-panel-title">장비 / 계약</div>${eq}<br><br>계약: ${daysLeft>0?`${daysLeft}일 남음`:'만료'} <button class="upgrade-btn" onclick="openEquipModal(${idx})">장비 관리</button></div>
+      <div class="member-panel-section"><div class="member-panel-title">케미</div><span class="record-meta">함께한 스케줄이 쌓이면 멤버 간 케미가 표시됩니다.</span></div>
+    </div>`;
 }
 function renderMemberStatGroup(title,items){
   return `<div class="member-stat-group"><div class="member-stat-group-title">${title}</div>${items.map(([key,val])=>{
-    const max=(key==='condition'||key==='fatigue'||key==='mental')?100:50;
-    const pct=Math.min(100,Math.round((val/max)*100));
     const color=key==='fatigue'?(val>=80?'var(--danger)':val>=65?'var(--warn)':'var(--success)'):(key==='mental'||key==='condition')?(val<=35?'var(--danger)':val<=55?'var(--warn)':'var(--success)'):(val>=35?'var(--success)':'var(--point)');
-    return `<div class="member-stat-line"><span>${statLabel(key)}</span><div class="member-stat-bar"><div class="member-stat-fill" style="width:${pct}%;background:${color};"></div></div><strong>${val}</strong></div>`;
+    return `<div class="member-stat-line"><span>${statLabel(key)}</span><strong style="color:${color};">${val}</strong></div>`;
+  }).join('')}</div>`;
+}
+function renderMemberDeltaList(deltas){
+  const keys=['vocal','dance','visual','variety','charm','condition','fatigue','mental'];
+  const hasChange=keys.some(k=>(deltas[k]||0)!==0);
+  if(!hasChange) return '<div class="member-empty-note">최근 14일간 눈에 띄는 변화가 없습니다.<br>스케줄을 배정해 성장 흐름을 만들어보세요.</div>';
+  return `<div class="member-delta-list">${keys.map(key=>{
+    const value=deltas[key]||0;
+    let cls='muted', mark='—';
+    if(key==='fatigue'&&value>0){ cls='warn'; mark='!'; }
+    else if(value>0){ cls='up'; mark='▲'; }
+    else if(value<0){ cls=(key==='mental'||key==='condition')?'down':'muted'; mark='▼'; }
+    return `<div class="member-delta-row"><span>${statLabel(key)}</span><span class="member-delta-value ${cls}">${value>0?'+':''}${value} ${mark}</span></div>`;
   }).join('')}</div>`;
 }
 function getActivityYearLabel(){

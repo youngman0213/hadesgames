@@ -1538,6 +1538,41 @@ const kpopSongTitles = [...koreanSongTitles, ...englishSongTitles];
 const INITIAL_GAME_DATE = '2025-09-05';
 const FIRST_ACTIVITY_SETTLEMENT_DATE = '2026-01-11';
 const SEASON_REPORT_DATES = ['2026-06-30','2026-12-31','2027-06-30','2027-12-31'];
+const comebackPrepKeys=['song','vocal','performance','avatar','lore','media','live','promotion'];
+const comebackPrepMeta={
+  song:{label:'SONG',name:'곡 완성도',emoji:'🎼',desc:'곡 자체의 완성도와 차트 기본 체력'},
+  vocal:{label:'VOCAL',name:'보컬 디렉팅',emoji:'🎙️',desc:'녹음, 파트 분배, 라이브 보컬 안정성'},
+  performance:{label:'PERFORMANCE',name:'퍼포먼스',emoji:'🕺',desc:'안무, 모션, 3D 무대 연출'},
+  avatar:{label:'AVATAR',name:'아바타·의상',emoji:'🧬',desc:'아바타 디테일, 의상, 키비주얼'},
+  lore:{label:'LORE',name:'세계관·콘셉트',emoji:'🌌',desc:'세계관, 콘셉트, 캐릭터 서사'},
+  media:{label:'MEDIA',name:'MV·티저',emoji:'🎬',desc:'MV, 티저, 숏폼 클립 소재'},
+  live:{label:'LIVE',name:'라이브·송출',emoji:'📡',desc:'송출, 트래킹, 마이크, 발매 라이브 안정성'},
+  promotion:{label:'PROMOTION',name:'홍보·팬덤 예열',emoji:'📢',desc:'SNS, 팬카페, 알고리즘, 팬덤 화력'}
+};
+const releaseProjectTypes={
+  digital_single:{id:'digital_single',name:'디지털 싱글',desc:'1곡 중심의 빠른 발매. 비용과 준비 부담이 낮다.',cost:15000000,trackRange:[1,1],unlock:'처음부터',role:'초반 발매, 공백기 방지',fatigue:5,scoreMult:1,fandomMult:1,penalty:0.7},
+  single_album:{id:'single_album',name:'싱글 앨범',desc:'타이틀 1곡 + 수록곡 1곡 구성의 기본 컴백.',cost:35000000,trackRange:[2,2],unlock:'처음부터',role:'기본 메인 컴백',fatigue:8,scoreMult:1.05,fandomMult:1.03,penalty:1},
+  mini_album:{id:'mini_album',name:'미니 앨범',desc:'타이틀 1곡 + 수록곡 여러 개. 팬덤 만족도와 수익성이 높다.',cost:80000000,trackRange:[4,6],unlock:'2026년 중반 이후',role:'1년차 후반~2년차 핵심 컴백',fatigue:12,scoreMult:1.10,fandomMult:1.08,penalty:1.25},
+  full_album:{id:'full_album',name:'정규 앨범',desc:'HADES의 시즌을 대표하는 대형 프로젝트.',cost:180000000,trackRange:[9,12],unlock:'2027년 이후 또는 국내 이상',role:'2년차 후반~3년차 최종 목표급 프로젝트',fatigue:18,scoreMult:1.18,fandomMult:1.15,penalty:1.55,awardBonus:1.15},
+  solo_track:{id:'solo_track',name:'멤버 개인곡',desc:'특정 멤버를 중심으로 한 개인곡.',cost:20000000,trackRange:[1,1],unlock:'2026년 중반 이후 또는 개인 목표 완료',role:'멤버 개별 성장/스토리 강화',fatigue:7,scoreMult:.94,fandomMult:1.04,penalty:.9},
+  unit_track:{id:'unit_track',name:'유닛곡',desc:'2~3명 멤버 조합으로 발매하는 유닛 프로젝트.',cost:25000000,trackRange:[1,1],unlock:'2026년 중반 이후',role:'멤버 케미/조합 플레이 강화',fatigue:8,scoreMult:.98,fandomMult:1.05,penalty:.95},
+  cover_track:{id:'cover_track',name:'커버곡',desc:'낮은 비용으로 유입과 클립 반응을 노리는 가벼운 발매.',cost:5000000,trackRange:[1,1],unlock:'처음부터',role:'공백기 방지, 신규 유입, 클립 바이럴',fatigue:4,scoreMult:.82,fandomMult:1.02,penalty:.55},
+  live_session:{id:'live_session',name:'라이브 세션',desc:'라이브 보컬과 송출 안정성을 보여주는 세션형 발매.',cost:12000000,trackRange:[1,1],unlock:'2026년 이후',role:'팬덤 결속, 클립 반응, 라이브 이미지 강화',fatigue:7,scoreMult:.9,fandomMult:1.06,penalty:1},
+  ost_collab:{id:'ost_collab',name:'OST/콜라보',desc:'외부 작품 또는 브랜드와 연결되는 이벤트성 발매.',cost:10000000,trackRange:[1,1],unlock:'라이징스타 이상 또는 비즈니스 제안',role:'외부 유입, 인지도 상승',fatigue:6,scoreMult:.96,fandomMult:1.07,penalty:.9},
+  remix_special:{id:'remix_special',name:'리믹스/스페셜 버전',desc:'기존 곡을 재활용해 공백기를 메우는 스페셜 발매.',cost:8000000,trackRange:[1,1],unlock:'기존 발매곡 1개 이상',role:'공백기 유지, 기존 곡 재점화',fatigue:4,scoreMult:.86,fandomMult:1.02,penalty:.6}
+};
+const releaseTypeWeights={
+  digital_single:{song:.35,vocal:.25,media:.10,live:.05,promotion:.25},
+  single_album:{song:.25,vocal:.20,avatar:.10,media:.20,live:.05,promotion:.20},
+  mini_album:{song:.22,vocal:.12,performance:.15,avatar:.13,lore:.13,media:.12,promotion:.13},
+  full_album:{song:.20,vocal:.14,performance:.14,avatar:.12,lore:.14,media:.10,live:.08,promotion:.08},
+  solo_track:{song:.28,vocal:.24,live:.16,lore:.10,media:.08,promotion:.14},
+  unit_track:{song:.20,vocal:.20,performance:.22,live:.15,media:.08,promotion:.15},
+  cover_track:{vocal:.35,live:.25,media:.15,promotion:.25},
+  live_session:{vocal:.30,live:.35,performance:.15,promotion:.20},
+  ost_collab:{song:.30,lore:.10,media:.25,avatar:.10,promotion:.25},
+  remix_special:{song:.15,media:.35,live:.25,promotion:.25}
+};
 
 const activityRoadmap = [
   {
@@ -1830,7 +1865,7 @@ const crisisEvents = [
     { text:'방송 중단', effect:(gs)=>{ updateFandom(-8000); gs.members.forEach(m=>m.mental=Math.max(5,m.mental-5)); } },
   ]},
   { id:'copycat_controversy', title:'👥 유사 컨셉 논란', desc:'다른 그룹이 하데스와 매우 유사한 컨셉으로 주목받고 있습니다.\n팬들이 동요하고 있습니다.', choices:[
-    { text:'차별점 강조 콘텐츠 제작 (-200만원)', effect:(gs)=>{ gs.finance-=2000000; addComebackPrep('concept',10); } },
+    { text:'차별점 강조 콘텐츠 제작 (-200만원)', effect:(gs)=>{ gs.finance-=2000000; addComebackPrep('lore',6); addComebackPrep('avatar',4); } },
     { text:'무시하고 우리 길을 간다', effect:()=>{ updateFandom(-5000); } },
     { text:'협업 제안', effect:(gs)=>{ gs.finance-=1000000; updateFandom(8000); } },
   ]},
@@ -1911,7 +1946,8 @@ let gameState = {
   },
   firstActivitySettlement:{ evaluated:false, grade:null, required:[], optional:[], concertRevenue:0 },
   firstSettlementResult:null,
-  comebackPrep:{ vocal:0, dance:0, concept:0, promotion:0, fandom:0 },
+  comebackPrep:{ song:0, vocal:0, performance:0, avatar:0, lore:0, media:0, live:0, promotion:0 },
+  currentReleaseProject:null,
   careerStats:{ totalSongs:0, totalNo1:0, totalWins:0, bestSong:null },
   agency:{ level:1, name:'소형 기획사', unlockedEffects:[] },
   eventHistory:[],
@@ -2236,8 +2272,19 @@ function normalizeGameState(){
   if(!gameState.careerStats) gameState.careerStats={ totalSongs:0, totalNo1:0, totalWins:0, bestSong:null };
   if(!gameState.agency) gameState.agency={ level:1, name:'소형 기획사', unlockedEffects:[] };
   if(!Array.isArray(gameState.agency.unlockedEffects)) gameState.agency.unlockedEffects=[];
-  if(!gameState.comebackPrep) gameState.comebackPrep={ vocal:0, dance:0, concept:0, promotion:0, fandom:0 };
-  ['vocal','dance','concept','promotion','fandom'].forEach(k=>{ if(typeof gameState.comebackPrep[k]!=='number') gameState.comebackPrep[k]=0; });
+  const oldPrep=gameState.comebackPrep||{};
+  gameState.comebackPrep={
+    song:oldPrep.song??Math.round(((oldPrep.vocal||0)+(oldPrep.promotion||0))/2),
+    vocal:oldPrep.vocal??0,
+    performance:oldPrep.performance??oldPrep.dance??0,
+    avatar:oldPrep.avatar??Math.round(((oldPrep.concept||0)+(oldPrep.fandom||0)*0.4)/1.4),
+    lore:oldPrep.lore??oldPrep.concept??0,
+    media:oldPrep.media??oldPrep.promotion??0,
+    live:oldPrep.live??Math.round(((oldPrep.vocal||0)+(oldPrep.dance||0)+(oldPrep.fandom||0))/3),
+    promotion:oldPrep.promotion??oldPrep.fandom??0
+  };
+  comebackPrepKeys.forEach(k=>{ if(typeof gameState.comebackPrep[k]!=='number') gameState.comebackPrep[k]=0; gameState.comebackPrep[k]=clamp(gameState.comebackPrep[k],0,100); });
+  if(gameState.currentReleaseProject===undefined) gameState.currentReleaseProject=null;
   if(!Array.isArray(gameState.eventHistory)) gameState.eventHistory=[];
   if(!gameState.eventRunLog) gameState.eventRunLog={};
   if(!Array.isArray(gameState.awardHistory)) gameState.awardHistory=[];
@@ -2265,7 +2312,15 @@ function normalizeGameState(){
     if(!song.title) song.title=song.name;
     if(!song.name) song.name=song.title;
     if(!song.artist) song.artist='HADES';
-    if(!song.releaseType) song.releaseType='single';
+    song.releaseType=normalizeReleaseType(song.releaseType||'digital_single');
+    if(!song.projectType) song.projectType=song.releaseType;
+    if(!song.albumTitle) song.albumTitle='';
+    if(!Array.isArray(song.bSides)) song.bSides=[];
+    if(!song.trackCount) song.trackCount=1+(song.bSides?.length||0);
+    if(!Array.isArray(song.projectMembers)) song.projectMembers=gameState.members.map(m=>m.name);
+    if(song.isSolo===undefined) song.isSolo=song.releaseType==='solo_track';
+    if(song.isUnit===undefined) song.isUnit=song.releaseType==='unit_track';
+    if(song.centerMember===undefined) song.centerMember=null;
     if(song.daysAfterRelease===undefined) song.daysAfterRelease=(song.weeksActive||0)*7;
     if(!song.prevPeriodRanks) song.prevPeriodRanks={weekly:{},monthly:{},yearly:{}};
     if(!song.periodRanks) song.periodRanks={weekly:{},monthly:{},yearly:{}};
@@ -2279,6 +2334,7 @@ function normalizeGameState(){
     ensureSongHistory(song);
   });
   if(!gameState.careerStats.totalSongs) gameState.careerStats.totalSongs=gameState.activeCharts.length;
+  if(gameState.careerStats.totalTracks===undefined) gameState.careerStats.totalTracks=gameState.activeCharts.reduce((sum,s)=>sum+(s.trackCount||1),0);
   updateBestSong();
 }
 function addEventHistory(type,title,result,extra={}){
@@ -2342,7 +2398,19 @@ function clamp(n,min,max){
 function getComebackPrepScore(){
   normalizeGameState();
   const p=gameState.comebackPrep;
-  return Math.round((p.vocal+p.dance+p.concept+p.promotion+p.fandom)/5);
+  return Math.round(comebackPrepKeys.reduce((sum,k)=>sum+(p[k]||0),0)/comebackPrepKeys.length);
+}
+function normalizeReleaseType(typeId){
+  if(typeId==='single'||typeId==='album') return 'single_album';
+  return releaseProjectTypes[typeId]?typeId:'digital_single';
+}
+function getWeightedComebackPrepScore(releaseType='digital_single'){
+  normalizeGameState();
+  releaseType=normalizeReleaseType(releaseType);
+  const weights=releaseTypeWeights[releaseType]||releaseTypeWeights.digital_single;
+  let total=0, weightSum=0;
+  Object.entries(weights).forEach(([key,weight])=>{ total+=(gameState.comebackPrep[key]||0)*weight; weightSum+=weight; });
+  return Math.round(total/Math.max(0.01,weightSum));
 }
 function getPrepStatus(score=getComebackPrepScore()){
   if(score>=80) return {text:'완벽한 준비',color:'var(--success)'};
@@ -2355,11 +2423,71 @@ function addComebackPrep(key,amount){
   if(gameState.comebackPrep[key]===undefined) return;
   gameState.comebackPrep[key]=clamp(gameState.comebackPrep[key]+amount,0,100);
 }
-function reduceComebackPrepAfterRelease(){
+function reduceComebackPrepAfterRelease(releaseType='digital_single'){
   normalizeGameState();
+  releaseType=normalizeReleaseType(releaseType);
+  const weights=releaseTypeWeights[releaseType]||releaseTypeWeights.digital_single;
+  const typeInfo=releaseProjectTypes[releaseType]||releaseProjectTypes.digital_single;
   Object.keys(gameState.comebackPrep).forEach(key=>{
-    gameState.comebackPrep[key]=Math.max(0,Math.floor(gameState.comebackPrep[key]*0.45));
+    const core=weights[key]||0;
+    const keep=releaseType==='full_album'?0.36:(core>0.18?0.38:core>0?0.5:0.68);
+    const adjusted=Math.max(0,Math.floor(gameState.comebackPrep[key]*keep));
+    gameState.comebackPrep[key]=adjusted;
   });
+}
+function getReleaseTypeInfo(typeId){ return releaseProjectTypes[normalizeReleaseType(typeId)]||releaseProjectTypes.digital_single; }
+function isMid2026OrLater(){ return dateToUtcDays(getCurrentDateString())>=dateToUtcDays('2026-06-01'); }
+function isReleaseTypeUnlocked(typeId){
+  typeId=normalizeReleaseType(typeId);
+  const tierIdx=tierOrder.indexOf(gameState.currentTier||'루키');
+  const rising=tierIdx>=1;
+  const domestic=tierIdx>=2;
+  const year=new Date(getCurrentDateString()+'T00:00:00').getFullYear();
+  if(['digital_single','single_album','cover_track'].includes(typeId)) return {ok:true,reason:'해금 완료'};
+  if(typeId==='live_session'||typeId==='ost_collab') return {ok:isMid2026OrLater()||rising,reason:'2026년 6월 이후 또는 라이징스타 이상'};
+  if(['mini_album','solo_track','unit_track'].includes(typeId)) return {ok:isMid2026OrLater(),reason:'2026년 6월 이후'};
+  if(typeId==='full_album') return {ok:year>=2027||domestic,reason:'2027년 이후 또는 국내에서 알려짐 이상'};
+  if(typeId==='remix_special') return {ok:(gameState.activeCharts||[]).length>0,reason:'기존 발매곡 1개 이상'};
+  return {ok:true,reason:'해금 완료'};
+}
+function validateReleaseProject(typeId,centerMember=null,unitMembers=[]){
+  typeId=normalizeReleaseType(typeId);
+  const unlocked=isReleaseTypeUnlocked(typeId);
+  if(!unlocked.ok) return {ok:false,reason:unlocked.reason};
+  const info=getReleaseTypeInfo(typeId);
+  if(gameState.finance<info.cost) return {ok:false,reason:`자금 부족: ${info.cost.toLocaleString()}원 필요`};
+  if(typeId==='solo_track'){
+    const m=gameState.members.find(x=>x.name===centerMember);
+    if(!m) return {ok:false,reason:'중심 멤버를 선택하세요.'};
+    if((m.injuredUntil||0)>gameState.day) return {ok:false,reason:'선택 멤버가 활동 제한 중입니다.'};
+    if(getMemberConditionValue(m)<40||m.mental<45) return {ok:false,reason:'선택 멤버 컨디션/멘탈이 낮습니다.'};
+    const main=Math.max(m.vocal||0,m.dance||0,m.visual||0,m.variety||0,m.charm||0);
+    if(main<15&&!m.personalGoal?.completed) return {ok:false,reason:'개인 목표 완료 또는 주요 스탯 15 이상 필요'};
+  }
+  if(typeId==='unit_track'){
+    const selected=gameState.members.filter(m=>unitMembers.includes(m.name));
+    if(selected.length<2||selected.length>3) return {ok:false,reason:'유닛 멤버는 2~3명 선택하세요.'};
+    if(selected.some(m=>(m.injuredUntil||0)>gameState.day)) return {ok:false,reason:'활동 제한 중인 멤버가 있습니다.'};
+    const avgCond=selected.reduce((s,m)=>s+getMemberConditionValue(m),0)/selected.length;
+    const avgMental=selected.reduce((s,m)=>s+(m.mental||0),0)/selected.length;
+    if(avgCond<40||avgMental<45) return {ok:false,reason:'선택 멤버 평균 컨디션/멘탈이 낮습니다.'};
+  }
+  return {ok:true,reason:'진행 가능'};
+}
+function getReleaseProjectAdvice(project={}){
+  const type=normalizeReleaseType(project.releaseType||'digital_single');
+  const score=getWeightedComebackPrepScore(type);
+  const weights=releaseTypeWeights[type]||{};
+  const sorted=Object.keys(weights).sort((a,b)=>(gameState.comebackPrep[a]||0)-(gameState.comebackPrep[b]||0));
+  const low=sorted[0], high=sorted[sorted.length-1];
+  if(type==='full_album'&&score<65) return '정규 앨범을 진행하기에는 전체 준비도가 낮습니다. 미니 앨범이나 싱글 앨범을 먼저 고려하세요.';
+  if((gameState.comebackPrep.live||0)<45&&['single_album','mini_album','full_album','live_session'].includes(type)) return 'LIVE 준비도가 낮습니다. 발매 라이브 전에 송출 테스트와 트래킹 리허설을 보강하세요.';
+  if(project.releaseType==='solo_track'){
+    const m=gameState.members.find(x=>x.name===project.centerMember);
+    if(m&&m.mental<50) return `${m.name} 멤버 개인곡 조건은 거의 충족했지만 멘탈이 낮습니다. 케어 후 진행하는 편이 좋습니다.`;
+  }
+  if(high) return `${comebackPrepMeta[high]?.name||high} 준비가 강점입니다. 다만 ${comebackPrepMeta[low]?.label||low} 준비가 낮으면 초반 반응이 약할 수 있습니다.`;
+  return `현재 준비도 ${score}/100입니다. 선택한 발매 타입의 핵심 카테고리를 우선 보강하세요.`;
 }
 function getMemberConditionScore(){
   const avgMental=gameState.members.reduce((sum,m)=>sum+(m.mental||50),0)/gameState.members.length;
@@ -2516,19 +2644,18 @@ function statLabel(stat){
 }
 function applyComebackPrepAction(action,member){
   const gains={
-    vocal:{key:'vocal',amount:randomRange(3,5),cost:0,fatigue:18,mental:-1},
-    dance:{key:'dance',amount:randomRange(3,5),cost:0,fatigue:24,mental:-1,condition:-1},
-    visual:{key:'concept',amount:randomRange(3,5),cost:500000,fatigue:14,mental:0,snsGain:randomRange(60,180)},
-    variety:{key:'promotion',amount:randomRange(3,5),cost:700000,fatigue:18,mental:-2,fanGain:randomRange(120,320)},
-    charm:{key:'fandom',amount:randomRange(2,4),cost:0,fatigue:12,mental:2,fanGain:randomRange(80,220)},
-    stream:{key:'fandom',amount:randomRange(3,5),cost:0,fatigue:15,mental:1,fanGain:randomRange(150,380)}
+    vocal:{prep:{vocal:3,song:1},cost:0,fatigue:18,mental:-1},
+    dance:{prep:{performance:3,live:1},cost:0,fatigue:24,mental:-1,condition:-1},
+    visual:{prep:{avatar:3,lore:1},cost:500000,fatigue:14,mental:0,snsGain:randomRange(60,180)},
+    variety:{prep:{promotion:2,media:1,live:1},cost:700000,fatigue:18,mental:-2,fanGain:randomRange(120,320)},
+    charm:{prep:{avatar:1,promotion:2,media:1},cost:0,fatigue:12,mental:2,fanGain:randomRange(80,220)},
+    stream:{prep:{live:3,promotion:2},cost:0,fatigue:15,mental:1,fanGain:randomRange(150,380)}
   };
   const info=gains[action];
   if(!info) return;
   const efficiency=getScheduleEfficiency(member,action);
-  const agencyMult=(info.key==='promotion'||info.key==='fandom')?getAgencyMultiplier('promotion'):getAgencyMultiplier('training');
-  const amount=Math.max(1,Math.round(info.amount*efficiency*agencyMult));
-  addComebackPrep(info.key,amount);
+  const agencyMult=(info.prep.promotion||info.prep.media)?getAgencyMultiplier('promotion'):getAgencyMultiplier('training');
+  Object.entries(info.prep).forEach(([key,base])=>addComebackPrep(key,Math.max(1,Math.round(base*efficiency*agencyMult))));
   if(info.cost) gameState.finance-=info.cost;
   if(info.fanGain){
     updateFandom(Math.round(info.fanGain*efficiency));
@@ -2946,6 +3073,7 @@ function calcChartScore(song){
 
 function calcHadesChartScore(song){
   const ageMultiplier=getAgeMultiplier(song.daysAfterRelease||0,'solo');
+  const releaseInfo=getReleaseTypeInfo(song.releaseType||'digital_single');
   const memberCondition=getMemberConditionScore();
   const fatiguePenalty=getFatiguePenalty();
   const fandomFactor=getFandomChartFactor();
@@ -2961,7 +3089,7 @@ function calcHadesChartScore(song){
     fatiguePenalty*0.72+
     (song.viralBonus||0)+
     randomRange(-18,24)
-  )*ageMultiplier*36;
+  )*ageMultiplier*36*(releaseInfo.scoreMult||1);
   const subak=Math.max(20,Math.floor(base+randomRange(-380,320)));
   const musicside=Math.max(20,Math.floor(base*1.04+randomRange(-420,360)));
   const tube=Math.max(20,Math.floor(base*(promotion>=70?1.1:0.98)+randomRange(-460,420)));
@@ -3273,7 +3401,7 @@ function getPageHeroData(pageId){
     roadmap:{kicker:'ACTIVITY ROADMAP',title:'HADES 활동 로드맵',meta:[next?`${formatKoreanDate(next.date)} ${next.title}`:'예정 활동 없음',next?describeDateDiff(next.date):'일정 대기']},
     schedule:{kicker:'WEEKLY PLAN',title:'이번 주 운영 계획',meta:[`평균 컨디션 ${avgCondition}`,`평균 피로도 ${avgFatigue}%`,`${gameState.members.filter(m=>m.fatigue>=80||m.mental<=30).length}명 위험`]},
     members:{kicker:'TEAM REPORT',title:'팀 컨디션 리포트',meta:[`평균 컨디션 ${avgCondition}`,`평균 피로도 ${avgFatigue}%`,`평균 멘탈 ${Math.round(gameState.members.reduce((s,m)=>s+(m.mental||0),0)/Math.max(1,gameState.members.length))}`]},
-    contents:{kicker:'COMEBACK PROJECT',title:'현재 컴백 프로젝트',meta:[`총 준비도 ${prep}/100`,getPrepStatus(prep).label,`부족 항목 ${getLowestPrepKey()}`]},
+    contents:{kicker:'COMEBACK PROJECT',title:'현재 컴백 프로젝트',meta:[`총 준비도 ${prep}/100`,getPrepStatus(prep).text,`부족 항목 ${getLowestPrepKey()}`]},
     charts:{kicker:'CHART RESULTS',title:'이번 주 HADES 차트 성과',meta:[bestSong&&bestSong.rank<999?`${bestSong.s.title||bestSong.s.name} ${bestSong.rank}위`:'차트 진입 대기',hasHadesSongs()?'발매곡 보유':'첫 발매 전']},
     finance:{kicker:'FINANCE REPORT',title:'재무 리포트',meta:[`보유 자금 ${gameState.finance.toLocaleString()}원`,`예정 비용 ${(!cost.paid&&!cost.failed)?cost.amount.toLocaleString():'0'}원`,`월급 ${calcMonthlySalaryCost().toLocaleString()}원`]},
     history:{kicker:'TIMELINE',title:'HADES 타임라인',meta:[`기록 ${gameState.eventHistory.length}개`,`발매곡 ${(gameState.activeCharts||[]).length}곡`]},
@@ -3288,9 +3416,8 @@ function getPageHeroData(pageId){
   return map[pageId];
 }
 function getLowestPrepKey(){
-  const labels={vocal:'보컬',dance:'댄스',concept:'콘셉트',promotion:'홍보',fandom:'팬덤'};
   const entry=Object.entries(gameState.comebackPrep||{}).sort((a,b)=>(a[1]||0)-(b[1]||0))[0];
-  return entry?labels[entry[0]]:'—';
+  return entry?(comebackPrepMeta[entry[0]]?.name||entry[0]):'—';
 }
 function processCharts(){
   let totalStat=0;
@@ -3865,6 +3992,7 @@ function renderComebackSection(){
   const stepCosts=[10000000,3000000,5000000,20000000];
   const stepEmojis=['🎵','📸','🎤','💿'];
   const step=gameState.comebackStep;
+  const project=gameState.currentReleaseProject||{releaseType:'single_album'};
 
   let stepsHtml=`<div class="comeback-steps">`;
   stepNames.forEach((n,i)=>{
@@ -3872,13 +4000,12 @@ function renderComebackSection(){
     stepsHtml+=`<div class="comeback-step ${cls}">${stepEmojis[i]}<br>${n}</div>`;
   });
   stepsHtml+=`</div>`;
-  const prepHtml=renderComebackPrepPanel();
+  const prepHtml=renderComebackProjectCreator()+renderComebackPrepPanel(project.releaseType);
 
   if(step===0){
     el.innerHTML=prepHtml+stepsHtml+`
       <div style="font-size:12px; color:var(--text2); margin-bottom:10px;">곡 작업부터 시작해 발매까지 4단계로 진행합니다.</div>
-      <input id="comeback-title-input" type="text" placeholder="신곡 제목 입력" style="width:100%; padding:10px; background:var(--card2); border:1px solid var(--border); border-radius:6px; color:var(--text); font-size:13px; margin-bottom:10px;">
-      <button class="content-btn btn-available" onclick="startComebackStep(0)">🎵 곡 작업 시작 (-${(stepCosts[0]/10000).toFixed(0)}만원)</button>
+      <button class="content-btn btn-available" onclick="startReleaseProject()">🎵 선택한 발매 프로젝트 시작</button>
     `;
   } else if(step>0&&step<4){
     const stepName=stepNames[step];
@@ -3893,40 +4020,173 @@ function renderComebackSection(){
   }
 }
 
-function renderComebackPrepPanel(){
+function renderComebackProjectCreator(){
   normalizeGameState();
-  const labels={vocal:'보컬',dance:'댄스',concept:'콘셉트',promotion:'홍보',fandom:'팬덤'};
-  const desc={vocal:'보컬 완성도',dance:'퍼포먼스',concept:'콘셉트/비주얼',promotion:'홍보 화력',fandom:'팬덤 결집'};
-  const score=getComebackPrepScore();
+  const project=gameState.currentReleaseProject||{releaseType:'single_album',title:'',albumTitle:'',bSides:[],centerMember:null,unitMembers:[]};
+  const typeId=normalizeReleaseType(project.releaseType||'single_album');
+  const info=getReleaseTypeInfo(typeId);
+  const unlock=isReleaseTypeUnlocked(typeId);
+  const validation=validateReleaseProject(typeId,project.centerMember,project.unitMembers||[]);
+  const weights=releaseTypeWeights[typeId]||{};
+  const important=Object.keys(weights).map(k=>comebackPrepMeta[k]?.name||k).join(' · ');
+  const members=gameState.members||[];
+  const memberSelect=typeId==='solo_track'
+    ? `<select class="member-dev-select" id="release-center-member" onchange="updateReleaseProjectDraft(true)"><option value="">중심 멤버 선택</option>${members.map(m=>`<option value="${m.name}" ${project.centerMember===m.name?'selected':''}>${m.name} · ${getMemberRole(m)}</option>`).join('')}</select>`
+    : typeId==='unit_track'
+      ? `<div style="display:flex;gap:8px;flex-wrap:wrap;">${members.map(m=>`<label class="member-role-chip"><input class="release-unit-member" type="checkbox" value="${m.name}" ${(project.unitMembers||[]).includes(m.name)?'checked':''} onchange="updateReleaseProjectDraft(true)"> ${m.name}</label>`).join('')}</div>`
+      : '<div class="record-meta">팀 전체 발매 프로젝트입니다.</div>';
+  return `<div class="content-card" style="border-color:rgba(232,64,122,.28);">
+    <div class="content-header"><strong>🧩 새 발매 프로젝트</strong><span class="content-badge badge-special">${info.name}</span></div>
+    <div class="detail-grid" style="grid-template-columns:1fr 1fr; margin-bottom:10px;">
+      <div class="detail-item"><small>발매 타입</small><select class="member-dev-select" id="release-type-select" onchange="updateReleaseProjectDraft(true)">${Object.values(releaseProjectTypes).map(t=>`<option value="${t.id}" ${typeId===t.id?'selected':''}>${t.name}</option>`).join('')}</select></div>
+      <div class="detail-item"><small>예상 비용</small><strong>${info.cost.toLocaleString()}원</strong><br><span class="record-meta">${unlock.ok?'해금 완료':`🔒 ${unlock.reason}`}</span></div>
+    </div>
+    <div class="detail-item" style="margin-bottom:10px;"><small>${info.name}</small>${info.desc}<br><span class="record-meta">곡 수 ${info.trackRange[0]===info.trackRange[1]?info.trackRange[0]:`${info.trackRange[0]}~${info.trackRange[1]}`}곡 · 핵심: ${important}<br>${info.role}</span></div>
+    <input id="release-title-input" value="${project.title||gameState.comebackTitle||''}" oninput="updateReleaseProjectDraft()" type="text" placeholder="타이틀곡 제목" style="width:100%; padding:10px; background:var(--card2); border:1px solid var(--border); border-radius:6px; color:var(--text); font-size:13px; margin-bottom:8px;">
+    <input id="release-album-input" value="${project.albumTitle||''}" oninput="updateReleaseProjectDraft()" type="text" placeholder="앨범명 또는 프로젝트명 (선택)" style="width:100%; padding:10px; background:var(--card2); border:1px solid var(--border); border-radius:6px; color:var(--text); font-size:13px; margin-bottom:8px;">
+    <input id="release-bsides-input" value="${(project.bSides||[]).join(', ')}" oninput="updateReleaseProjectDraft()" type="text" placeholder="수록곡 제목, 쉼표로 구분 (선택)" style="width:100%; padding:10px; background:var(--card2); border:1px solid var(--border); border-radius:6px; color:var(--text); font-size:13px; margin-bottom:10px;">
+    <div class="detail-item" style="margin-bottom:10px;"><small>멤버 선택</small>${memberSelect}</div>
+    <div class="ops-line ${validation.ok?'success':'warning'}"><strong>${validation.ok?'진행 가능':'진행 불가'}</strong><small>${validation.reason}</small></div>
+    <div class="ops-line point"><strong>디렉터 조언</strong><small>${getReleaseProjectAdvice(project)}</small></div>
+  </div>`;
+}
+
+function updateReleaseProjectDraft(refresh=false){
+  normalizeGameState();
+  const typeId=normalizeReleaseType(document.getElementById('release-type-select')?.value||gameState.currentReleaseProject?.releaseType||'single_album');
+  const info=getReleaseTypeInfo(typeId);
+  const title=(document.getElementById('release-title-input')?.value||gameState.currentReleaseProject?.title||'').trim();
+  const albumTitle=(document.getElementById('release-album-input')?.value||gameState.currentReleaseProject?.albumTitle||'').trim();
+  const bSides=(document.getElementById('release-bsides-input')?.value||'')
+    .split(',')
+    .map(t=>t.trim())
+    .filter(Boolean);
+  const centerMember=document.getElementById('release-center-member')?.value||gameState.currentReleaseProject?.centerMember||null;
+  const unitMembers=Array.from(document.querySelectorAll('.release-unit-member:checked')).map(input=>input.value);
+  const previous=gameState.currentReleaseProject||{};
+  gameState.currentReleaseProject={
+    id:previous.id||`project_${getCurrentDateString()}_${Math.random().toString(36).slice(2,7)}`,
+    releaseType:typeId,
+    title,
+    albumTitle,
+    titleTrack:title,
+    bSides,
+    centerMember:typeId==='solo_track'?centerMember:null,
+    unitMembers:typeId==='unit_track'?unitMembers:[],
+    startedAt:previous.startedAt||null,
+    targetDate:previous.targetDate||null,
+    totalCost:info.cost,
+    paidCost:previous.paidCost||0,
+    step:gameState.comebackStep||0,
+    completed:false
+  };
+  gameState.comebackTitle=title;
+  if(refresh) renderComebackSection();
+}
+
+function getProjectTrackCount(project){
+  const typeId=normalizeReleaseType(project?.releaseType||'digital_single');
+  const info=getReleaseTypeInfo(typeId);
+  const entered=(project?.bSides||[]).length+1;
+  return clamp(entered,info.trackRange[0],info.trackRange[1]);
+}
+
+function getProjectMembers(project){
+  const typeId=normalizeReleaseType(project?.releaseType||'digital_single');
+  if(typeId==='solo_track'&&project?.centerMember) return [project.centerMember];
+  if(typeId==='unit_track'&&Array.isArray(project?.unitMembers)&&project.unitMembers.length) return project.unitMembers;
+  return (gameState.members||[]).map(m=>m.name);
+}
+
+function startReleaseProject(){
+  updateReleaseProjectDraft(false);
+  const project=gameState.currentReleaseProject;
+  const typeId=normalizeReleaseType(project.releaseType);
+  const info=getReleaseTypeInfo(typeId);
+  const title=String(project.title||'').trim();
+  if(!title) return alert('타이틀곡 제목을 입력하세요.');
+  if(isHadesTitleUsed(title)) return alert('이미 사용한 HADES 곡 제목입니다. 다른 제목을 입력하세요.');
+  const validation=validateReleaseProject(typeId,project.centerMember,project.unitMembers||[]);
+  if(!validation.ok) return alert(validation.reason);
+  gameState.finance-=info.cost;
+  project.releaseType=typeId;
+  project.startedAt=getCurrentDateString();
+  project.totalCost=info.cost;
+  project.paidCost=info.cost;
+  project.step=1;
+  gameState.currentReleaseProject=project;
+  gameState.comebackTitle=title;
+  gameState.comebackStep=1;
+  addComebackPrep('song',10);
+  addComebackPrep('vocal',3);
+  gameState.members.forEach(m=>m.fatigue=Math.min(100,(m.fatigue||0)+5));
+  addEventHistory('release_project',`${info.name} 프로젝트 시작`,title,{releaseType:typeId,cost:info.cost});
+  pushCommunity('SNS',`HADES ${info.name} 프로젝트 시작. ${title} 준비 들어간 듯`);
+  updateDisplay();
+  renderContents();
+  alert(`${info.name} 프로젝트를 시작했습니다.\n비용: ${info.cost.toLocaleString()}원`);
+}
+
+function renderComebackPrepPanel(releaseType='single_album'){
+  normalizeGameState();
+  releaseType=normalizeReleaseType(releaseType);
+  const score=getWeightedComebackPrepScore(releaseType);
   const status=getPrepStatus(score);
-  const rows=Object.entries(labels).map(([key,label])=>{
+  const weights=releaseTypeWeights[releaseType]||{};
+  const rows=comebackPrepKeys.map(key=>{
     const val=Math.round(gameState.comebackPrep[key]||0);
-    return `<div class="prep-row"><span>${label}</span><div class="prep-bar-bg"><div class="prep-bar-fill" style="width:${val}%;"></div></div><strong>${val}</strong><small style="color:var(--text3); width:70px; text-align:right;">${desc[key]}</small></div>`;
+    const meta=comebackPrepMeta[key];
+    const core=!!weights[key];
+    const cls=core&&val<45?'warning':core?'point':'';
+    return `<div class="content-card ${cls}" style="margin-bottom:0;"><div class="content-header"><strong>${meta.emoji} ${meta.label}</strong>${core?'<span class="content-badge badge-special">핵심</span>':''}</div><div style="font-size:22px;font-family:'JetBrains Mono',monospace;font-weight:800;">${val}</div><div class="record-meta">${meta.name} · ${meta.desc}</div>${core&&val<45?`<div class="record-meta" style="color:var(--warn);margin-top:6px;">부족한 핵심 준비도입니다.</div>`:''}</div>`;
   }).join('');
   return `<div class="prep-panel">
     <div class="section-title" style="margin-bottom:10px;">🎛️ 컴백 준비도</div>
-    <div class="prep-grid">${rows}</div>
-    <div class="prep-score">총 준비도: <strong style="color:${status.color};">${score} / 100</strong> · <span style="color:${status.color};">${status.text}</span></div>
-    <div style="font-size:11px; color:var(--text2); line-height:1.7; margin-top:8px;">피로도 80 이상, 컨디션 40 이하, 멘탈 40 이하에서는 스케줄 효율이 떨어집니다. 휴식 없이 강행하면 준비도는 덜 오르고 리스크가 커집니다.</div>
+    <div class="dashboard-grid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr));">${rows}</div>
+    <div class="prep-score">선택 타입 준비도: <strong style="color:${status.color};">${score} / 100</strong> · <span style="color:${status.color};">${status.text}</span></div>
+    <div style="font-size:11px; color:var(--text2); line-height:1.7; margin-top:8px;">${getReleaseProjectAdvice({releaseType})}</div>
   </div>`;
 }
 
 function startComebackStep(step){
   const stepNames=['곡 작업','티저 공개','쇼케이스','발매'];
-  const stepCosts=[10000000,3000000,5000000,20000000];
+  const hasProject=!!gameState.currentReleaseProject;
+  const stepCosts=hasProject?[0,0,0,0]:[10000000,3000000,5000000,20000000];
+  const stepPrepGains=[
+    {song:10,vocal:3},
+    {media:8,avatar:5,lore:3,promotion:3},
+    {performance:7,live:5,promotion:3},
+    {live:8,vocal:3,performance:2}
+  ];
   const cost=stepCosts[step];
   if(gameState.finance<cost) return alert(`자금 부족! 필요: ${cost.toLocaleString()}원`);
   if(step===0){
-    const title=document.getElementById('comeback-title-input')?.value?.trim();
+    const title=(document.getElementById('comeback-title-input')?.value||gameState.currentReleaseProject?.title||'').trim();
     if(!title) return alert('곡 제목을 입력하세요!');
     if(isHadesTitleUsed(title)) return alert('이미 사용한 HADES 곡 제목입니다. 다른 제목을 입력하세요.');
     gameState.comebackTitle=title;
   }
   gameState.finance-=cost;
   gameState.comebackStep=step+1;
+  Object.entries(stepPrepGains[step]||{}).forEach(([key,amount])=>addComebackPrep(key,amount));
   gameState.members.forEach(m=>m.fatigue=Math.min(100,m.fatigue+10));
   if(step===3){
-    launchComebackSong(gameState.comebackTitle,{source:'manual',releaseType:'single'});
+    const project=gameState.currentReleaseProject||{};
+    launchComebackSong(gameState.comebackTitle||project.title,{
+      source:'manual',
+      releaseType:project.releaseType||'digital_single',
+      albumTitle:project.albumTitle,
+      bSides:project.bSides,
+      trackCount:getProjectTrackCount(project),
+      projectMembers:getProjectMembers(project),
+      centerMember:project.centerMember,
+      unitMembers:project.unitMembers,
+      project
+    });
+    if(gameState.currentReleaseProject){
+      gameState.currentReleaseProject.completed=true;
+      gameState.currentReleaseProject=null;
+    }
     gameState.comebackStep=4;
   }
   pushCommunity('속보',`<b>[속보] HADES ${stepNames[step]} 완료! ${gameState.comebackTitle}</b>`);
@@ -3943,28 +4203,52 @@ function launchComebackSong(title, options={}){
   normalizeGameState();
   const finalTitle=String(title||'').trim()||getRandomSong();
   if(isHadesTitleUsed(finalTitle)) return null;
-  const prepScore=getComebackPrepScore();
+  const project=options.project||gameState.currentReleaseProject||{};
+  const releaseType=normalizeReleaseType(options.releaseType||project.releaseType||'digital_single');
+  const typeInfo=getReleaseTypeInfo(releaseType);
+  const prepScore=getWeightedComebackPrepScore(releaseType);
+  const totalPrepScore=getComebackPrepScore();
   const condition=getMemberConditionScore();
   const fatiguePenalty=getFatiguePenalty();
   const p=gameState.comebackPrep;
   const staffBoost=Math.floor((gameState.staffBonus.chartBonus||0)/350);
-  let songPower=clamp(Math.round(30+prepScore*0.42+p.promotion*0.22+p.fandom*0.12+condition*0.12-fatiguePenalty*0.25+staffBoost+randomRange(-8,10)),18,96);
-  let quality=clamp(Math.round(32+(p.vocal+p.dance+p.concept)/3*0.52+condition*0.18-fatiguePenalty*0.18+staffBoost+randomRange(-8,10)),18,96);
-  let viralBonus=clamp(Math.round(p.promotion*0.55+p.fandom*0.28+getFandomChartFactor()*0.18+randomRange(-8,12)),0,85);
+  const projectMembers=options.projectMembers||getProjectMembers(project);
+  const centerMemberName=options.centerMember||project.centerMember||null;
+  const centerMember=gameState.members.find(m=>m.name===centerMemberName);
+  const bsides=Array.isArray(options.bSides)?options.bSides:(Array.isArray(project.bSides)?project.bSides:[]);
+  const trackCount=options.trackCount||getProjectTrackCount({releaseType,bSides});
+  const albumTitle=options.albumTitle||project.albumTitle||(['single_album','mini_album','full_album'].includes(releaseType)?finalTitle:'');
+  const memberMainStat=centerMember?Math.max(centerMember.vocal||0,centerMember.dance||0,centerMember.visual||0,centerMember.variety||0,centerMember.charm||0):0;
+  let songPower=clamp(Math.round(24+prepScore*0.34+(p.song||0)*0.26+(p.vocal||0)*0.12+condition*0.10-fatiguePenalty*0.16+staffBoost+randomRange(-8,12)),12,98);
+  let quality=clamp(Math.round(28+((p.song||0)+(p.vocal||0)+(p.performance||0)+(p.avatar||0)+(p.lore||0))/5*0.42+prepScore*0.18+condition*0.12-fatiguePenalty*0.14+staffBoost+randomRange(-8,12)),12,98);
+  let viralBonus=clamp(Math.round((p.media||0)*0.32+(p.promotion||0)*0.34+(p.live||0)*0.12+(p.performance||0)*0.08+getFandomChartFactor()*0.18+randomRange(-8,14)),0,95);
+  if(['mini_album','full_album'].includes(releaseType)){
+    quality=clamp(Math.round(quality+((p.lore||0)+(p.avatar||0))*0.04),12,100);
+  }
+  if(releaseType==='solo_track'&&centerMember){
+    songPower=clamp(Math.round(songPower+memberMainStat*0.32+(centerMember.mental||50)*0.06),12,100);
+    viralBonus=clamp(Math.round(viralBonus+memberMainStat*0.12),0,100);
+  }
+  if(releaseType==='cover_track'){
+    songPower=Math.max(12,Math.floor(songPower*0.82));
+    if((p.live||0)>=65||p.promotion>=65) viralBonus=clamp(viralBonus+10,0,100);
+  }
+  if(releaseType==='live_session'&&(p.live||0)>=70){
+    viralBonus=clamp(viralBonus+12,0,100);
+    quality=clamp(quality+6,12,100);
+  }
+  if(prepScore<60){
+    songPower-=8;
+    quality-=5;
+  }
+  if(prepScore<40){
+    songPower-=10;
+    quality-=7;
+    viralBonus=Math.max(0,viralBonus-10);
+  }
   if(prepScore<=40){
     songPower=Math.max(15,songPower-14);
     quality=Math.max(15,quality-12);
-    viralBonus=Math.max(0,viralBonus-18);
-    gameState.popupQueue.push({type:'low_prep_release',event:{
-      id:`low_prep_${finalTitle}`,
-      title:'🌀 아쉬운 컴백 반응',
-      desc:`컴백 준비도 ${prepScore}/100으로 발매가 진행되었습니다.\n혹평과 아쉬운 반응이 섞이며 초반 화력이 낮아졌습니다.`,
-      choices:[{text:'확인',effect:()=>{}}]
-    }});
-  }
-  if(prepScore<40){
-    songPower-=20;
-    quality-=15;
     viralBonus=Math.max(0,viralBonus-18);
     gameState.popupQueue.push({type:'low_prep_release',event:{
       id:`low_prep_${finalTitle}`,
@@ -3979,20 +4263,43 @@ function launchComebackSong(title, options={}){
     viralBonus=Math.max(0,viralBonus-12);
     gameState.members.forEach(m=>m.mental=Math.max(5,(m.mental||50)-3));
   }
-  const startScore=Math.max(200,Math.floor((songPower+quality+viralBonus+prepScore+condition-fatiguePenalty)*24));
+  if(['live_session','single_album','mini_album','full_album'].includes(releaseType)&&(p.live||0)<40&&Math.random()<0.25){
+    viralBonus=Math.max(0,viralBonus-10);
+    gameState.members.forEach(m=>m.mental=Math.max(5,(m.mental||50)-2));
+    pushContextReaction('crisis','tracking',{},'SNS');
+    gameState.popupQueue.push({type:'crisis',event:{
+      id:`live_risk_${finalTitle}`,
+      title:'📡 발매 라이브 송출 이슈',
+      desc:'LIVE 준비도가 낮아 발매 라이브 중 트래킹/송출 안정성 문제가 발생했습니다.\n초반 바이럴이 일부 감소했습니다.',
+      choices:[{text:'확인',effect:()=>{}}]
+    }});
+  }
+  songPower=clamp(Math.round(songPower),8,100);
+  quality=clamp(Math.round(quality),8,100);
+  viralBonus=clamp(Math.round(viralBonus),0,100);
+  const startScore=Math.max(200,Math.floor((songPower+quality+viralBonus+prepScore+condition-fatiguePenalty)*24*(typeInfo.scoreMult||1)));
   const song={
-    id:`hades_${finalTitle}_${gameState.day}`.replace(/\s+/g,'_'),
+    id:`hades_${finalTitle}_${getCurrentDateString()}`.replace(/\s+/g,'_'),
     artist:'HADES',
     name:finalTitle,
     title:finalTitle,
     releaseOrder:options.releaseOrder||gameState.activeCharts.length+1,
-    releaseType:options.releaseType||'single',
+    releaseType,
+    albumTitle,
+    trackCount,
+    bSides:bsides,
+    projectType:releaseType,
+    projectMembers,
+    isSolo:releaseType==='solo_track',
+    isUnit:releaseType==='unit_track',
+    centerMember:centerMemberName,
     source:options.source||'manual',
     releaseDay:gameState.day,
     releaseDate:options.date||getCurrentDateString(),
     weeksActive:0,
     daysAfterRelease:0,
     prepScore,
+    totalPrepScore,
     promotionPrep:p.promotion,
     memberCondition:condition,
     fatiguePenalty,
@@ -4015,12 +4322,53 @@ function launchComebackSong(title, options={}){
   };
   gameState.activeCharts.push(song);
   gameState.careerStats.totalSongs++;
-  addEventHistory('release',finalTitle,`${song.releaseType} 발매`,{artist:'HADES',date:song.releaseDate});
+  gameState.careerStats.totalTracks=(gameState.careerStats.totalTracks||0)+trackCount;
+  const releaseSales=Math.floor(typeInfo.cost*(releaseType==='full_album'?0.45:releaseType==='mini_album'?0.32:releaseType==='single_album'?0.18:0.08)*(1+Math.min(1,(gameState.fandom||0)/500000)));
+  if(releaseSales>0){
+    gameState.finance+=releaseSales;
+    gameState.accumulatedSales+=releaseSales;
+  }
+  if(releaseType==='solo_track'&&centerMember){
+    centerMember.mental=Math.min(100,(centerMember.mental||50)+5);
+    addMemberGrowthLog(centerMember,{type:'release',reason:`개인곡 발매 · ${finalTitle}`});
+    convertFandom('hardcore','core',Math.max(50,Math.floor((gameState.fandomHardcore||0)*0.01)));
+  }
+  if(releaseType==='unit_track'){
+    projectMembers.forEach(name=>{
+      const m=gameState.members.find(mm=>mm.name===name);
+      if(m) addMemberGrowthLog(m,{type:'release',reason:`유닛곡 발매 · ${finalTitle}`});
+    });
+  }
+  gameState.members.forEach(m=>m.fatigue=Math.min(100,(m.fatigue||0)+(typeInfo.fatigue||8)));
+  addEventHistory('release',finalTitle,`${typeInfo.name} 발매`,{artist:'HADES',date:song.releaseDate,releaseType,trackCount});
   pushCommunity('음원반응',`<b><${finalTitle}> 발매! 차트 진입 🎵</b>`);
   pushContextReaction('comeback','release',{songTitle:finalTitle},'음원반응');
+  const typeReaction={
+    digital_single:'하데스 신곡 가볍게 듣기 좋네',
+    single_album:'타이틀이랑 수록곡 같이 나온 거 좋다',
+    mini_album:'이번 미니 앨범 구성 괜찮네',
+    full_album:'하데스 정규 앨범이면 진짜 큰 프로젝트네',
+    solo_track:`${centerMemberName||'멤버'} 개인곡 나왔네`,
+    unit_track:`${projectMembers.slice(0,2).join('랑 ')} 유닛곡 생각보다 괜찮은데`,
+    cover_track:'커버곡으로 입덕하는 사람 많을 듯',
+    live_session:'라이브 세션 음색 좋다',
+    ost_collab:'OST/콜라보로 외부 유입 붙을 수도',
+    remix_special:'리믹스로 기존 곡 다시 살아나는 느낌'
+  }[releaseType];
+  if(typeReaction) pushCommunity('SNS',typeReaction);
+  const strongest=comebackPrepKeys.slice().sort((a,b)=>(p[b]||0)-(p[a]||0))[0];
+  const weakest=comebackPrepKeys.slice().sort((a,b)=>(p[a]||0)-(p[b]||0))[0];
+  if(!options.silentPopup){
+    gameState.popupQueue.push({type:'release',event:{
+      id:`release_${song.id}`,
+      title:`💿 ${typeInfo.name} 발매`,
+      desc:`${finalTitle} 공개!\n${albumTitle?`앨범: ${albumTitle}\n`:''}${centerMemberName?`중심 멤버: ${centerMemberName}\n`:''}${song.isUnit?`유닛: ${projectMembers.join(', ')}\n`:''}준비도: ${prepScore}/100\n강점: ${comebackPrepMeta[strongest]?.name||strongest}\n약점: ${comebackPrepMeta[weakest]?.name||weakest}\n예상 반응: ${prepScore>=75?'강한 초반 반응':prepScore>=55?'무난한 차트 반응':prepScore>=40?'반응이 갈릴 수 있음':'준비 부족 리스크 큼'}`,
+      choices:[{text:'확인',effect:()=>{}}]
+    }});
+  }
   document.getElementById('chart-section').style.display='block';
   updateBestSong();
-  reduceComebackPrepAfterRelease();
+  reduceComebackPrepAfterRelease(releaseType);
   return song;
 }
 
@@ -4276,18 +4624,12 @@ function executeFutureRelease(ev){
   const song=launchComebackSong(ev.title,{
     source:'future',
     releaseOrder:ev.releaseOrder,
-    releaseType:ev.releaseType,
+    releaseType:normalizeReleaseType(ev.releaseType||'single_album'),
     date:ev.date,
     packagePenalty:penalty
   });
   if(song){
     pushInbox('event','예정 활동 발매',ev.title+' 발매가 시작되었습니다.');
-    gameState.popupQueue.push({type:'scheduled_release',event:{
-      id:`scheduled_release_${ev.releaseOrder}`,
-      title:'🎵 예정 활동 발매',
-      desc:`${ev.title} 발매가 시작되었습니다.\n차트 성적은 활동 준비 결과에 따라 달라집니다.${penalty?'\n\n선투자 비용 미정산으로 곡 퀄리티에 차질이 발생했습니다.':''}`,
-      choices:[{text:'확인',effect:()=>{}}]
-    }});
   }
 }
 function executeFutureConcert(ev){
@@ -4535,7 +4877,7 @@ function isCrisisEligible(crisis){
     case 'plagiarism': return hasSongs;
     case 'mental_crisis': return hasLowMentalMember(45)||avgFatigue>=65;
     case 'equipment_trouble': return hasRecentEventType(['concert','release','business'],14)||hasRecentScheduleAction(['stream','variety'],14);
-    case 'copycat_controversy': return hasSongs&&((gameState.comebackPrep?.concept||0)>=20||hasRecentEventType('release',60));
+    case 'copycat_controversy': return hasSongs&&(((gameState.comebackPrep?.lore||0)+(gameState.comebackPrep?.avatar||0))>=20||hasRecentEventType('release',60));
     case 'sasaeng_incident': return isDomesticOrHigher()||gameState.fandom>=200000;
     case 'platform_issue': return hasSongs;
     case 'member_conflict': return avgFatigue>=65||hasLowMentalMember(45);
@@ -5158,7 +5500,7 @@ function nextDay(){
             const bonus=Math.floor(randomRange(30,120));
             updateFandom(bonus);
           }
-          if(Math.random()<0.3) addComebackPrep('fandom',1);
+          if(Math.random()<0.3) addComebackPrep('promotion',1);
         }
         if(action==='charm'){
           gameState.sns+=Math.floor(randomRange(10,50));
@@ -5493,7 +5835,7 @@ function generateCoachReports(){
     const prep=getComebackPrepScore();
     if(diff>=0&&diff<=7&&prep<60){
       const lowKey=Object.entries(gameState.comebackPrep).sort((a,b)=>a[1]-b[1])[0]?.[0]||'promotion';
-      const lowLabel=lowKey==='promotion'?'홍보':lowKey==='concept'?'콘셉트':lowKey==='fandom'?'팬덤':getStatLabel(lowKey);
+      const lowLabel=comebackPrepMeta[lowKey]?.name||getStatLabel(lowKey);
       tryAdd({severity:prep<40?'critical':'warning',title:'컴백 준비 부족',body:`컴백까지 ${diff}일 남았습니다. ${lowLabel} 준비도가 낮습니다. 관련 스케줄을 보강하세요.`,target:nextRelease.title,actionType:'comeback_prep',page:'contents',reportKey:`prep_${nextRelease.title}`});
     }
   }
@@ -5724,7 +6066,13 @@ function renderDashboard(){
   const objEl=document.getElementById('dashboard-objectives');
   if(objEl){ const obj=buildFirstActivityObjectives(); const reqDone=obj.required.filter(o=>o.done).length; const optDone=obj.optional.filter(o=>o.done).length; const diff=getNextSettlementDiff(); objEl.innerHTML=`<div class="ops-line point"><strong>필수 ${reqDone}/${obj.required.length}</strong><small>선택 ${optDone}/${obj.optional.length}</small></div><div class="ops-line"><strong>정산까지 남은 기간</strong><small>${diff===null?'처리 완료':diff===0?'오늘':diff>0?`${diff}일`:'정산일 경과'}</small></div>`; }
   const prepEl=document.getElementById('dashboard-prep'); const prepStatus=document.getElementById('dashboard-prep-status');
-  if(prepEl){ const prep=gameState.comebackPrep; const total=getComebackPrepScore(); const status=getPrepStatus(total); if(prepStatus) prepStatus.innerText=`${status.label} · ${total}/100`; prepEl.innerHTML=`<div class="prep-mini-grid">${['vocal','dance','concept','promotion','fandom'].map(k=>`<div class="prep-mini"><small>${{vocal:'보컬',dance:'댄스',concept:'콘셉트',promotion:'홍보',fandom:'팬덤'}[k]}</small><strong>${Math.round(prep[k]||0)}</strong></div>`).join('')}</div><div class="ops-line ${total<40?'warning':total>=80?'success':'point'}"><strong>총 준비도</strong><small>${total}/100</small></div>`; }
+  if(prepEl){
+    const prep=gameState.comebackPrep;
+    const total=getComebackPrepScore();
+    const status=getPrepStatus(total);
+    if(prepStatus) prepStatus.innerText=`${status.text} · ${total}/100`;
+    prepEl.innerHTML=`<div class="prep-mini-grid">${comebackPrepKeys.map(k=>`<div class="prep-mini"><small>${comebackPrepMeta[k]?.label||k}</small><strong>${Math.round(prep[k]||0)}</strong></div>`).join('')}</div><div class="ops-line ${total<40?'warning':total>=80?'success':'point'}"><strong>총 준비도</strong><small>${total}/100</small></div>`;
+  }
   const memberEl=document.getElementById('dashboard-members');
   if(memberEl){ const avgCondition=getMemberConditionScore(); const avgFatigue=Math.round(gameState.members.reduce((s,m)=>s+(m.fatigue||0),0)/Math.max(1,gameState.members.length)); const risky=gameState.members.filter(m=>(m.fatigue||0)>=80||(m.mental||0)<=30).map(m=>m.name).join(', ')||'없음'; memberEl.innerHTML=`<div class="ops-line"><strong>평균 컨디션</strong><small>${avgCondition}</small></div><div class="ops-line ${avgFatigue>=70?'warning':''}"><strong>평균 피로도</strong><small>${avgFatigue}%</small></div><div class="ops-line"><strong>위험 멤버</strong><small>${risky}</small></div>`; }
   const chartEl=document.getElementById('dashboard-chart');

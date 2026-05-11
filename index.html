@@ -2415,6 +2415,8 @@ function normalizeGameState(){
   if(!Array.isArray(gameState.birthdayHistory)) gameState.birthdayHistory=[];
   if(!Array.isArray(gameState.recentCommunityTexts)) gameState.recentCommunityTexts=[];
   if(gameState.lastMemberStoryDay===undefined) gameState.lastMemberStoryDay=-999;
+  if(!['subak','musicside','tube'].includes(gameState.currentChartPlatform)) gameState.currentChartPlatform='subak';
+  if(!['weekly','monthly','yearly'].includes(gameState.currentChartPeriod)) gameState.currentChartPeriod='weekly';
   if(!gameState.ui) gameState.ui={theme:localStorage.getItem('hades_theme')||'dark', selectedMemberIndex:0};
   if(typeof gameState.ui.selectedMemberIndex!=='number') gameState.ui.selectedMemberIndex=0;
   if(!Array.isArray(gameState.activeCharts)) gameState.activeCharts=Array.isArray(gameState.playerSongs)?gameState.playerSongs:[];
@@ -3565,24 +3567,39 @@ function switchChartPeriod(period, btn){
 }
 
 function renderHomeCharts(){
-  const platform=gameState.currentChartPlatform;
-  const period=gameState.currentChartPeriod;
+  const platform=['subak','musicside','tube'].includes(gameState.currentChartPlatform)?gameState.currentChartPlatform:'subak';
+  let period=['weekly','monthly','yearly'].includes(gameState.currentChartPeriod)?gameState.currentChartPeriod:'weekly';
+  gameState.currentChartPlatform=platform;
   const containers=['chart-list-container','chart-list-container-page'].map(id=>document.getElementById(id)).filter(Boolean);
   const monthlyOpen=isChartPeriodOpen('monthly');
   const yearlyOpen=isChartPeriodOpen('yearly');
-  document.querySelectorAll('#tab-weekly').forEach(el=>el.disabled=!isChartPeriodOpen('weekly'));
-  document.querySelectorAll('#tab-monthly').forEach(el=>el.disabled=!monthlyOpen);
-  document.querySelectorAll('#tab-yearly').forEach(el=>el.disabled=!yearlyOpen);
+  document.querySelectorAll('.sub-tab-btn').forEach(btn=>{
+    const onclick=btn.getAttribute('onclick')||'';
+    const btnPeriod=onclick.includes('monthly')?'monthly':onclick.includes('yearly')?'yearly':'weekly';
+    btn.disabled=!isChartPeriodOpen(btnPeriod);
+  });
   const setAll=html=>containers.forEach(container=>container.innerHTML=html);
   if(!hasHadesSongs()){
+    gameState.currentChartPeriod='weekly';
+    document.querySelectorAll('.sub-tab-btn').forEach(btn=>{
+      const onclick=btn.getAttribute('onclick')||'';
+      btn.classList.toggle('active',onclick.includes('weekly'));
+    });
     setAll(emptyState('🎧','아직 발매한 곡이 없습니다. 첫 싱글 발매 후 차트가 열립니다.'));
     return;
   }
   if(!isChartPeriodOpen(period)){
-    const msg=period==='monthly'?'발매 후 30일이 지난 HADES 곡이 있을 때 월간 차트가 열립니다.':'발매 후 365일이 지난 HADES 곡이 있을 때 연간 차트가 열립니다.';
-    setAll(emptyState('📈',msg));
-    return;
+    period='weekly';
+    gameState.currentChartPeriod='weekly';
   }
+  document.querySelectorAll('.sub-tab-btn').forEach(btn=>{
+    const onclick=btn.getAttribute('onclick')||'';
+    btn.classList.toggle('active',onclick.includes(period));
+  });
+  document.querySelectorAll('.chart-tab-btn').forEach(btn=>{
+    const onclick=btn.getAttribute('onclick')||'';
+    btn.classList.toggle('active',onclick.includes(`'${platform}'`)||onclick.includes(`"${platform}"`));
+  });
   const displayLimit=period==='weekly'?20:period==='monthly'?30:50;
   const chartRows=getChartRows(period,platform,displayLimit);
   if(chartRows.length===0){ setAll(emptyState('📊','아직 차트 데이터가 없습니다.')); return; }
@@ -4576,6 +4593,9 @@ function launchComebackSong(title, options={}){
     rank:99,
   };
   gameState.activeCharts.push(song);
+  gameState.playerSongs=gameState.activeCharts;
+  gameState.currentChartPeriod='weekly';
+  gameState.currentChartPlatform=gameState.currentChartPlatform||'subak';
   gameState.careerStats.totalSongs++;
   gameState.careerStats.totalTracks=(gameState.careerStats.totalTracks||0)+trackCount;
   const releaseSales=Math.floor(typeInfo.cost*(releaseType==='full_album'?0.45:releaseType==='mini_album'?0.32:releaseType==='single_album'?0.18:0.08)*(1+Math.min(1,(gameState.fandom||0)/500000)));
@@ -4621,8 +4641,10 @@ function launchComebackSong(title, options={}){
       choices:[{text:'확인',effect:()=>{}}]
     }});
   }
-  document.getElementById('chart-section').style.display='block';
+  const legacyChartSection=document.getElementById('chart-section');
+  if(legacyChartSection) legacyChartSection.style.display='block';
   updateBestSong();
+  renderHomeCharts();
   reduceComebackPrepAfterRelease(releaseType);
   return song;
 }
